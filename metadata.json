@@ -1,0 +1,6 @@
+{
+  "name": "WA-Sim — WhatsApp Developer Emulator",
+  "description": "Drop-in WhatsApp Personal and WhatsApp Business developer emulator with pixel-accurate Web UI, real-time WebSocket chat engine, REST/Cloud API, auto-reply bots, and webhook dispatch.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
