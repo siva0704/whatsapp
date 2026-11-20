@@ -1,0 +1,524 @@
+{
+  "self": {
+    "id": "me",
+    "name": "QA Sandbox Account",
+    "phone": "+14155550100",
+    "about": "Available · Local Integration Sandbox",
+    "avatarUrl": "/src/assets/images/avatar_store_logo_1795189141688.jpg"
+  },
+  "settings": {
+    "variant": "personal",
+    "webhookUrl": "",
+    "webhookSecret": "wa-sim-webhook-secret",
+    "apiKeyConfigured": false,
+    "lifecycleDeliveredMs": 450,
+    "lifecycleReadMs": 1400,
+    "autoMarkReadOnAutoReply": true,
+    "businessProfile": {
+      "name": "Meridian Coffee Roasters",
+      "category": "Specialty Coffee & Equipment",
+      "description": "Direct-trade roastery and brewing hardware storefront. Automated WhatsApp Business sandbox profile.",
+      "address": "420 Brannan St, San Francisco, CA 94107",
+      "hours": "Mon–Fri · 08:00 – 18:00 PT",
+      "email": "orders@meridian-sandbox.example",
+      "website": "https://meridian-sandbox.example",
+      "verified": true,
+      "avatarUrl": "/src/assets/images/avatar_store_logo_1795189141688.jpg"
+    },
+    "businessAutomation": {
+      "greetingEnabled": true,
+      "greetingMessage": "Welcome to Meridian Coffee Roasters! Reply \"status\" for order updates or browse our catalog.",
+      "awayEnabled": false,
+      "awayMessage": "We are currently outside business hours (Mon–Fri 08:00–18:00 PT). Leave your order number and we will respond promptly.",
+      "awaySchedule": "outside_hours"
+    }
+  },
+  "contacts": [
+    {
+      "id": "contact-alex",
+      "name": "Alex Rivera",
+      "phone": "+14155550142",
+      "avatarUrl": "/src/assets/images/avatar_alex_dev_1795189142888.jpg",
+      "avatarColor": "#00a884",
+      "about": "Staff QA Engineer · Webhook Pipeline",
+      "presence": "online",
+      "lastSeen": "2026-11-20T16:04:26.112Z"
+    },
+    {
+      "id": "contact-priya",
+      "name": "Priya Patel",
+      "phone": "+14155550188",
+      "avatarUrl": "/src/assets/images/avatar_priya_ops_1795189209154.jpg",
+      "avatarColor": "#53bdeb",
+      "about": "Operations Lead · Order Verification",
+      "isBusiness": true,
+      "presence": "online",
+      "lastSeen": "2026-11-20T16:02:26.112Z"
+    },
+    {
+      "id": "contact-orderbot",
+      "name": "Fulfillment Test Bot",
+      "phone": "+14155550199",
+      "avatarColor": "#7f66ff",
+      "about": "Automated responder for order, status, refund, and ping flows",
+      "isBot": true,
+      "presence": "online",
+      "lastSeen": "2026-11-20T16:04:26.112Z"
+    },
+    {
+      "id": "contact-elena",
+      "name": "Elena Rostova",
+      "phone": "+14155550164",
+      "avatarColor": "#e542a3",
+      "about": "Mobile SDK Integration",
+      "presence": "offline",
+      "lastSeen": "2026-11-20T15:16:26.112Z"
+    },
+    {
+      "id": "contact-marcus",
+      "name": "Marcus Chen",
+      "phone": "+14155550127",
+      "avatarColor": "#ff7b29",
+      "about": "Archived Staging Client",
+      "presence": "offline",
+      "lastSeen": "2026-11-20T10:04:26.112Z"
+    }
+  ],
+  "chats": [
+    {
+      "id": "chat-alex",
+      "type": "direct",
+      "name": "Alex Rivera",
+      "avatarUrl": "/src/assets/images/avatar_alex_dev_1795189142888.jpg",
+      "avatarColor": "#00a884",
+      "contactId": "contact-alex",
+      "participantIds": [
+        "contact-alex"
+      ],
+      "unreadCount": 0,
+      "archived": false,
+      "pinned": true,
+      "muted": false,
+      "labelIds": [
+        "lbl-vip"
+      ],
+      "lastMessageId": "msg-alex-4",
+      "lastMessageAt": "2026-11-20T16:00:26.112Z"
+    },
+    {
+      "id": "chat-orderbot",
+      "type": "direct",
+      "name": "Fulfillment Test Bot",
+      "avatarColor": "#7f66ff",
+      "contactId": "contact-orderbot",
+      "participantIds": [
+        "contact-orderbot"
+      ],
+      "unreadCount": 1,
+      "archived": false,
+      "pinned": false,
+      "muted": false,
+      "labelIds": [
+        "lbl-new"
+      ],
+      "lastMessageId": "msg-bot-2",
+      "lastMessageAt": "2026-11-20T15:55:26.112Z"
+    },
+    {
+      "id": "chat-priya",
+      "type": "direct",
+      "name": "Priya Patel",
+      "avatarUrl": "/src/assets/images/avatar_priya_ops_1795189209154.jpg",
+      "avatarColor": "#53bdeb",
+      "contactId": "contact-priya",
+      "participantIds": [
+        "contact-priya"
+      ],
+      "unreadCount": 2,
+      "archived": false,
+      "pinned": false,
+      "muted": false,
+      "labelIds": [
+        "lbl-pending"
+      ],
+      "lastMessageId": "msg-priya-3",
+      "lastMessageAt": "2026-11-20T15:42:26.112Z"
+    },
+    {
+      "id": "chat-qa-group",
+      "type": "group",
+      "name": "Release QA · Webhook Sync",
+      "avatarColor": "#008069",
+      "description": "Automated integration group for multi-participant message routing and delivery receipt verification.",
+      "participantIds": [
+        "contact-alex",
+        "contact-priya",
+        "contact-elena"
+      ],
+      "unreadCount": 0,
+      "archived": false,
+      "pinned": false,
+      "muted": false,
+      "labelIds": [
+        "lbl-complete"
+      ],
+      "lastMessageId": "msg-grp-3",
+      "lastMessageAt": "2026-11-20T15:23:26.112Z"
+    },
+    {
+      "id": "chat-marcus",
+      "type": "direct",
+      "name": "Marcus Chen",
+      "avatarColor": "#ff7b29",
+      "contactId": "contact-marcus",
+      "participantIds": [
+        "contact-marcus"
+      ],
+      "unreadCount": 0,
+      "archived": true,
+      "pinned": false,
+      "muted": true,
+      "labelIds": [],
+      "lastMessageId": "msg-marcus-1",
+      "lastMessageAt": "2026-11-20T10:04:26.112Z"
+    }
+  ],
+  "messages": {
+    "chat-alex": [
+      {
+        "id": "msg-alex-1",
+        "chatId": "chat-alex",
+        "senderId": "contact-alex",
+        "senderName": "Alex Rivera",
+        "direction": "inbound",
+        "type": "text",
+        "body": "Hey! Pointed the staging webhook runner at localhost:3000. Ready to verify outbound delivery ticks.",
+        "timestamp": "2026-11-20T15:36:26.112Z",
+        "status": "read"
+      },
+      {
+        "id": "msg-alex-2",
+        "chatId": "chat-alex",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "text",
+        "body": "Confirmed — receipts transition from sent to delivered to read automatically, or via POST /api/messages/:id/receipt.",
+        "timestamp": "2026-11-20T15:39:26.112Z",
+        "status": "read"
+      },
+      {
+        "id": "msg-alex-3",
+        "chatId": "chat-alex",
+        "senderId": "contact-alex",
+        "senderName": "Alex Rivera",
+        "direction": "inbound",
+        "type": "voice",
+        "body": "Voice message (0:14)",
+        "timestamp": "2026-11-20T15:52:26.112Z",
+        "status": "read",
+        "media": {
+          "id": "seed-voice-1",
+          "url": "",
+          "mimeType": "audio/ogg",
+          "durationSec": 14,
+          "waveform": [
+            16,
+            28,
+            52,
+            74,
+            61,
+            38,
+            82,
+            95,
+            70,
+            48,
+            63,
+            88,
+            76,
+            54,
+            41,
+            66,
+            44,
+            26,
+            35,
+            22,
+            18,
+            25
+          ]
+        }
+      },
+      {
+        "id": "msg-alex-4",
+        "chatId": "chat-alex",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "image",
+        "body": "Latest pour-over kit asset uploaded for Business catalog verification.",
+        "timestamp": "2026-11-20T16:00:26.112Z",
+        "status": "delivered",
+        "media": {
+          "id": "seed-img-1",
+          "url": "/src/assets/images/catalog_espresso_kit_1795189175804.jpg",
+          "mimeType": "image/jpeg",
+          "filename": "pour-over-kit.jpg",
+          "caption": "Latest pour-over kit asset uploaded for Business catalog verification."
+        }
+      }
+    ],
+    "chat-orderbot": [
+      {
+        "id": "msg-bot-1",
+        "chatId": "chat-orderbot",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "text",
+        "body": "help",
+        "timestamp": "2026-11-20T15:54:26.112Z",
+        "status": "read"
+      },
+      {
+        "id": "msg-bot-2",
+        "chatId": "chat-orderbot",
+        "senderId": "contact-orderbot",
+        "senderName": "Fulfillment Test Bot",
+        "direction": "inbound",
+        "type": "text",
+        "body": "Simulated Bot Commands: send \"status\" for order lookup, \"ping\" for health echo, or \"refund\" for return workflow.",
+        "timestamp": "2026-11-20T15:55:26.112Z",
+        "status": "delivered"
+      }
+    ],
+    "chat-priya": [
+      {
+        "id": "msg-priya-1",
+        "chatId": "chat-priya",
+        "senderId": "contact-priya",
+        "senderName": "Priya Patel",
+        "direction": "inbound",
+        "type": "text",
+        "body": "Could you send over the Pour-Over Brew Kit catalog card so I can test the Business webhook parser?",
+        "timestamp": "2026-11-20T15:34:26.112Z",
+        "status": "read"
+      },
+      {
+        "id": "msg-priya-2",
+        "chatId": "chat-priya",
+        "senderId": "contact-priya",
+        "senderName": "Priya Patel",
+        "direction": "inbound",
+        "type": "document",
+        "body": "webhook-schema-v19.pdf",
+        "timestamp": "2026-11-20T15:40:26.112Z",
+        "status": "delivered",
+        "media": {
+          "id": "seed-doc-1",
+          "url": "#",
+          "mimeType": "application/pdf",
+          "filename": "webhook-schema-v19.pdf",
+          "sizeBytes": 248320
+        }
+      },
+      {
+        "id": "msg-priya-3",
+        "chatId": "chat-priya",
+        "senderId": "contact-priya",
+        "senderName": "Priya Patel",
+        "direction": "inbound",
+        "type": "text",
+        "body": "Also checking if away/greeting messages fire when Business variant is active.",
+        "timestamp": "2026-11-20T15:42:26.112Z",
+        "status": "delivered"
+      }
+    ],
+    "chat-qa-group": [
+      {
+        "id": "msg-grp-1",
+        "chatId": "chat-qa-group",
+        "senderId": "contact-elena",
+        "senderName": "Elena Rostova",
+        "direction": "inbound",
+        "type": "text",
+        "body": "Group fanout check: verifying sender metadata and quoted reply references.",
+        "timestamp": "2026-11-20T15:09:26.112Z",
+        "status": "read"
+      },
+      {
+        "id": "msg-grp-2",
+        "chatId": "chat-qa-group",
+        "senderId": "contact-alex",
+        "senderName": "Alex Rivera",
+        "direction": "inbound",
+        "type": "text",
+        "body": "Looks clean on the WebSocket stream — zero duplicate message IDs after reconnect.",
+        "timestamp": "2026-11-20T15:16:26.112Z",
+        "status": "read",
+        "replyTo": {
+          "messageId": "msg-grp-1",
+          "senderName": "Elena Rostova",
+          "body": "Group fanout check: verifying sender metadata and quoted reply references.",
+          "type": "text"
+        }
+      },
+      {
+        "id": "msg-grp-3",
+        "chatId": "chat-qa-group",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "text",
+        "body": "CI smoke suite passed 14/14 assertions against the local emulator.",
+        "timestamp": "2026-11-20T15:23:26.112Z",
+        "status": "read"
+      }
+    ],
+    "chat-marcus": [
+      {
+        "id": "msg-marcus-1",
+        "chatId": "chat-marcus",
+        "senderId": "contact-marcus",
+        "senderName": "Marcus Chen",
+        "direction": "inbound",
+        "type": "text",
+        "body": "Archived smoke test thread from yesterday.",
+        "timestamp": "2026-11-20T10:04:26.112Z",
+        "status": "read"
+      }
+    ]
+  },
+  "catalog": [
+    {
+      "id": "cat-pour-over",
+      "name": "Matte Pour-Over Brew Kit",
+      "price": "84.00",
+      "currency": "USD",
+      "description": "Gooseneck 900ml kettle with ceramic V60 dripper and borosilicate carafe.",
+      "sku": "BRW-PO-900",
+      "imageUrl": "/src/assets/images/catalog_espresso_kit_1795189175804.jpg",
+      "inStock": true
+    },
+    {
+      "id": "cat-single-origin",
+      "name": "Ethiopia Yirgacheffe 340g",
+      "price": "22.50",
+      "currency": "USD",
+      "description": "Washed heirloom roast with bergamot, jasmine, and white peach tasting notes.",
+      "sku": "COF-ETH-340",
+      "inStock": true
+    },
+    {
+      "id": "cat-filter-pack",
+      "name": "Unbleached Paper Filters (100ct)",
+      "price": "9.00",
+      "currency": "USD",
+      "description": "Precision cone filters compatible with size 02 ceramic drippers.",
+      "sku": "ACC-FLT-100",
+      "inStock": true
+    }
+  ],
+  "quickReplies": [
+    {
+      "id": "qr-thanks",
+      "shortcut": "thanks",
+      "message": "Thanks for reaching out to Meridian Coffee Roasters! How can we help with your order today?",
+      "keywords": [
+        "welcome",
+        "greeting"
+      ]
+    },
+    {
+      "id": "qr-hours",
+      "shortcut": "hours",
+      "message": "Our support desk is open Monday–Friday, 08:00–18:00 PT. Orders ship same-day before 14:00 PT.",
+      "keywords": [
+        "schedule",
+        "open"
+      ]
+    },
+    {
+      "id": "qr-tracking",
+      "shortcut": "tracking",
+      "message": "Your shipment is confirmed! Reply with your order ID (e.g. #ORD-4821) and we will pull the live carrier link.",
+      "keywords": [
+        "shipping",
+        "order"
+      ]
+    },
+    {
+      "id": "qr-refund",
+      "shortcut": "refund",
+      "message": "We have initiated your refund request. Please allow 2–3 business days for the credit to appear on your statement.",
+      "keywords": [
+        "return",
+        "billing"
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "id": "lbl-new",
+      "name": "New Customer",
+      "color": "#00a884"
+    },
+    {
+      "id": "lbl-pending",
+      "name": "Pending Payment",
+      "color": "#f59e0b"
+    },
+    {
+      "id": "lbl-vip",
+      "name": "VIP Account",
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "lbl-complete",
+      "name": "Order Complete",
+      "color": "#3b82f6"
+    }
+  ],
+  "autoReplyRules": [
+    {
+      "id": "rule-status",
+      "name": "Order Status Lookup",
+      "enabled": true,
+      "matchType": "contains",
+      "pattern": "status",
+      "reply": "Order #ORD-4821 is packed and out for courier pickup. Estimated arrival: tomorrow by 16:00.",
+      "delayMs": 750,
+      "simulateTypingMs": 600
+    },
+    {
+      "id": "rule-ping",
+      "name": "Health Ping / Echo",
+      "enabled": true,
+      "matchType": "regex",
+      "pattern": "^(ping|health|test)$",
+      "reply": "pong — WA-Sim responder active (200 OK).",
+      "delayMs": 500,
+      "simulateTypingMs": 400
+    },
+    {
+      "id": "rule-help",
+      "name": "Help Menu",
+      "enabled": true,
+      "matchType": "contains",
+      "pattern": "help",
+      "reply": "Simulated Bot Commands: send \"status\" for order lookup, \"ping\" for health echo, or \"refund\" for return workflow.",
+      "delayMs": 650,
+      "simulateTypingMs": 500
+    },
+    {
+      "id": "rule-refund",
+      "name": "Refund Workflow",
+      "enabled": true,
+      "matchType": "contains",
+      "pattern": "refund",
+      "reply": "Return authorization #RMA-904 created. Please confirm your order email to finalize.",
+      "delayMs": 850,
+      "simulateTypingMs": 650
+    }
+  ],
+  "webhookLogs": []
+}
