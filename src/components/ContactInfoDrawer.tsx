@@ -3,11 +3,15 @@ import {
   Archive,
   ArchiveRestore,
   BadgeCheck,
+  Ban,
   BellOff,
   Check,
+  Clock,
   Eraser,
   FileText,
   Search,
+  ShieldCheck,
+  ShieldOff,
   Tag,
   Trash2,
   UserPlus,
@@ -19,8 +23,9 @@ import type {
   Contact,
   EmulatorVariant,
   Message,
+  OptInStatus,
 } from '../../shared/types';
-import { formatTime } from '../utils/format';
+import { formatChatListDate, formatTime, getWindowStatus } from '../utils/format';
 import { Avatar } from './Avatar';
 
 interface ContactInfoDrawerProps {
@@ -33,8 +38,10 @@ interface ContactInfoDrawerProps {
   onClose: () => void;
   onUpdateChat: (
     chatId: string,
-    patch: Partial<Pick<Chat, 'archived' | 'muted' | 'labelIds' | 'participantIds'>>
+    patch: Partial<Pick<Chat, 'archived' | 'muted' | 'labelIds' | 'participantIds' | 'lastInboundAt'>>
   ) => void;
+  onBlockContact: (contactId: string, blocked: boolean) => Promise<void>;
+  onSetContactOptIn: (contactId: string, status: OptInStatus) => Promise<void>;
   onClearChat: (chatId: string) => void;
   onDeleteChat: (chatId: string) => void;
   onHighlightMessage: (messageId: string) => void;
@@ -51,6 +58,8 @@ export function ContactInfoDrawer({
   labels,
   onClose,
   onUpdateChat,
+  onBlockContact,
+  onSetContactOptIn,
   onClearChat,
   onDeleteChat,
   onHighlightMessage,
@@ -89,6 +98,8 @@ export function ContactInfoDrawer({
     [contacts, chat.participantIds]
   );
 
+  const windowStatus = chat.type === 'direct' ? getWindowStatus(chat.lastInboundAt) : null;
+
   const toggleLabel = (labelId: string) => {
     const has = chat.labelIds.includes(labelId);
     const next = has
@@ -100,15 +111,15 @@ export function ContactInfoDrawer({
   return (
     <aside
       aria-label={mode === 'search' ? 'Search messages' : 'Contact information'}
-      className="w-full sm:w-[340px] lg:w-[370px] shrink-0 h-full bg-[#f0f2f5] dark:bg-[#111b21] border-l border-[#d1d7db] dark:border-[#2a3942] flex flex-col"
+      className="fixed inset-0 z-40 md:static md:z-auto w-full md:w-[340px] lg:w-[370px] shrink-0 h-full bg-[#f0f2f5] dark:bg-[#111b21] border-l border-[#d1d7db] dark:border-[#2a3942] flex flex-col"
     >
       {/* Drawer Header */}
-      <header className="h-[60px] px-4 bg-[#f0f2f5] dark:bg-[#202c33] border-b border-[#d1d7db] dark:border-[#2a3942] flex items-center gap-4 shrink-0">
+      <header className="h-[58px] md:h-[60px] px-3.5 md:px-4 pt-safe bg-[#f0f2f5] dark:bg-[#202c33] border-b border-[#d1d7db] dark:border-[#2a3942] flex items-center gap-3 shrink-0">
         <button
           type="button"
           onClick={onClose}
           aria-label="Close panel"
-          className="w-9 h-9 rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10"
+          className="min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 md:w-9 md:h-9 rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10"
         >
           <X className="w-5 h-5" />
         </button>
@@ -133,7 +144,7 @@ export function ContactInfoDrawer({
                 aria-label="Search within conversation"
                 placeholder="Search messages..."
                 autoFocus
-                className="w-full h-9 pl-9 pr-3 rounded-lg bg-[#f0f2f5] dark:bg-[#202c33] text-[14px] text-[#111b21] dark:text-[#e9edef] focus:outline-none focus:ring-2 focus:ring-[#00a884]/40"
+                className="w-full h-10 md:h-9 pl-9 pr-3 rounded-lg bg-[#f0f2f5] dark:bg-[#202c33] text-[14px] text-[#111b21] dark:text-[#e9edef] focus:outline-none focus:ring-2 focus:ring-[#00a884]/40"
               />
             </div>
           </div>
@@ -152,7 +163,10 @@ export function ContactInfoDrawer({
                 <button
                   key={m.id}
                   type="button"
-                  onClick={() => onHighlightMessage(m.id)}
+                  onClick={() => {
+                    onHighlightMessage(m.id);
+                    onClose();
+                  }}
                   className="w-full px-4 py-3 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
                 >
                   <div className="flex items-center justify-between text-[11.5px] text-[#667781] dark:text-[#8696a0] mb-0.5">
@@ -170,7 +184,7 @@ export function ContactInfoDrawer({
           </div>
         </div>
       ) : (
-        <div className="flex-1 overflow-y-auto wa-scroll space-y-2.5 pb-6">
+        <div className="flex-1 overflow-y-auto wa-scroll space-y-2.5 pb-8">
           {/* Identity Hero */}
           <section className="bg-white dark:bg-[#111b21] px-6 py-7 flex flex-col items-center text-center shadow-xs">
             <Avatar
@@ -189,6 +203,11 @@ export function ContactInfoDrawer({
                 <BadgeCheck className="w-5 h-5 text-[#00a884]" aria-label="Verified Business" />
               )}
             </div>
+            {directContact?.profileName && directContact.profileName !== directContact.name && (
+              <p className="text-[12.5px] text-[#667781] dark:text-[#8696a0]">
+                ~{directContact.profileName}
+              </p>
+            )}
             <p className="mt-1 text-[14px] font-mono tabular-nums text-[#667781] dark:text-[#8696a0]">
               {chat.type === 'group'
                 ? `Group · ${participants.length + 1} participants`
@@ -207,6 +226,143 @@ export function ContactInfoDrawer({
                 : directContact?.about || 'Hey there! I am using WhatsApp.'}
             </p>
           </section>
+
+          {/* 24-Hour Customer Service Window Control (Direct Chats) */}
+          {chat.type === 'direct' && windowStatus && (
+            <section className="bg-white dark:bg-[#111b21] px-5 py-4 shadow-xs space-y-2.5">
+              <div className="flex items-center justify-between text-[13px]">
+                <span className="flex items-center gap-1.5 font-medium text-[#667781] dark:text-[#8696a0]">
+                  <Clock className="w-4 h-4 text-[#00a884]" /> 24h Service Window
+                </span>
+                <span
+                  className={`font-mono text-[12px] font-semibold ${
+                    windowStatus.open ? 'text-[#00a884]' : 'text-[#b45309] dark:text-[#f59e0b]'
+                  }`}
+                >
+                  {windowStatus.open ? windowStatus.label : 'Closed'}
+                </span>
+              </div>
+              <div className="text-[12px] text-[#667781] dark:text-[#8696a0] flex items-center justify-between">
+                <span>Conversation category</span>
+                <span className="font-mono font-semibold text-[#111b21] dark:text-[#e9edef]">
+                  {chat.conversationCategory}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() =>
+                    onUpdateChat(chat.id, {
+                      lastInboundAt: new Date(Date.now() - 26 * 60 * 60 * 1000).toISOString(),
+                    })
+                  }
+                  className="py-2 px-2.5 rounded-lg border border-[#d1d7db] dark:border-[#374248] text-[12px] font-medium hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
+                >
+                  Expire 24h window
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    onUpdateChat(chat.id, {
+                      lastInboundAt: new Date().toISOString(),
+                    })
+                  }
+                  className="py-2 px-2.5 rounded-lg border border-[#00a884]/50 text-[#008069] dark:text-[#25d366] text-[12px] font-medium hover:bg-[#00a884]/10"
+                >
+                  Re-open window
+                </button>
+              </div>
+            </section>
+          )}
+
+          {/* Opt-In / Opt-Out Compliance Panel (Direct Chats) */}
+          {directContact && (
+            <section
+              data-testid="contact-optin-section"
+              className="bg-white dark:bg-[#111b21] px-5 py-4 shadow-xs space-y-3"
+            >
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-[13px] font-medium text-[#667781] dark:text-[#8696a0]">
+                  {directContact.optInStatus === 'opted_out' ? (
+                    <ShieldOff className="w-4 h-4 text-[#ea0038]" />
+                  ) : (
+                    <ShieldCheck className="w-4 h-4 text-[#00a884]" />
+                  )}
+                  Opt-In Compliance
+                </span>
+                <span
+                  className={`text-[12px] font-mono font-semibold uppercase ${
+                    directContact.optInStatus === 'opted_out'
+                      ? 'text-[#ea0038]'
+                      : directContact.optInStatus === 'opted_in'
+                        ? 'text-[#00a884]'
+                        : 'text-[#667781]'
+                  }`}
+                >
+                  {directContact.optInStatus.replace('_', ' ')}
+                </span>
+              </div>
+
+              <div className="text-[12px] text-[#667781] dark:text-[#8696a0]">
+                Source: <span className="font-mono">{directContact.optInSource}</span> · Updated{' '}
+                {formatChatListDate(directContact.optInUpdatedAt)}
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => void onSetContactOptIn(directContact.id, 'opted_in')}
+                  className={`py-2 px-2.5 rounded-lg text-[12px] font-semibold border transition-colors ${
+                    directContact.optInStatus === 'opted_in'
+                      ? 'bg-[#00a884] border-[#00a884] text-white'
+                      : 'border-[#d1d7db] dark:border-[#374248] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]'
+                  }`}
+                >
+                  Set Opted In
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void onSetContactOptIn(directContact.id, 'opted_out')}
+                  className={`py-2 px-2.5 rounded-lg text-[12px] font-semibold border transition-colors ${
+                    directContact.optInStatus === 'opted_out'
+                      ? 'bg-[#ea0038] border-[#ea0038] text-white'
+                      : 'border-[#d1d7db] dark:border-[#374248] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]'
+                  }`}
+                >
+                  Set Opted Out
+                </button>
+              </div>
+
+              {directContact.optInHistory.length > 0 && (
+                <div className="pt-2 border-t border-[#f0f2f5] dark:border-[#202c33] space-y-1.5 max-h-36 overflow-y-auto wa-scroll">
+                  <div className="text-[11px] font-semibold text-[#667781] dark:text-[#8696a0]">
+                    Consent History ({directContact.optInHistory.length})
+                  </div>
+                  {directContact.optInHistory.slice(0, 8).map((entry) => (
+                    <div
+                      key={entry.id}
+                      className="text-[11.5px] flex items-baseline justify-between gap-2 text-[#54656f] dark:text-[#aebac1]"
+                    >
+                      <span className="truncate">
+                        <strong
+                          className={
+                            entry.status === 'opted_out' ? 'text-[#ea0038]' : 'text-[#00a884]'
+                          }
+                        >
+                          {entry.status}
+                        </strong>{' '}
+                        via {entry.source}
+                        {entry.keyword ? ` ("${entry.keyword}")` : ''}
+                      </span>
+                      <span className="font-mono text-[10.5px] shrink-0">
+                        {formatTime(entry.timestamp)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
 
           {/* Business Labels Section (Business Variant) */}
           {variant === 'business' && (
@@ -320,7 +476,7 @@ export function ContactInfoDrawer({
                         });
                         setAddingMember(false);
                       }}
-                      className="w-full px-2.5 py-1.5 rounded text-left text-[13px] hover:bg-white dark:hover:bg-[#111b21] flex items-center justify-between"
+                      className="w-full px-2.5 py-2 rounded text-left text-[13px] hover:bg-white dark:hover:bg-[#111b21] flex items-center justify-between"
                     >
                       <span>{ct.name}</span>
                       <span className="text-[11px] text-[#00a884] font-semibold">Add</span>
@@ -361,7 +517,7 @@ export function ContactInfoDrawer({
             <button
               type="button"
               onClick={() => onQuickSimulateTyping(chat.id, !chat.typingContactId)}
-              className="w-full px-3.5 py-2 rounded-lg border border-[#d1d7db] dark:border-[#374248] text-[13.5px] font-medium text-[#111b21] dark:text-[#e9edef] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
+              className="w-full py-2.5 px-3.5 rounded-lg border border-[#d1d7db] dark:border-[#374248] text-[13.5px] font-medium text-[#111b21] dark:text-[#e9edef] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
             >
               {chat.typingContactId ? 'Stop typing indicator' : 'Simulate contact typing...'}
             </button>
@@ -372,7 +528,7 @@ export function ContactInfoDrawer({
             <button
               type="button"
               onClick={() => onUpdateChat(chat.id, { muted: !chat.muted })}
-              className="w-full px-5 py-3.5 flex items-center gap-4 text-[#111b21] dark:text-[#e9edef] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
+              className="w-full min-h-[48px] px-5 py-3.5 flex items-center gap-4 text-[#111b21] dark:text-[#e9edef] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
             >
               <BellOff className="w-5 h-5 text-[#667781]" />
               <span>{chat.muted ? 'Unmute notifications' : 'Mute notifications'}</span>
@@ -381,7 +537,7 @@ export function ContactInfoDrawer({
             <button
               type="button"
               onClick={() => onUpdateChat(chat.id, { archived: !chat.archived })}
-              className="w-full px-5 py-3.5 flex items-center gap-4 text-[#111b21] dark:text-[#e9edef] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
+              className="w-full min-h-[48px] px-5 py-3.5 flex items-center gap-4 text-[#111b21] dark:text-[#e9edef] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
             >
               {chat.archived ? (
                 <>
@@ -396,10 +552,27 @@ export function ContactInfoDrawer({
               )}
             </button>
 
+            {directContact && (
+              <button
+                type="button"
+                onClick={() => void onBlockContact(directContact.id, !directContact.blocked)}
+                className={`w-full min-h-[48px] px-5 py-3.5 flex items-center gap-4 hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] ${
+                  directContact.blocked ? 'text-[#00a884]' : 'text-[#ea0038]'
+                }`}
+              >
+                <Ban className="w-5 h-5" />
+                <span>
+                  {directContact.blocked
+                    ? `Unblock ${directContact.name}`
+                    : `Block ${directContact.name}`}
+                </span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => setConfirmAction('clear')}
-              className="w-full px-5 py-3.5 flex items-center gap-4 text-[#ea0038] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
+              className="w-full min-h-[48px] px-5 py-3.5 flex items-center gap-4 text-[#ea0038] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
             >
               <Eraser className="w-5 h-5" />
               <span>Clear messages</span>
@@ -408,7 +581,7 @@ export function ContactInfoDrawer({
             <button
               type="button"
               onClick={() => setConfirmAction('delete')}
-              className="w-full px-5 py-3.5 flex items-center gap-4 text-[#ea0038] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
+              className="w-full min-h-[48px] px-5 py-3.5 flex items-center gap-4 text-[#ea0038] hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
             >
               <Trash2 className="w-5 h-5" />
               <span>Delete chat</span>
@@ -426,7 +599,7 @@ export function ContactInfoDrawer({
                 <button
                   type="button"
                   onClick={() => setConfirmAction(null)}
-                  className="px-3 py-1.5 rounded-md text-[13px] text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10"
+                  className="px-3 py-2 rounded-md text-[13px] text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10"
                 >
                   Cancel
                 </button>
@@ -437,7 +610,7 @@ export function ContactInfoDrawer({
                     else onDeleteChat(chat.id);
                     setConfirmAction(null);
                   }}
-                  className="px-3 py-1.5 rounded-md bg-[#ea0038] text-white text-[13px] font-semibold hover:bg-[#c80030]"
+                  className="px-3 py-2 rounded-md bg-[#ea0038] text-white text-[13px] font-semibold hover:bg-[#c80030]"
                 >
                   Confirm
                 </button>

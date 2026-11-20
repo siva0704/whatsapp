@@ -10,7 +10,7 @@ import {
 import type { EmulatorVariant, SelfAccount } from '../../shared/types';
 import { Avatar } from './Avatar';
 
-export type SidebarTab = 'chats' | 'archived' | 'business' | 'qa' | 'settings';
+export type SidebarTab = 'chats' | 'archived' | 'updates' | 'calls' | 'business' | 'qa' | 'settings';
 
 interface LeftRailProps {
   activeTab: SidebarTab;
@@ -45,7 +45,7 @@ export function LeftRail({
   return (
     <nav
       aria-label="Primary navigation"
-      className="w-[62px] shrink-0 h-full bg-[#f0f2f5] dark:bg-[#202c33] border-r border-[#d1d7db] dark:border-[#2a3942] flex flex-col items-center justify-between py-3 select-none"
+      className="hidden md:flex w-[62px] shrink-0 h-full bg-[#f0f2f5] dark:bg-[#202c33] border-r border-[#d1d7db] dark:border-[#2a3942] flex-col items-center justify-between py-3 select-none"
     >
       {/* Top Icons */}
       <div className="flex flex-col items-center gap-2.5">

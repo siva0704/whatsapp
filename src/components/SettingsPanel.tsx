@@ -1,20 +1,38 @@
 import { useEffect, useState } from 'react';
-import { BriefcaseBusiness, Check, Moon, RotateCcw, Sun, User, Webhook } from 'lucide-react';
-import type { EmulatorSettings, EmulatorVariant, SelfAccount } from '../../shared/types';
+import {
+  BriefcaseBusiness,
+  Check,
+  Moon,
+  RotateCcw,
+  ShieldCheck,
+  Sun,
+  User,
+  Webhook,
+} from 'lucide-react';
+import type {
+  EmulatorSettings,
+  EmulatorVariant,
+  PhoneNumberConfig,
+  SelfAccount,
+} from '../../shared/types';
 import { Avatar } from './Avatar';
 
 interface SettingsPanelProps {
   self: SelfAccount;
   settings: EmulatorSettings;
+  phoneNumbers: PhoneNumberConfig[];
   darkMode: boolean;
   onToggleDarkMode: () => void;
   onUpdateConfig: (patch: {
     variant?: EmulatorVariant;
+    activePhoneNumberId?: string;
     webhookUrl?: string;
     webhookSecret?: string;
     lifecycleDeliveredMs?: number;
     lifecycleReadMs?: number;
     autoMarkReadOnAutoReply?: boolean;
+    enforce24hWindow?: boolean;
+    enforceOptIn?: boolean;
     self?: Partial<{ name: string; phone: string; about: string }>;
   }) => Promise<void>;
   onResetState: () => Promise<void>;
@@ -23,6 +41,7 @@ interface SettingsPanelProps {
 export function SettingsPanel({
   self,
   settings,
+  phoneNumbers,
   darkMode,
   onToggleDarkMode,
   onUpdateConfig,
@@ -35,6 +54,8 @@ export function SettingsPanel({
   const [webhookSecret, setWebhookSecret] = useState(settings.webhookSecret);
   const [deliveredMs, setDeliveredMs] = useState(settings.lifecycleDeliveredMs);
   const [readMs, setReadMs] = useState(settings.lifecycleReadMs);
+  const [enforce24h, setEnforce24h] = useState(settings.enforce24hWindow);
+  const [enforceOptIn, setEnforceOptIn] = useState(settings.enforceOptIn);
   const [saved, setSaved] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
 
@@ -46,6 +67,8 @@ export function SettingsPanel({
     setWebhookSecret(settings.webhookSecret);
     setDeliveredMs(settings.lifecycleDeliveredMs);
     setReadMs(settings.lifecycleReadMs);
+    setEnforce24h(settings.enforce24hWindow);
+    setEnforceOptIn(settings.enforceOptIn);
   }, [self, settings]);
 
   const handleSave = async (e: React.FormEvent) => {
@@ -55,6 +78,8 @@ export function SettingsPanel({
       webhookSecret,
       lifecycleDeliveredMs: Number(deliveredMs) || 0,
       lifecycleReadMs: Number(readMs) || 0,
+      enforce24hWindow: enforce24h,
+      enforceOptIn,
       self: { name, phone, about },
     });
     setSaved(true);
@@ -64,9 +89,9 @@ export function SettingsPanel({
   return (
     <aside
       aria-label="Settings"
-      className="w-full md:w-[375px] lg:w-[405px] shrink-0 h-full bg-white dark:bg-[#111b21] border-r border-[#e9edef] dark:border-[#222d34] flex flex-col"
+      className="w-full md:w-[375px] lg:w-[405px] shrink-0 h-full bg-white dark:bg-[#111b21] border-r border-[#e9edef] dark:border-[#222d34] flex flex-col min-w-0"
     >
-      <header className="h-[60px] px-4 bg-[#f0f2f5] dark:bg-[#202c33] border-b border-[#d1d7db] dark:border-[#2a3942] flex items-center justify-between shrink-0">
+      <header className="h-[58px] md:h-[60px] px-4 pt-safe bg-[#f0f2f5] dark:bg-[#202c33] border-b border-[#d1d7db] dark:border-[#2a3942] flex items-center justify-between shrink-0">
         <h1 className="text-[19px] font-bold text-[#111b21] dark:text-[#e9edef]">Settings</h1>
         {saved && (
           <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#00a884]">
@@ -108,11 +133,35 @@ export function SettingsPanel({
               <BriefcaseBusiness className="w-4 h-4 text-[#00a884] mb-1.5" />
               <div className="text-[13.5px] font-semibold">WA Business</div>
               <div className="text-[11.5px] text-[#667781] dark:text-[#8696a0]">
-                Catalog, labels & bots
+                Templates, 24h &amp; WABA
               </div>
             </button>
           </div>
         </section>
+
+        {/* Active WABA Phone Number Selector */}
+        {phoneNumbers.length > 0 && (
+          <section className="space-y-1.5">
+            <label
+              htmlFor="settings-phone-number"
+              className="block text-[12.5px] font-semibold text-[#667781] dark:text-[#8696a0]"
+            >
+              Active WABA Phone Number ID
+            </label>
+            <select
+              id="settings-phone-number"
+              value={settings.activePhoneNumberId}
+              onChange={(e) => void onUpdateConfig({ activePhoneNumberId: e.target.value })}
+              className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] dark:bg-[#202c33] text-[13.5px] font-mono"
+            >
+              {phoneNumbers.map((pn) => (
+                <option key={pn.id} value={pn.id}>
+                  {pn.id} — {pn.displayName} ({pn.phoneNumber})
+                </option>
+              ))}
+            </select>
+          </section>
+        )}
 
         {/* Theme */}
         <section className="flex items-center justify-between py-2.5 border-y border-[#f0f2f5] dark:border-[#202c33]">
@@ -128,7 +177,7 @@ export function SettingsPanel({
           <button
             type="button"
             onClick={onToggleDarkMode}
-            className="px-3 py-1.5 rounded-lg bg-[#f0f2f5] dark:bg-[#202c33] text-[12.5px] font-semibold hover:bg-[#e5e8ec] dark:hover:bg-[#2a3942]"
+            className="min-h-[38px] px-3 py-1.5 rounded-lg bg-[#f0f2f5] dark:bg-[#202c33] text-[12.5px] font-semibold hover:bg-[#e5e8ec] dark:hover:bg-[#2a3942]"
           >
             Switch to {darkMode ? 'Light' : 'Dark'}
           </button>
@@ -161,7 +210,7 @@ export function SettingsPanel({
 
             <div>
               <label className="block text-[12px] font-medium text-[#667781] dark:text-[#8696a0] mb-1">
-                Emulated phone number
+                Emulated phone number (E.164)
               </label>
               <input
                 type="text"
@@ -184,10 +233,42 @@ export function SettingsPanel({
             </div>
           </div>
 
+          {/* Meta Platform Compliance Rules */}
+          <div className="pt-2 border-t border-[#f0f2f5] dark:border-[#202c33] space-y-2.5">
+            <div className="flex items-center gap-1.5 text-[12.5px] font-semibold text-[#667781] dark:text-[#8696a0]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#00a884]" />
+              <span>Platform Compliance Rules</span>
+            </div>
+
+            <label className="flex items-start gap-2.5 text-[13px] cursor-pointer">
+              <input
+                type="checkbox"
+                checked={enforce24h}
+                onChange={(e) => setEnforce24h(e.target.checked)}
+                className="accent-[#00a884] w-4 h-4 mt-0.5"
+              />
+              <span>
+                Enforce 24-hour customer service window (require approved templates after 24h, error #131047)
+              </span>
+            </label>
+
+            <label className="flex items-start gap-2.5 text-[13px] cursor-pointer">
+              <input
+                type="checkbox"
+                checked={enforceOptIn}
+                onChange={(e) => setEnforceOptIn(e.target.checked)}
+                className="accent-[#00a884] w-4 h-4 mt-0.5"
+              />
+              <span>
+                Enforce opt-in / opt-out compliance (STOP/START keywords; block templates to opted-out users, error #131049)
+              </span>
+            </label>
+          </div>
+
           <div className="pt-2 border-t border-[#f0f2f5] dark:border-[#202c33] space-y-2.5">
             <div className="flex items-center gap-1.5 text-[12.5px] font-semibold text-[#667781] dark:text-[#8696a0]">
               <Webhook className="w-3.5 h-3.5 text-[#00a884]" />
-              <span>Webhook & Lifecycle Timers</span>
+              <span>Webhook &amp; Lifecycle Timers</span>
             </div>
 
             <div>
@@ -205,7 +286,7 @@ export function SettingsPanel({
 
             <div>
               <label className="block text-[12px] text-[#667781] dark:text-[#8696a0] mb-1">
-                HMAC Signing Secret
+                HMAC Signing Secret (X-Hub-Signature-256)
               </label>
               <input
                 type="text"
@@ -266,13 +347,13 @@ export function SettingsPanel({
           ) : (
             <div className="p-3 rounded-lg bg-[#ea0038]/5 border border-[#ea0038]/40 space-y-2">
               <p className="text-[12.5px] text-[#111b21] dark:text-[#e9edef]">
-                Reset all messages, contacts, and logs back to initial seed state?
+                Reset all messages, contacts, templates, and logs back to initial seed state?
               </p>
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setConfirmReset(false)}
-                  className="px-3 py-1 rounded text-[12.5px] text-[#54656f] dark:text-[#aebac1]"
+                  className="px-3 py-1.5 rounded text-[12.5px] text-[#54656f] dark:text-[#aebac1]"
                 >
                   Cancel
                 </button>
@@ -282,7 +363,7 @@ export function SettingsPanel({
                     await onResetState();
                     setConfirmReset(false);
                   }}
-                  className="px-3 py-1 rounded bg-[#ea0038] text-white text-[12.5px] font-semibold"
+                  className="px-3 py-1.5 rounded bg-[#ea0038] text-white text-[12.5px] font-semibold"
                 >
                   Reset now
                 </button>

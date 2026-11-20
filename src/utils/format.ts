@@ -95,3 +95,32 @@ export function getSenderColor(senderId: string): string {
   }
   return SENDER_COLORS[Math.abs(hash) % SENDER_COLORS.length];
 }
+
+export const CUSTOMER_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+export function getWindowStatus(lastInboundAt?: string | null): {
+  open: boolean;
+  remainingMs: number;
+  label: string;
+} {
+  if (!lastInboundAt) {
+    return { open: false, remainingMs: 0, label: 'No inbound yet' };
+  }
+  const ts = new Date(lastInboundAt).getTime();
+  if (Number.isNaN(ts)) {
+    return { open: false, remainingMs: 0, label: 'Closed' };
+  }
+  const remainingMs = Math.max(0, ts + CUSTOMER_WINDOW_MS - Date.now());
+  if (remainingMs <= 0) {
+    return { open: false, remainingMs: 0, label: '24h window closed' };
+  }
+  const totalMins = Math.floor(remainingMs / 60000);
+  const hours = Math.floor(totalMins / 60);
+  const mins = totalMins % 60;
+  return {
+    open: true,
+    remainingMs,
+    label: hours > 0 ? `${hours}h ${mins}m left` : `${Math.max(1, mins)}m left`,
+  };
+}
+

@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   ArrowLeft,
   BadgeCheck,
+  Check,
   Clock,
+  DollarSign,
   MessageSquareHeart,
+  Phone,
   Plus,
   Send,
+  ShieldCheck,
   ShoppingBag,
+  Sparkles,
   Store,
   Tag,
   Trash2,
+  X,
   Zap,
 } from 'lucide-react';
 import type {
@@ -18,11 +24,31 @@ import type {
   BusinessProfile,
   CatalogItemRef,
   Chat,
+  Contact,
+  ConversationBillingRecord,
+  ConversationCategory,
+  MessageTemplate,
+  OptInStatus,
+  PhoneNumberConfig,
   QuickReply,
+  TemplateApprovalStatus,
+  TemplateButton,
+  TemplateCategory,
 } from '../../shared/types';
+import { formatChatListDate } from '../utils/format';
 import { Avatar } from './Avatar';
 
-type BizSection = 'overview' | 'profile' | 'catalog' | 'quick_replies' | 'labels' | 'automation';
+type BizSection =
+  | 'overview'
+  | 'templates'
+  | 'compliance'
+  | 'phone_numbers'
+  | 'pricing'
+  | 'profile'
+  | 'catalog'
+  | 'quick_replies'
+  | 'labels'
+  | 'automation';
 
 interface BusinessToolsPanelProps {
   profile: BusinessProfile;
@@ -30,6 +56,12 @@ interface BusinessToolsPanelProps {
   catalog: CatalogItemRef[];
   quickReplies: QuickReply[];
   labels: BusinessLabel[];
+  templates: MessageTemplate[];
+  phoneNumbers: PhoneNumberConfig[];
+  activePhoneNumberId: string;
+  contacts: Contact[];
+  conversations: ConversationBillingRecord[];
+  pricingRatesUsd: Record<ConversationCategory, number>;
   chats: Chat[];
   selectedChatId: string | null;
   onUpdateProfile: (patch: Partial<BusinessProfile>) => Promise<void>;
@@ -41,6 +73,25 @@ interface BusinessToolsPanelProps {
   onDeleteQuickReply: (id: string) => Promise<void>;
   onSaveLabel: (lbl: { name: string; color: string }) => Promise<void>;
   onDeleteLabel: (id: string) => Promise<void>;
+  onSaveTemplate: (
+    tpl: Partial<MessageTemplate> & {
+      name: string;
+      bodyText: string;
+      category: TemplateCategory;
+    }
+  ) => Promise<void>;
+  onSetTemplateStatus: (id: string, status: TemplateApprovalStatus) => Promise<void>;
+  onDeleteTemplate: (id: string) => Promise<void>;
+  onOpenSendTemplateModal: (templateId?: string) => void;
+  onSetContactOptIn: (contactId: string, status: OptInStatus) => Promise<void>;
+  onSelectActivePhoneNumber: (id: string) => Promise<void>;
+  onUpsertPhoneNumber: (input: {
+    id?: string;
+    phoneNumber: string;
+    displayName: string;
+    verifiedName?: string;
+    webhookUrl?: string;
+  }) => Promise<void>;
 }
 
 const LABEL_SWATCHES = ['#00a884', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#ec4899', '#14b8a6'];
@@ -51,6 +102,12 @@ export function BusinessToolsPanel({
   catalog,
   quickReplies,
   labels,
+  templates,
+  phoneNumbers,
+  activePhoneNumberId,
+  contacts,
+  conversations,
+  pricingRatesUsd,
   chats,
   selectedChatId,
   onUpdateProfile,
@@ -62,6 +119,13 @@ export function BusinessToolsPanel({
   onDeleteQuickReply,
   onSaveLabel,
   onDeleteLabel,
+  onSaveTemplate,
+  onSetTemplateStatus,
+  onDeleteTemplate,
+  onOpenSendTemplateModal,
+  onSetContactOptIn,
+  onSelectActivePhoneNumber,
+  onUpsertPhoneNumber,
 }: BusinessToolsPanelProps) {
   const [section, setSection] = useState<BizSection>('overview');
   const [savedFeedback, setSavedFeedback] = useState<string | null>(null);
@@ -86,6 +150,23 @@ export function BusinessToolsPanel({
   // Automation form state
   const [autoForm, setAutoForm] = useState<BusinessAutomation>(automation);
 
+  // Template create form state
+  const [tplName, setTplName] = useState('');
+  const [tplCategory, setTplCategory] = useState<TemplateCategory>('UTILITY');
+  const [tplHeader, setTplHeader] = useState('');
+  const [tplBody, setTplBody] = useState('');
+  const [tplFooter, setTplFooter] = useState('');
+  const [tplSampleCsv, setTplSampleCsv] = useState('');
+  const [tplBtnType, setTplBtnType] = useState<'NONE' | TemplateButton['type']>('NONE');
+  const [tplBtnText, setTplBtnText] = useState('');
+
+  // Phone number form state
+  const [pnId, setPnId] = useState('');
+  const [pnPhone, setPnPhone] = useState('');
+  const [pnName, setPnName] = useState('');
+  const [pnWebhook, setPnWebhook] = useState('');
+  const [pnError, setPnError] = useState<string | null>(null);
+
   const flashSaved = (label: string) => {
     setSavedFeedback(label);
     setTimeout(() => setSavedFeedback(null), 2000);
@@ -97,8 +178,32 @@ export function BusinessToolsPanel({
     setSection(next);
   };
 
+  const pricingStats = useMemo(() => {
+    const categories: ConversationCategory[] = ['MARKETING', 'UTILITY', 'AUTHENTICATION', 'SERVICE'];
+    const byCat = Object.fromEntries(
+      categories.map((cat) => {
+        const items = conversations.filter((c) => c.category === cat);
+        const total = items.reduce((s, x) => s + x.estimatedCostUsd, 0);
+        return [cat, { count: items.length, total: Number(total.toFixed(4)) }];
+      })
+    ) as Record<ConversationCategory, { count: number; total: number }>;
+    const grandTotal = Number(
+      conversations.reduce((s, x) => s + x.estimatedCostUsd, 0).toFixed(4)
+    );
+    return { categories, byCat, grandTotal };
+  }, [conversations]);
+
+  const optedOutCount = useMemo(
+    () => contacts.filter((c) => c.optInStatus === 'opted_out').length,
+    [contacts]
+  );
+
   const titleMap: Record<BizSection, string> = {
     overview: 'Business tools',
+    templates: 'Message templates',
+    compliance: 'Opt-in compliance',
+    phone_numbers: 'WABA phone numbers',
+    pricing: 'Conversation pricing',
     profile: 'Business profile',
     catalog: 'Catalog',
     quick_replies: 'Quick replies',
@@ -109,26 +214,26 @@ export function BusinessToolsPanel({
   return (
     <aside
       aria-label="WhatsApp Business tools"
-      className="w-full md:w-[375px] lg:w-[405px] shrink-0 h-full bg-white dark:bg-[#111b21] border-r border-[#e9edef] dark:border-[#222d34] flex flex-col"
+      className="w-full md:w-[375px] lg:w-[405px] shrink-0 h-full bg-white dark:bg-[#111b21] border-r border-[#e9edef] dark:border-[#222d34] flex flex-col min-w-0"
     >
-      <header className="h-[60px] px-4 bg-[#f0f2f5] dark:bg-[#202c33] border-b border-[#d1d7db] dark:border-[#2a3942] flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-3">
+      <header className="h-[58px] md:h-[60px] px-3.5 md:px-4 pt-safe bg-[#f0f2f5] dark:bg-[#202c33] border-b border-[#d1d7db] dark:border-[#2a3942] flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-2.5 min-w-0">
           {section !== 'overview' && (
             <button
               type="button"
               onClick={() => setSection('overview')}
               aria-label="Back to Business tools"
-              className="w-8 h-8 rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10"
+              className="min-w-[40px] min-h-[40px] md:min-w-0 md:min-h-0 md:w-8 md:h-8 rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
           )}
-          <h1 className="text-[18px] font-bold text-[#111b21] dark:text-[#e9edef]">
+          <h1 className="text-[18px] font-bold text-[#111b21] dark:text-[#e9edef] truncate">
             {titleMap[section]}
           </h1>
         </div>
         {savedFeedback && (
-          <span className="text-[12px] font-medium text-[#00a884]">{savedFeedback}</span>
+          <span className="text-[12px] font-medium text-[#00a884] shrink-0">{savedFeedback}</span>
         )}
       </header>
 
@@ -146,15 +251,80 @@ export function BusinessToolsPanel({
                   {profile.verified && <BadgeCheck className="w-4 h-4 text-[#00a884] shrink-0" />}
                 </div>
                 <p className="text-[13px] text-[#667781] dark:text-[#8696a0] truncate">
-                  {profile.category}
+                  {profile.category} · {activePhoneNumberId}
                 </p>
               </div>
             </div>
 
             <button
               type="button"
+              onClick={() => openSection('templates')}
+              className="w-full min-h-[60px] px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
+            >
+              <Sparkles className="w-5 h-5 text-[#00a884] shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-[15px] font-medium text-[#111b21] dark:text-[#e9edef]">
+                  Message templates
+                </div>
+                <div className="text-[12.5px] text-[#667781] dark:text-[#8696a0] truncate">
+                  {templates.filter((t) => t.status === 'APPROVED').length} approved ·{' '}
+                  {templates.length} total (UTILITY / MARKETING / AUTH)
+                </div>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => openSection('compliance')}
+              className="w-full min-h-[60px] px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
+            >
+              <ShieldCheck className="w-5 h-5 text-[#00a884] shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-[15px] font-medium text-[#111b21] dark:text-[#e9edef]">
+                  Opt-in / opt-out compliance
+                </div>
+                <div className="text-[12.5px] text-[#667781] dark:text-[#8696a0] truncate">
+                  {contacts.length - optedOutCount} eligible · {optedOutCount} opted out (STOP/START)
+                </div>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => openSection('phone_numbers')}
+              className="w-full min-h-[60px] px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
+            >
+              <Phone className="w-5 h-5 text-[#00a884] shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-[15px] font-medium text-[#111b21] dark:text-[#e9edef]">
+                  WABA phone numbers
+                </div>
+                <div className="text-[12.5px] text-[#667781] dark:text-[#8696a0] truncate">
+                  {phoneNumbers.length} numbers · Per-number webhook routing
+                </div>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => openSection('pricing')}
+              className="w-full min-h-[60px] px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
+            >
+              <DollarSign className="w-5 h-5 text-[#00a884] shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-[15px] font-medium text-[#111b21] dark:text-[#e9edef]">
+                  Conversational pricing
+                </div>
+                <div className="text-[12.5px] font-mono tabular-nums text-[#667781] dark:text-[#8696a0] truncate">
+                  {conversations.length} sessions · Est. ${pricingStats.grandTotal.toFixed(4)}
+                </div>
+              </div>
+            </button>
+
+            <button
+              type="button"
               onClick={() => openSection('profile')}
-              className="w-full px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
+              className="w-full min-h-[60px] px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
             >
               <Store className="w-5 h-5 text-[#00a884] shrink-0" />
               <div className="min-w-0 flex-1">
@@ -170,7 +340,7 @@ export function BusinessToolsPanel({
             <button
               type="button"
               onClick={() => openSection('catalog')}
-              className="w-full px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
+              className="w-full min-h-[60px] px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
             >
               <ShoppingBag className="w-5 h-5 text-[#00a884] shrink-0" />
               <div className="min-w-0 flex-1">
@@ -178,7 +348,7 @@ export function BusinessToolsPanel({
                   Catalog
                 </div>
                 <div className="text-[12.5px] text-[#667781] dark:text-[#8696a0]">
-                  {catalog.length} products · Send product cards into chats
+                  {catalog.length} products · Single cards &amp; carousels
                 </div>
               </div>
             </button>
@@ -186,7 +356,7 @@ export function BusinessToolsPanel({
             <button
               type="button"
               onClick={() => openSection('quick_replies')}
-              className="w-full px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
+              className="w-full min-h-[60px] px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
             >
               <Zap className="w-5 h-5 text-[#00a884] shrink-0" />
               <div className="min-w-0 flex-1">
@@ -202,7 +372,7 @@ export function BusinessToolsPanel({
             <button
               type="button"
               onClick={() => openSection('labels')}
-              className="w-full px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
+              className="w-full min-h-[60px] px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
             >
               <Tag className="w-5 h-5 text-[#00a884] shrink-0" />
               <div className="min-w-0 flex-1">
@@ -218,12 +388,12 @@ export function BusinessToolsPanel({
             <button
               type="button"
               onClick={() => openSection('automation')}
-              className="w-full px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
+              className="w-full min-h-[60px] px-4 py-3.5 flex items-center gap-4 text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33] transition-colors"
             >
               <MessageSquareHeart className="w-5 h-5 text-[#00a884] shrink-0" />
               <div className="min-w-0 flex-1">
                 <div className="text-[15px] font-medium text-[#111b21] dark:text-[#e9edef]">
-                  Greeting & away messages
+                  Greeting &amp; away messages
                 </div>
                 <div className="text-[12.5px] text-[#667781] dark:text-[#8696a0]">
                   Greeting {automation.greetingEnabled ? 'On' : 'Off'} · Away{' '}
@@ -231,6 +401,428 @@ export function BusinessToolsPanel({
                 </div>
               </div>
             </button>
+          </div>
+        )}
+
+        {/* TEMPLATES MANAGER */}
+        {section === 'templates' && (
+          <div className="p-4 space-y-4">
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (!tplName.trim() || !tplBody.trim()) return;
+                const buttons: TemplateButton[] =
+                  tplBtnType !== 'NONE' && tplBtnText.trim()
+                    ? [
+                        {
+                          type: tplBtnType,
+                          text: tplBtnText.trim(),
+                          url: tplBtnType === 'URL' ? 'https://example.com/track' : undefined,
+                          phoneNumber: tplBtnType === 'PHONE_NUMBER' ? '+14155550199' : undefined,
+                          exampleCode:
+                            tplBtnType === 'OTP' || tplBtnType === 'COPY_CODE' ? '482910' : undefined,
+                        },
+                      ]
+                    : [];
+                await onSaveTemplate({
+                  name: tplName.trim().toLowerCase().replace(/\s+/g, '_'),
+                  category: tplCategory,
+                  headerText: tplHeader.trim() || undefined,
+                  bodyText: tplBody.trim(),
+                  footerText: tplFooter.trim() || undefined,
+                  sampleValues: tplSampleCsv
+                    .split(',')
+                    .map((s) => s.trim())
+                    .filter(Boolean),
+                  buttons,
+                });
+                setTplName('');
+                setTplHeader('');
+                setTplBody('');
+                setTplFooter('');
+                setTplSampleCsv('');
+                setTplBtnType('NONE');
+                setTplBtnText('');
+                flashSaved('Created');
+              }}
+              className="p-3.5 rounded-lg bg-[#f7f8fa] dark:bg-[#202c33] space-y-2.5 border border-[#e9edef] dark:border-[#2a3942]"
+            >
+              <div className="text-[13px] font-semibold">Create message template</div>
+              <div className="grid grid-cols-2 gap-2">
+                <input
+                  type="text"
+                  required
+                  placeholder="template_name"
+                  value={tplName}
+                  onChange={(e) => setTplName(e.target.value)}
+                  className="px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[13px] font-mono"
+                />
+                <select
+                  value={tplCategory}
+                  onChange={(e) => setTplCategory(e.target.value as TemplateCategory)}
+                  aria-label="Template category"
+                  className="px-2 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[12.5px]"
+                >
+                  <option value="UTILITY">UTILITY</option>
+                  <option value="MARKETING">MARKETING</option>
+                  <option value="AUTHENTICATION">AUTHENTICATION</option>
+                </select>
+              </div>
+              <input
+                type="text"
+                placeholder="Header text (optional)"
+                value={tplHeader}
+                onChange={(e) => setTplHeader(e.target.value)}
+                className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[13px]"
+              />
+              <textarea
+                rows={2}
+                required
+                placeholder="Body with variables, e.g. Hi {{1}}, your code is {{2}}."
+                value={tplBody}
+                onChange={(e) => setTplBody(e.target.value)}
+                className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[13px] resize-none"
+              />
+              <div className="grid grid-cols-2 gap-2">
+                <input
+                  type="text"
+                  placeholder="Sample values (csv)"
+                  value={tplSampleCsv}
+                  onChange={(e) => setTplSampleCsv(e.target.value)}
+                  className="px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[12.5px]"
+                />
+                <input
+                  type="text"
+                  placeholder="Footer (optional)"
+                  value={tplFooter}
+                  onChange={(e) => setTplFooter(e.target.value)}
+                  className="px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[12.5px]"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <select
+                  value={tplBtnType}
+                  onChange={(e) => setTplBtnType(e.target.value as 'NONE' | TemplateButton['type'])}
+                  aria-label="Template button type"
+                  className="px-2 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[12px]"
+                >
+                  <option value="NONE">No button</option>
+                  <option value="QUICK_REPLY">Quick Reply</option>
+                  <option value="URL">URL Button</option>
+                  <option value="PHONE_NUMBER">Phone Call</option>
+                  <option value="COPY_CODE">Copy Coupon</option>
+                  <option value="OTP">Auth OTP Copy</option>
+                </select>
+                {tplBtnType !== 'NONE' && (
+                  <input
+                    type="text"
+                    placeholder="Button label"
+                    value={tplBtnText}
+                    onChange={(e) => setTplBtnText(e.target.value)}
+                    className="px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[12.5px]"
+                  />
+                )}
+              </div>
+              <button
+                type="submit"
+                className="w-full py-2 rounded-md bg-[#00a884] text-white text-[13px] font-semibold hover:bg-[#008f72] flex items-center justify-center gap-1.5"
+              >
+                <Plus className="w-4 h-4" /> Submit template (PENDING)
+              </button>
+            </form>
+
+            <div className="space-y-2.5">
+              {templates.map((tpl) => (
+                <div
+                  key={tpl.id}
+                  className="p-3 rounded-lg border border-[#e9edef] dark:border-[#2a3942] space-y-2"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="text-[13.5px] font-mono font-semibold truncate">
+                        {tpl.name}
+                      </div>
+                      <div className="text-[11px] font-mono text-[#667781] dark:text-[#8696a0]">
+                        {tpl.category} · {tpl.language} ·{' '}
+                        <span
+                          className={
+                            tpl.status === 'APPROVED'
+                              ? 'text-[#00a884] font-semibold'
+                              : tpl.status === 'REJECTED'
+                                ? 'text-[#ea0038] font-semibold'
+                                : 'text-[#b45309] dark:text-[#f59e0b] font-semibold'
+                          }
+                        >
+                          {tpl.status}
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => void onDeleteTemplate(tpl.id)}
+                      aria-label={`Delete template ${tpl.name}`}
+                      className="p-1 text-[#8696a0] hover:text-[#ea0038]"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <p className="text-[12.5px] text-[#3b4a54] dark:text-[#d1d7db] leading-snug">
+                    {tpl.bodyText}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                    {tpl.status !== 'APPROVED' && (
+                      <button
+                        type="button"
+                        onClick={() => void onSetTemplateStatus(tpl.id, 'APPROVED')}
+                        className="px-2.5 py-1 rounded bg-[#00a884]/15 text-[#008069] dark:text-[#25d366] text-[11.5px] font-semibold flex items-center gap-1"
+                      >
+                        <Check className="w-3.5 h-3.5" /> Approve
+                      </button>
+                    )}
+                    {tpl.status !== 'REJECTED' && (
+                      <button
+                        type="button"
+                        onClick={() => void onSetTemplateStatus(tpl.id, 'REJECTED')}
+                        className="px-2.5 py-1 rounded bg-[#ea0038]/12 text-[#ea0038] text-[11.5px] font-semibold flex items-center gap-1"
+                      >
+                        <X className="w-3.5 h-3.5" /> Reject
+                      </button>
+                    )}
+                    {tpl.status === 'APPROVED' && selectedChatId && (
+                      <button
+                        type="button"
+                        onClick={() => onOpenSendTemplateModal(tpl.id)}
+                        className="ml-auto px-2.5 py-1 rounded border border-[#00a884] text-[#008069] dark:text-[#25d366] text-[11.5px] font-semibold flex items-center gap-1 hover:bg-[#00a884]/10"
+                      >
+                        <Send className="w-3 h-3" /> Send to chat
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* OPT-IN / OPT-OUT COMPLIANCE */}
+        {section === 'compliance' && (
+          <div className="p-4 space-y-3">
+            <p className="text-[12.5px] text-[#667781] dark:text-[#8696a0] leading-relaxed">
+              Contacts sending <span className="font-mono">STOP</span>,{' '}
+              <span className="font-mono">UNSUBSCRIBE</span>,{' '}
+              <span className="font-mono">OPT-OUT</span>, or{' '}
+              <span className="font-mono">STOPALL</span> are opted out and blocked from business-initiated templates (#131049). Sending <span className="font-mono">START</span> /{' '}
+              <span className="font-mono">OPT-IN</span> restores eligibility.
+            </p>
+
+            <div className="divide-y divide-[#f0f2f5] dark:divide-[#202c33] border border-[#e9edef] dark:border-[#2a3942] rounded-lg">
+              {contacts.map((ct) => (
+                <div key={ct.id} className="p-3 space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="text-[14px] font-semibold truncate">{ct.name}</div>
+                      <div className="text-[11.5px] font-mono text-[#667781] dark:text-[#8696a0]">
+                        {ct.phone} · {ct.optInSource} · {formatChatListDate(ct.optInUpdatedAt)}
+                      </div>
+                    </div>
+                    <span
+                      className={`text-[11px] font-mono font-bold uppercase shrink-0 ${
+                        ct.optInStatus === 'opted_out'
+                          ? 'text-[#ea0038]'
+                          : ct.optInStatus === 'opted_in'
+                            ? 'text-[#00a884]'
+                            : 'text-[#667781]'
+                      }`}
+                    >
+                      {ct.optInStatus.replace('_', ' ')}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => void onSetContactOptIn(ct.id, 'opted_in')}
+                      className="flex-1 py-1.5 rounded border border-[#d1d7db] dark:border-[#374248] text-[12px] font-medium hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
+                    >
+                      Opt In
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => void onSetContactOptIn(ct.id, 'opted_out')}
+                      className="flex-1 py-1.5 rounded border border-[#d1d7db] dark:border-[#374248] text-[12px] font-medium hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
+                    >
+                      Opt Out
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* WABA PHONE NUMBERS */}
+        {section === 'phone_numbers' && (
+          <div className="p-4 space-y-4">
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setPnError(null);
+                try {
+                  await onUpsertPhoneNumber({
+                    id: pnId.trim() || undefined,
+                    phoneNumber: pnPhone.trim(),
+                    displayName: pnName.trim(),
+                    webhookUrl: pnWebhook.trim(),
+                  });
+                  setPnId('');
+                  setPnPhone('');
+                  setPnName('');
+                  setPnWebhook('');
+                  flashSaved('Saved');
+                } catch (err) {
+                  setPnError(err instanceof Error ? err.message : 'Invalid phone number');
+                }
+              }}
+              className="p-3.5 rounded-lg bg-[#f7f8fa] dark:bg-[#202c33] space-y-2.5 border border-[#e9edef] dark:border-[#2a3942]"
+            >
+              <div className="text-[13px] font-semibold">Add / update WABA phone number</div>
+              {pnError && <p className="text-[12px] text-[#ea0038]">{pnError}</p>}
+              <input
+                type="text"
+                placeholder="Phone Number ID (e.g. wa-sim-phone-003)"
+                value={pnId}
+                onChange={(e) => setPnId(e.target.value)}
+                className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[13px] font-mono"
+              />
+              <input
+                type="text"
+                required
+                placeholder="E.164 Phone (+14155550170)"
+                value={pnPhone}
+                onChange={(e) => setPnPhone(e.target.value)}
+                className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[13px] font-mono"
+              />
+              <input
+                type="text"
+                required
+                placeholder="Display Name (e.g. Support Line)"
+                value={pnName}
+                onChange={(e) => setPnName(e.target.value)}
+                className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[13px]"
+              />
+              <input
+                type="url"
+                placeholder="Per-number Webhook URL override (optional)"
+                value={pnWebhook}
+                onChange={(e) => setPnWebhook(e.target.value)}
+                className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[12.5px] font-mono"
+              />
+              <button
+                type="submit"
+                className="w-full py-2 rounded-md bg-[#00a884] text-white text-[13px] font-semibold hover:bg-[#008f72]"
+              >
+                Save phone number
+              </button>
+            </form>
+
+            <div className="space-y-2.5">
+              {phoneNumbers.map((pn) => {
+                const isActive = pn.id === activePhoneNumberId;
+                return (
+                  <div
+                    key={pn.id}
+                    className={`p-3 rounded-lg border space-y-1.5 ${
+                      isActive
+                        ? 'border-[#00a884] bg-[#e7fce3]/40 dark:bg-[#0a332c]/40'
+                        : 'border-[#e9edef] dark:border-[#2a3942]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="text-[14px] font-semibold truncate">{pn.displayName}</div>
+                        <div className="text-[12px] font-mono text-[#667781] dark:text-[#8696a0]">
+                          {pn.id} · {pn.phoneNumber}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => void onSelectActivePhoneNumber(pn.id)}
+                        className={`px-2.5 py-1 rounded text-[11.5px] font-semibold shrink-0 ${
+                          isActive
+                            ? 'bg-[#00a884] text-white'
+                            : 'border border-[#d1d7db] dark:border-[#374248]'
+                        }`}
+                      >
+                        {isActive ? 'Active' : 'Use'}
+                      </button>
+                    </div>
+                    <div className="text-[11.5px] font-mono text-[#54656f] dark:text-[#aebac1] truncate">
+                      Webhook: {pn.webhookUrl || 'Default global webhook'}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* CONVERSATIONAL PRICING */}
+        {section === 'pricing' && (
+          <div className="p-4 space-y-4">
+            <div className="p-3.5 rounded-lg bg-[#f7f8fa] dark:bg-[#182229] border border-[#e9edef] dark:border-[#2a3942] flex items-baseline justify-between">
+              <div>
+                <div className="text-[12px] text-[#667781] dark:text-[#8696a0]">
+                  Simulated Billing Total
+                </div>
+                <div className="text-[22px] font-mono font-bold tabular-nums text-[#111b21] dark:text-[#e9edef]">
+                  ${pricingStats.grandTotal.toFixed(4)}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-[12px] text-[#667781] dark:text-[#8696a0]">Sessions</div>
+                <div className="text-[18px] font-mono font-semibold tabular-nums">
+                  {conversations.length}
+                </div>
+              </div>
+            </div>
+
+            <div className="divide-y divide-[#f0f2f5] dark:divide-[#202c33] border border-[#e9edef] dark:border-[#2a3942] rounded-lg">
+              {pricingStats.categories.map((cat) => (
+                <div key={cat} className="px-3.5 py-2.5 flex items-center justify-between text-[13px]">
+                  <div>
+                    <div className="font-mono font-semibold">{cat}</div>
+                    <div className="text-[11.5px] font-mono text-[#667781] dark:text-[#8696a0]">
+                      Rate ${pricingRatesUsd[cat].toFixed(4)} / conv
+                    </div>
+                  </div>
+                  <div className="text-right font-mono tabular-nums">
+                    <div className="font-semibold">${pricingStats.byCat[cat].total.toFixed(4)}</div>
+                    <div className="text-[11.5px] text-[#667781] dark:text-[#8696a0]">
+                      {pricingStats.byCat[cat].count} conv
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {conversations.length > 0 && (
+              <div className="space-y-1.5">
+                <div className="text-[12px] font-semibold text-[#667781] dark:text-[#8696a0]">
+                  Recent Conversation Ledger
+                </div>
+                <div className="divide-y divide-[#f0f2f5] dark:divide-[#202c33] border border-[#e9edef] dark:border-[#2a3942] rounded-lg">
+                  {conversations.slice(0, 10).map((rec) => (
+                    <div key={rec.id} className="px-3 py-2 flex items-center justify-between text-[12px] font-mono">
+                      <span className="truncate">
+                        {rec.category} · {rec.chatId}
+                      </span>
+                      <span className="shrink-0 font-semibold">${rec.estimatedCostUsd.toFixed(4)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 

@@ -6,7 +6,15 @@ import { ChatListPanel } from './components/ChatListPanel';
 import { ChatView } from './components/ChatView';
 import { ContactInfoDrawer } from './components/ContactInfoDrawer';
 import { LeftRail, type SidebarTab } from './components/LeftRail';
-import { ImageLightbox, NewChatModal, NewGroupModal } from './components/Modals';
+import { MobileBottomNav } from './components/MobileBottomNav';
+import { CallsPanel, UpdatesPanel } from './components/MobileSecondaryViews';
+import {
+  ImageLightbox,
+  NewChatModal,
+  NewGroupModal,
+  SendRichMessageModal,
+  SendTemplateModal,
+} from './components/Modals';
 import { QaConsolePanel } from './components/QaConsolePanel';
 import { SettingsPanel } from './components/SettingsPanel';
 import { emulatorApi, useEmulatorState } from './services/api';
@@ -22,6 +30,11 @@ export default function App() {
 
   const [showNewChat, setShowNewChat] = useState(false);
   const [showNewGroup, setShowNewGroup] = useState(false);
+  const [templateModalState, setTemplateModalState] = useState<{
+    open: boolean;
+    initialTemplateId?: string;
+  }>({ open: false });
+  const [showRichModal, setShowRichModal] = useState(false);
   const [lightbox, setLightbox] = useState<{ url: string; caption?: string } | null>(null);
 
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -62,6 +75,9 @@ export default function App() {
     if (state?.settings.variant === 'personal' && activeTab === 'business') {
       setActiveTab('chats');
     }
+    if (state?.settings.variant === 'business' && activeTab === 'calls') {
+      setActiveTab('chats');
+    }
   }, [state?.settings.variant, activeTab]);
 
   const selectedChat = useMemo(
@@ -84,7 +100,7 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="h-screen w-screen flex flex-col items-center justify-center bg-[#f0f2f5] dark:bg-[#111b21] text-[#54656f] dark:text-[#aebac1] gap-3">
+      <div className="h-[100dvh] w-screen flex flex-col items-center justify-center bg-[#f0f2f5] dark:bg-[#111b21] text-[#54656f] dark:text-[#aebac1] gap-3">
         <div className="w-10 h-10 rounded-full border-2 border-[#00a884] border-t-transparent animate-spin" />
         <p className="text-[14px] font-medium">Starting WA-Sim Emulator...</p>
       </div>
@@ -93,7 +109,7 @@ export default function App() {
 
   if (error || !state) {
     return (
-      <div className="h-screen w-screen flex flex-col items-center justify-center bg-[#f0f2f5] dark:bg-[#111b21] p-6 text-center gap-3">
+      <div className="h-[100dvh] w-screen flex flex-col items-center justify-center bg-[#f0f2f5] dark:bg-[#111b21] p-6 text-center gap-3">
         <p className="text-[16px] font-semibold text-[#111b21] dark:text-[#e9edef]">
           Unable to connect to WA-Sim backend
         </p>
@@ -138,6 +154,11 @@ export default function App() {
     }
   };
 
+  const handleOpenContactChatById = (contactId: string) => {
+    const ct = state.contacts.find((c) => c.id === contactId);
+    if (ct) handleSelectExistingContact(ct);
+  };
+
   const handleToggleVariant = () => {
     const next = state.settings.variant === 'business' ? 'personal' : 'business';
     void emulatorApi.updateConfig({ variant: next });
@@ -145,10 +166,10 @@ export default function App() {
 
   return (
     <div
-      className="h-screen w-screen overflow-hidden flex bg-[#f0f2f5] dark:bg-[#111b21] text-[#111b21] dark:text-[#e9edef]"
+      className="h-[100dvh] w-screen overflow-hidden flex flex-col md:flex-row bg-[#f0f2f5] dark:bg-[#111b21] text-[#111b21] dark:text-[#e9edef]"
       data-variant={state.settings.variant}
     >
-      {/* Left Navigation Rail */}
+      {/* Desktop Left Navigation Rail */}
       <LeftRail
         activeTab={activeTab}
         onSelectTab={(tab) => {
@@ -164,12 +185,23 @@ export default function App() {
         self={state.self}
       />
 
-      {/* Left Sidebar View (hidden on mobile when a chat is actively opened) */}
-      <div className={`${mobileShowChat ? 'hidden md:flex' : 'flex'} flex-1 md:flex-none h-full min-w-0`}>
+      {/* Left Sidebar View (full-width on mobile when chat isn't open) */}
+      <div
+        className={`${
+          mobileShowChat ? 'hidden md:flex' : 'flex'
+        } flex-1 md:flex-none min-h-0 md:h-full min-w-0`}
+      >
         {(activeTab === 'chats' || activeTab === 'archived') && (
           <ChatListPanel
             mode={activeTab}
             variant={state.settings.variant}
+            enforce24hWindow={state.settings.enforce24hWindow}
+            darkMode={darkMode}
+            onToggleDarkMode={() => setDarkMode((d) => !d)}
+            onToggleVariant={handleToggleVariant}
+            phoneNumbers={state.phoneNumbers}
+            activePhoneNumberId={state.settings.activePhoneNumberId}
+            onSelectPhoneNumber={(id) => void emulatorApi.updateConfig({ activePhoneNumberId: id })}
             chats={state.chats}
             contacts={state.contacts}
             messagesByChat={state.messages}
@@ -184,6 +216,20 @@ export default function App() {
           />
         )}
 
+        {activeTab === 'updates' && (
+          <UpdatesPanel
+            updates={state.statusUpdates}
+            onPreviewImage={(url, caption) => setLightbox({ url, caption })}
+          />
+        )}
+
+        {activeTab === 'calls' && (
+          <CallsPanel
+            calls={state.callLogs}
+            onOpenContactChat={handleOpenContactChatById}
+          />
+        )}
+
         {activeTab === 'business' && state.settings.variant === 'business' && (
           <BusinessToolsPanel
             profile={state.settings.businessProfile}
@@ -191,6 +237,12 @@ export default function App() {
             catalog={state.catalog}
             quickReplies={state.quickReplies}
             labels={state.labels}
+            templates={state.templates}
+            phoneNumbers={state.phoneNumbers}
+            activePhoneNumberId={state.settings.activePhoneNumberId}
+            contacts={state.contacts}
+            conversations={state.conversations}
+            pricingRatesUsd={state.settings.pricingRatesUsd}
             chats={state.chats}
             selectedChatId={selectedChatId}
             onUpdateProfile={async (patch) => {
@@ -227,6 +279,27 @@ export default function App() {
             onDeleteLabel={async (id) => {
               await emulatorApi.deleteLabel(id);
             }}
+            onSaveTemplate={async (tpl) => {
+              await emulatorApi.upsertTemplate(tpl);
+            }}
+            onSetTemplateStatus={async (id, status) => {
+              await emulatorApi.setTemplateStatus(id, status);
+            }}
+            onDeleteTemplate={async (id) => {
+              await emulatorApi.deleteTemplate(id);
+            }}
+            onOpenSendTemplateModal={(templateId) => {
+              setTemplateModalState({ open: true, initialTemplateId: templateId });
+            }}
+            onSetContactOptIn={async (contactId, status) => {
+              await emulatorApi.setContactOptIn(contactId, status, 'ui');
+            }}
+            onSelectActivePhoneNumber={async (id) => {
+              await emulatorApi.updateConfig({ activePhoneNumberId: id });
+            }}
+            onUpsertPhoneNumber={async (input) => {
+              await emulatorApi.upsertPhoneNumber(input);
+            }}
           />
         )}
 
@@ -234,12 +307,18 @@ export default function App() {
           <QaConsolePanel
             contacts={state.contacts}
             chats={state.chats}
+            templates={state.templates}
+            phoneNumbers={state.phoneNumbers}
             selectedChatId={selectedChatId}
             autoReplyRules={state.autoReplyRules}
             webhookLogs={state.webhookLogs}
             settings={state.settings}
+            onSelectChat={(chatId) => setSelectedChatId(chatId)}
+            onSwitchVariant={async (variant) => {
+              await emulatorApi.updateConfig({ variant });
+            }}
             onSimulateInbound={async (payload) => {
-              const res = (await emulatorApi.receiveMessage({
+              const res = await emulatorApi.receiveMessage({
                 ...payload,
                 media:
                   payload.type === 'voice'
@@ -258,19 +337,32 @@ export default function App() {
                           filename: 'customer-photo.jpg',
                           caption: payload.body,
                         }
-                      : payload.type === 'document'
+                      : payload.type === 'video'
                         ? {
-                            id: `in-doc-${Date.now()}`,
-                            url: '#',
-                            mimeType: 'application/pdf',
-                            filename: payload.body.endsWith('.pdf') ? payload.body : 'invoice-4821.pdf',
-                            sizeBytes: 184200,
+                            id: `in-vid-${Date.now()}`,
+                            url: '',
+                            mimeType: 'video/mp4',
+                            filename: 'customer-clip.mp4',
+                            durationSec: 12,
                           }
-                        : undefined,
-              })) as { chat?: { id: string } };
+                        : payload.type === 'document'
+                          ? {
+                              id: `in-doc-${Date.now()}`,
+                              url: '#',
+                              mimeType: 'application/pdf',
+                              filename: payload.body?.endsWith('.pdf')
+                                ? payload.body
+                                : 'invoice-4821.pdf',
+                              sizeBytes: 184200,
+                            }
+                          : undefined,
+              });
               if (res?.chat?.id) {
                 setSelectedChatId(res.chat.id);
               }
+            }}
+            onSendMessage={async (payload) => {
+              await emulatorApi.sendMessage(payload);
             }}
             onSimulateTyping={async (chatId, isTyping, mode) => {
               await emulatorApi.setTyping(chatId, isTyping, mode);
@@ -291,6 +383,7 @@ export default function App() {
           <SettingsPanel
             self={state.self}
             settings={state.settings}
+            phoneNumbers={state.phoneNumbers}
             darkMode={darkMode}
             onToggleDarkMode={() => setDarkMode((d) => !d)}
             onUpdateConfig={async (patch) => {
@@ -303,26 +396,56 @@ export default function App() {
         )}
       </div>
 
-      {/* Main Conversation Pane */}
-      <div className={`${mobileShowChat ? 'flex' : 'hidden md:flex'} flex-1 min-w-0 h-full`}>
+      {/* Main Conversation Pane (full-screen on mobile when chat is opened) */}
+      <div
+        className={`${
+          mobileShowChat ? 'flex' : 'hidden md:flex'
+        } flex-1 min-w-0 min-h-0 md:h-full`}
+      >
         <ChatView
           chat={selectedChat}
           variant={state.settings.variant}
+          enforce24hWindow={state.settings.enforce24hWindow}
           self={state.self}
           contacts={state.contacts}
           messages={selectedChat ? state.messages[selectedChat.id] || [] : []}
           quickReplies={state.quickReplies}
           catalog={state.catalog}
           highlightedMessageId={highlightedMessageId}
-          onBackMobile={() => setMobileShowChat(false)}
+          onBackMobile={() => {
+            setMobileShowChat(false);
+            setRightDrawer(null);
+          }}
           onOpenInfo={() => setRightDrawer(rightDrawer === 'info' ? null : 'info')}
           onOpenSearch={() => setRightDrawer(rightDrawer === 'search' ? null : 'search')}
+          onOpenTemplateModal={() => setTemplateModalState({ open: true })}
+          onOpenRichModal={() => setShowRichModal(true)}
           onSendMessage={async (payload) => {
             await emulatorApi.sendMessage(payload);
           }}
+          onSimulateInteractiveReply={async ({ chatId, selectedId, selectedTitle, kind }) => {
+            const targetChat = state.chats.find((c) => c.id === chatId);
+            const ct = targetChat?.contactId
+              ? state.contacts.find((c) => c.id === targetChat.contactId)
+              : undefined;
+            await emulatorApi.receiveMessage({
+              chatId,
+              senderId: ct?.id,
+              fromPhone: ct?.phone,
+              fromName: ct?.name,
+              type: 'interactive',
+              body: selectedTitle,
+              interactive: {
+                kind,
+                bodyText: selectedTitle,
+                selectedId,
+                selectedTitle,
+              },
+            });
+          }}
           onUploadMedia={(payload) => emulatorApi.uploadMedia(payload)}
-          onUpdateReceipt={async (messageId, status) => {
-            await emulatorApi.updateReceipt(messageId, status);
+          onUpdateReceipt={async (messageId, status, errorCode) => {
+            await emulatorApi.updateReceipt(messageId, status, errorCode);
           }}
           onPreviewImage={(url, caption) => setLightbox({ url, caption })}
         />
@@ -338,6 +461,12 @@ export default function App() {
             labels={state.labels}
             onClose={() => setRightDrawer(null)}
             onUpdateChat={(chatId, patch) => void emulatorApi.updateChat(chatId, patch)}
+            onBlockContact={async (contactId, blocked) => {
+              await emulatorApi.blockContact(contactId, blocked);
+            }}
+            onSetContactOptIn={async (contactId, status) => {
+              await emulatorApi.setContactOptIn(contactId, status, 'ui');
+            }}
             onClearChat={(chatId) => void emulatorApi.clearChat(chatId)}
             onDeleteChat={(chatId) => {
               void emulatorApi.deleteChat(chatId);
@@ -351,6 +480,20 @@ export default function App() {
           />
         )}
       </div>
+
+      {/* Mobile Bottom Tab Navigation (hidden when viewing a full-screen chat thread) */}
+      {!mobileShowChat && (
+        <MobileBottomNav
+          activeTab={activeTab}
+          onSelectTab={(tab) => {
+            setActiveTab(tab);
+            setMobileShowChat(false);
+            setRightDrawer(null);
+          }}
+          variant={state.settings.variant}
+          unreadTotal={unreadTotal}
+        />
+      )}
 
       {/* Modals */}
       {showNewChat && (
@@ -374,6 +517,38 @@ export default function App() {
             const { chat } = await emulatorApi.createGroup(input);
             handleSelectChat(chat.id);
             setActiveTab('chats');
+          }}
+        />
+      )}
+
+      {templateModalState.open && selectedChat && (
+        <SendTemplateModal
+          templates={state.templates}
+          initialTemplateId={templateModalState.initialTemplateId}
+          chatName={selectedChat.name}
+          onClose={() => setTemplateModalState({ open: false })}
+          onSendTemplate={async ({ templateId, variables, otpCode }) => {
+            await emulatorApi.sendMessage({
+              chatId: selectedChat.id,
+              type: 'template',
+              templateId,
+              templateVariables: variables,
+              templateOtpCode: otpCode,
+            });
+            setMobileShowChat(true);
+          }}
+        />
+      )}
+
+      {showRichModal && selectedChat && (
+        <SendRichMessageModal
+          chatName={selectedChat.name}
+          onClose={() => setShowRichModal(false)}
+          onSendRich={async (payload) => {
+            await emulatorApi.sendMessage({
+              chatId: selectedChat.id,
+              ...payload,
+            });
           }}
         />
       )}

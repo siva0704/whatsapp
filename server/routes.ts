@@ -1,9 +1,11 @@
 import express, { type NextFunction, type Request, type Response } from 'express';
 import path from 'path';
-import type { MessageStatus } from '../shared/types';
+import type { MessageStatus, OptInStatus, TemplateApprovalStatus } from '../shared/types';
+import { getCustomerServiceWindowStatus } from './compliance';
 import type { EmulatorEnvConfig } from './config';
 import { type EmulatorEngine, normalizeCloudApiSendPayload } from './engine';
 import type { StateStore } from './storage';
+import { verifyHubSignature256 } from './webhooks';
 
 const VALID_STATUSES: MessageStatus[] = ['queued', 'sent', 'delivered', 'read', 'failed'];
 
@@ -14,8 +16,6 @@ export function createApiRouter(
 ): express.Router {
   const router = express.Router();
 
-  // Optional API Key auth for external test suites.
-  // Browser UI sends X-WA-Sim-UI: 1 on same-origin requests so interactive testing never blocks.
   const requireAuth = (req: Request, res: Response, next: NextFunction) => {
     if (!env.apiKey) {
       next();
@@ -27,7 +27,8 @@ export function createApiRouter(
     }
     const authHeader = req.headers.authorization || '';
     const bearer = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : '';
-    const apiKeyHeader = typeof req.headers['x-api-key'] === 'string' ? req.headers['x-api-key'].trim() : '';
+    const apiKeyHeader =
+      typeof req.headers['x-api-key'] === 'string' ? req.headers['x-api-key'].trim() : '';
 
     if (bearer === env.apiKey || apiKeyHeader === env.apiKey) {
       next();
@@ -35,8 +36,11 @@ export function createApiRouter(
     }
 
     res.status(401).json({
-      error: 'Unauthorized',
-      message: 'Provide Authorization: Bearer <EMULATOR_API_KEY> or X-API-Key header.',
+      error: {
+        message: 'Unauthorized. Provide Authorization: Bearer <EMULATOR_API_KEY> or X-API-Key header.',
+        type: 'OAuthException',
+        code: 190,
+      },
     });
   };
 
@@ -45,8 +49,13 @@ export function createApiRouter(
     res.json({
       status: 'ok',
       variant: state.settings.variant,
+      activePhoneNumberId: state.settings.activePhoneNumberId,
+      phoneNumbers: state.phoneNumbers.length,
       chats: state.chats.length,
       contacts: state.contacts.length,
+      templates: state.templates.length,
+      enforce24hWindow: state.settings.enforce24hWindow,
+      enforceOptIn: state.settings.enforceOptIn,
       webhookConfigured: Boolean(state.settings.webhookUrl),
     });
   });
@@ -56,19 +65,20 @@ export function createApiRouter(
     res.json(engine.getState());
   });
 
-  // Reset database to deterministic seed (useful in automated test beforeEach hooks)
+  // Reset database to deterministic seed
   router.post('/api/reset', requireAuth, (req, res) => {
-    const variant = req.body?.variant === 'business' || req.body?.variant === 'personal'
-      ? req.body.variant
-      : undefined;
+    const variant =
+      req.body?.variant === 'business' || req.body?.variant === 'personal'
+        ? req.body.variant
+        : undefined;
     const state = engine.reset(variant);
     res.json({ ok: true, state });
   });
 
   // Config & Self Profile
   router.get('/api/config', requireAuth, (_req, res) => {
-    const { settings, self } = engine.getState();
-    res.json({ settings, self });
+    const { settings, self, phoneNumbers } = engine.getState();
+    res.json({ settings, self, phoneNumbers });
   });
 
   router.patch('/api/config', requireAuth, (req, res) => {
@@ -76,30 +86,110 @@ export function createApiRouter(
     res.json(result);
   });
 
-  // Contacts
+  // Phone Numbers / WABA Management
+  router.get('/api/phone-numbers', requireAuth, (_req, res) => {
+    res.json({
+      activePhoneNumberId: engine.getState().settings.activePhoneNumberId,
+      phoneNumbers: engine.getState().phoneNumbers,
+    });
+  });
+
+  router.post('/api/phone-numbers', requireAuth, (req, res) => {
+    const { phoneNumber, displayName } = req.body || {};
+    if (!phoneNumber || !displayName) {
+      res.status(400).json({ error: 'phoneNumber and displayName are required' });
+      return;
+    }
+    const result = engine.upsertPhoneNumber(req.body);
+    if (!result.ok) {
+      res.status(400).json({ error: result.error });
+      return;
+    }
+    res.status(201).json({ phoneNumber: result.phoneNumber });
+  });
+
+  // Contacts, Block/Unblock, Opt-In/Opt-Out Compliance
   router.get('/api/contacts', requireAuth, (_req, res) => {
     res.json({ contacts: engine.getState().contacts });
   });
 
   router.post('/api/contacts', requireAuth, (req, res) => {
-    const { name, phone, about, isBot, isBusiness, avatarUrl } = req.body || {};
+    const { name, profileName, phone, about, isBot, isBusiness, avatarUrl, optInStatus, optInSource } =
+      req.body || {};
     if (!phone || typeof phone !== 'string' || !phone.trim()) {
-      res.status(400).json({ error: 'phone is required' });
+      res.status(400).json({ error: 'phone is required (E.164 format)' });
       return;
     }
-    const created = engine.createContact({
-      name: typeof name === 'string' && name.trim() ? name : phone,
-      phone,
-      about,
-      isBot,
-      isBusiness,
-      avatarUrl,
-    });
-    res.status(201).json(created);
+    try {
+      const created = engine.createContact({
+        name: typeof name === 'string' && name.trim() ? name : phone,
+        profileName,
+        phone,
+        about,
+        isBot,
+        isBusiness,
+        avatarUrl,
+        optInStatus,
+        optInSource,
+      });
+      res.status(201).json(created);
+    } catch (err) {
+      res.status(400).json({ error: err instanceof Error ? err.message : 'Invalid contact' });
+    }
   });
 
   router.patch('/api/contacts/:id', requireAuth, (req, res) => {
-    const updated = engine.updateContact(req.params.id, req.body || {});
+    try {
+      const updated = engine.updateContact(req.params.id, req.body || {});
+      if (!updated) {
+        res.status(404).json({ error: 'Contact not found' });
+        return;
+      }
+      res.json({ contact: updated });
+    } catch (err) {
+      res.status(400).json({ error: err instanceof Error ? err.message : 'Invalid contact patch' });
+    }
+  });
+
+  router.post('/api/contacts/:id/block', requireAuth, (req, res) => {
+    const blocked = req.body?.blocked !== false;
+    const updated = engine.updateContact(req.params.id, { blocked });
+    if (!updated) {
+      res.status(404).json({ error: 'Contact not found' });
+      return;
+    }
+    res.json({ contact: updated });
+  });
+
+  router.get('/api/contacts/:id/opt-in', requireAuth, (req, res) => {
+    const contact = engine.getState().contacts.find((c) => c.id === req.params.id);
+    if (!contact) {
+      res.status(404).json({ error: 'Contact not found' });
+      return;
+    }
+    res.json({
+      contactId: contact.id,
+      phone: contact.phone,
+      optInStatus: contact.optInStatus,
+      optInUpdatedAt: contact.optInUpdatedAt,
+      optInSource: contact.optInSource,
+      history: contact.optInHistory,
+    });
+  });
+
+  router.post('/api/contacts/:id/opt-in', requireAuth, (req, res) => {
+    const status = req.body?.status as OptInStatus;
+    if (!['opted_in', 'opted_out', 'unknown'].includes(status)) {
+      res.status(400).json({ error: 'status must be opted_in, opted_out, or unknown' });
+      return;
+    }
+    const updated = engine.setContactOptIn(
+      req.params.id,
+      status,
+      typeof req.body?.source === 'string' ? req.body.source : 'api',
+      typeof req.body?.keyword === 'string' ? req.body.keyword : undefined,
+      typeof req.body?.note === 'string' ? req.body.note : undefined
+    );
     if (!updated) {
       res.status(404).json({ error: 'Contact not found' });
       return;
@@ -116,9 +206,26 @@ export function createApiRouter(
     res.json({ ok: true });
   });
 
-  // Chats
-  router.get('/api/chats', requireAuth, (_req, res) => {
-    res.json({ chats: engine.getState().chats });
+  // Chats + 24h Window Inspection
+  router.get('/api/chats', requireAuth, (req, res) => {
+    const phoneFilter = typeof req.query.phoneNumberId === 'string' ? req.query.phoneNumberId : '';
+    const chats = engine.getState().chats.filter((c) =>
+      phoneFilter ? c.phoneNumberId === phoneFilter : true
+    );
+    res.json({ chats });
+  });
+
+  router.get('/api/chats/:chatId/window', requireAuth, (req, res) => {
+    const chat = engine.getState().chats.find((c) => c.id === req.params.chatId);
+    if (!chat) {
+      res.status(404).json({ error: 'Chat not found' });
+      return;
+    }
+    res.json({
+      chatId: chat.id,
+      lastInboundAt: chat.lastInboundAt,
+      ...getCustomerServiceWindowStatus(chat.lastInboundAt),
+    });
   });
 
   router.post('/api/chats', requireAuth, (req, res) => {
@@ -141,8 +248,12 @@ export function createApiRouter(
       res.status(400).json({ error: 'phone is required for direct chat' });
       return;
     }
-    const created = engine.createContact({ name: name || phone, phone });
-    res.status(201).json(created);
+    try {
+      const created = engine.createContact({ name: name || phone, phone });
+      res.status(201).json(created);
+    } catch (err) {
+      res.status(400).json({ error: err instanceof Error ? err.message : 'Invalid phone' });
+    }
   });
 
   router.patch('/api/chats/:id', requireAuth, (req, res) => {
@@ -181,7 +292,6 @@ export function createApiRouter(
     res.json({ messages });
   });
 
-  // Mark chat read
   router.post('/api/chats/:chatId/read', requireAuth, (req, res) => {
     const chat = engine.markChatRead(req.params.chatId);
     if (!chat) {
@@ -191,7 +301,6 @@ export function createApiRouter(
     res.json({ ok: true, chat });
   });
 
-  // Set typing / recording presence
   router.post('/api/chats/:chatId/typing', requireAuth, (req, res) => {
     const { isTyping, contactId, mode } = req.body || {};
     const state = engine.getState();
@@ -200,90 +309,132 @@ export function createApiRouter(
       res.status(404).json({ error: 'Chat not found' });
       return;
     }
-    const resolvedContactId = isTyping === false
-      ? null
-      : (typeof contactId === 'string' && contactId ? contactId : (targetChat.contactId || targetChat.participantIds[0] || null));
+    const resolvedContactId =
+      isTyping === false
+        ? null
+        : typeof contactId === 'string' && contactId
+          ? contactId
+          : targetChat.contactId || targetChat.participantIds[0] || null;
 
     const resolvedMode = resolvedContactId
-      ? (mode === 'recording' ? 'recording' : 'typing')
+      ? mode === 'recording'
+        ? 'recording'
+        : 'typing'
       : null;
 
     const chat = engine.setTyping(req.params.chatId, resolvedContactId, resolvedMode);
     res.json({ ok: true, chat });
   });
 
-  // Send outbound message
+  // Send outbound message (rich types, templates, catalog, carousels, error code injection)
   router.post('/api/messages/send', requireAuth, (req, res) => {
-    const { chatId, toPhone, to, body, type, media, catalogItemId, replyToMessageId, skipLifecycleTimers, metadata } = req.body || {};
-    const resolvedTo = toPhone || to;
-    if (!chatId && !resolvedTo) {
+    const body = req.body || {};
+    const resolvedTo = body.toPhone || body.to;
+    if (!body.chatId && !resolvedTo) {
       res.status(400).json({ error: 'chatId or toPhone is required' });
-      return;
-    }
-    if (!body && !media && !catalogItemId) {
-      res.status(400).json({ error: 'body, media, or catalogItemId is required' });
       return;
     }
 
     const result = engine.sendMessage({
-      chatId,
+      chatId: body.chatId,
       toPhone: resolvedTo,
-      body: typeof body === 'string' ? body : '',
-      type,
-      media,
-      catalogItemId,
-      replyToMessageId,
-      skipLifecycleTimers: Boolean(skipLifecycleTimers),
-      metadata,
+      phoneNumberId: body.phoneNumberId,
+      body: typeof body.body === 'string' ? body.body : '',
+      type: body.type,
+      media: body.media,
+      mediaId: body.mediaId,
+      location: body.location,
+      contacts: body.contacts,
+      interactive: body.interactive,
+      templateId: body.templateId,
+      templateName: body.templateName,
+      templateVariables: body.templateVariables,
+      templateOtpCode: body.templateOtpCode,
+      catalogItemId: body.catalogItemId,
+      carouselItemIds: body.carouselItemIds,
+      order: body.order,
+      replyToMessageId: body.replyToMessageId,
+      skipLifecycleTimers: Boolean(body.skipLifecycleTimers),
+      simulateErrorCode:
+        typeof body.simulateErrorCode === 'number' ? body.simulateErrorCode : undefined,
+      metadata: body.metadata,
     });
 
-    if (!result) {
-      res.status(404).json({ error: 'Target chat not found' });
+    if (!result.ok) {
+      res.status(result.httpStatus || 400).json({
+        error: result.error,
+        message: result.message,
+      });
       return;
     }
-    res.status(201).json(result);
+    res.status(201).json({ message: result.message, chat: result.chat });
   });
 
-  // Inject inbound message from simulated contact / external test harness
+  // Inject inbound message (supports text, media, location, order, interactive replies, button clicks)
   router.post('/api/messages/receive', requireAuth, (req, res) => {
-    const { chatId, fromPhone, from, fromName, senderId, body, type, media, replyToMessageId, metadata } = req.body || {};
-    const resolvedFrom = fromPhone || from;
-    if (!chatId && !resolvedFrom && !senderId) {
-      res.status(400).json({ error: 'chatId, fromPhone, or senderId is required' });
-      return;
+    // Optional X-Hub-Signature-256 verification when header is supplied by external webhook testers
+    const hubSig =
+      typeof req.headers['x-hub-signature-256'] === 'string'
+        ? req.headers['x-hub-signature-256']
+        : undefined;
+    if (hubSig && engine.getState().settings.webhookSecret) {
+      const valid = verifyHubSignature256(
+        JSON.stringify(req.body || {}),
+        hubSig,
+        engine.getState().settings.webhookSecret
+      );
+      if (!valid) {
+        res.status(401).json({ error: 'Invalid X-Hub-Signature-256 HMAC signature' });
+        return;
+      }
     }
-    if (!body && !media) {
-      res.status(400).json({ error: 'body or media is required' });
+
+    const b = req.body || {};
+    const resolvedFrom = b.fromPhone || b.from;
+    if (!b.chatId && !resolvedFrom && !b.senderId) {
+      res.status(400).json({ error: 'chatId, fromPhone, or senderId is required' });
       return;
     }
 
     const result = engine.receiveMessage({
-      chatId,
+      chatId: b.chatId,
+      phoneNumberId: b.phoneNumberId,
       fromPhone: resolvedFrom,
-      fromName,
-      senderId,
-      body: typeof body === 'string' ? body : '',
-      type,
-      media,
-      replyToMessageId,
-      metadata,
+      fromName: b.fromName,
+      senderId: b.senderId,
+      body: typeof b.body === 'string' ? b.body : '',
+      type: b.type,
+      media: b.media,
+      mediaId: b.mediaId,
+      location: b.location,
+      contacts: b.contacts,
+      interactive: b.interactive,
+      order: b.order,
+      replyToMessageId: b.replyToMessageId,
+      metadata: b.metadata,
     });
 
-    if (!result) {
-      res.status(404).json({ error: 'Could not resolve target chat or sender' });
+    if (!result.ok) {
+      res.status(403).json({ error: result.error });
       return;
     }
-    res.status(201).json(result);
+    res.status(201).json({
+      message: result.message,
+      chat: result.chat,
+      optInChanged: result.optInChanged,
+    });
   });
 
-  // Explicit message receipt override
+  // Explicit message receipt override (with optional Meta error code)
   router.post('/api/messages/:messageId/receipt', requireAuth, (req, res) => {
     const status = req.body?.status as MessageStatus;
+    const errorCode =
+      typeof req.body?.errorCode === 'number' ? req.body.errorCode : undefined;
     if (!VALID_STATUSES.includes(status)) {
       res.status(400).json({ error: `status must be one of: ${VALID_STATUSES.join(', ')}` });
       return;
     }
-    const updated = engine.updateMessageReceipt(req.params.messageId, status);
+    const updated = engine.updateMessageReceipt(req.params.messageId, status, errorCode);
     if (!updated) {
       res.status(404).json({ error: 'Message not found' });
       return;
@@ -291,11 +442,10 @@ export function createApiRouter(
     res.json({ message: updated });
   });
 
-  // WhatsApp Cloud API Drop-In Compatible Endpoint (v18.0 - v21.0)
+  // WhatsApp Cloud API Drop-In Compatible Endpoints (v18.0 - v22.0)
   router.post('/:version(v\\d+\\.\\d+)/:phoneNumberId/messages', requireAuth, (req, res) => {
     const payload = req.body || {};
 
-    // Cloud API mark-as-read format: { messaging_product: 'whatsapp', status: 'read', message_id: '...' }
     if (payload.status === 'read' && typeof payload.message_id === 'string') {
       const updated = engine.updateMessageReceipt(payload.message_id, 'read');
       if (!updated) {
@@ -310,7 +460,8 @@ export function createApiRouter(
     if (!normalized) {
       res.status(400).json({
         error: {
-          message: 'Invalid Cloud API payload. Provide "to" and "text.body" (or image/document/audio/template).',
+          message:
+            'Invalid Cloud API payload. Provide "to" and supported message type (text, image, video, audio, document, sticker, location, contacts, interactive, template).',
           type: 'OAuthException',
           code: 100,
         },
@@ -320,55 +471,77 @@ export function createApiRouter(
 
     const result = engine.sendMessage({
       toPhone: normalized.toPhone,
+      phoneNumberId: req.params.phoneNumberId,
       body: normalized.body,
       type: normalized.type,
       media: normalized.media,
+      mediaId: normalized.mediaId,
+      location: normalized.location,
+      contacts: normalized.contacts,
+      interactive: normalized.interactive,
+      templateName: normalized.templateName,
+      templateVariables: normalized.templateVariables,
+      templateOtpCode: normalized.templateOtpCode,
       metadata: { cloudApiVersion: req.params.version, phoneNumberId: req.params.phoneNumberId },
     });
 
-    if (!result) {
-      res.status(500).json({ error: { message: 'Failed to enqueue message' } });
+    if (!result.ok) {
+      res.status(result.httpStatus || 400).json({
+        error: {
+          message: result.error?.message || 'Message send rejected',
+          type: 'OAuthException',
+          code: result.error?.code || 131026,
+          error_data: result.error?.errorData,
+        },
+      });
       return;
     }
 
     res.status(200).json({
       messaging_product: 'whatsapp',
       contacts: [{ input: normalized.toPhone, wa_id: normalized.toPhone.replace(/[^\d]/g, '') }],
-      messages: [{ id: result.message.id, message_status: result.message.status }],
+      messages: [{ id: result.message!.id, message_status: result.message!.status }],
     });
   });
 
-  // Media upload (base64 data URL or raw base64 JSON) & retrieval
-  router.post('/api/media', requireAuth, (req, res) => {
+  // Cloud API Media Upload & Lookup by Media ID
+  router.post('/:version(v\\d+\\.\\d+)/:phoneNumberId/media', requireAuth, (req, res) => {
     const { dataUrl, base64, mimeType, filename } = req.body || {};
-    let resolvedMime = typeof mimeType === 'string' ? mimeType : 'application/octet-stream';
-    let rawBase64 = typeof base64 === 'string' ? base64 : '';
-
-    if (typeof dataUrl === 'string' && dataUrl.startsWith('data:')) {
-      const match = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
-      if (match) {
-        resolvedMime = match[1];
-        rawBase64 = match[2];
-      }
+    const uploaded = handleMediaSave(store, engine, { dataUrl, base64, mimeType, filename });
+    if (!uploaded) {
+      res.status(400).json({ error: { message: 'Provide dataUrl or base64 payload', code: 100 } });
+      return;
     }
+    res.status(200).json({ id: uploaded.id });
+  });
 
-    if (!rawBase64) {
+  router.get('/:version(v\\d+\\.\\d+)/:mediaId', requireAuth, (req, res) => {
+    const rec = engine.getMediaRecord(req.params.mediaId);
+    if (!rec) {
+      res.status(404).json({ error: { message: 'Media ID not found', code: 100 } });
+      return;
+    }
+    res.json({
+      messaging_product: 'whatsapp',
+      url: rec.url,
+      mime_type: rec.mimeType,
+      file_size: rec.sizeBytes,
+      id: rec.id,
+    });
+  });
+
+  // REST Media upload & download
+  router.post('/api/media', requireAuth, (req, res) => {
+    const uploaded = handleMediaSave(store, engine, req.body || {});
+    if (!uploaded) {
       res.status(400).json({ error: 'Provide dataUrl or base64 content' });
       return;
     }
+    res.status(201).json(uploaded);
+  });
 
-    const buffer = Buffer.from(rawBase64, 'base64');
-    const extFromName = typeof filename === 'string' ? path.extname(filename).replace('.', '') : '';
-    const extFromMime = resolvedMime.split('/')[1]?.split(';')[0] || 'bin';
-    const saved = store.saveMedia(buffer, extFromName || extFromMime);
-
-    res.status(201).json({
-      id: saved.id,
-      url: `/api/media/${saved.id}`,
-      mimeType: resolvedMime,
-      filename: filename || saved.id,
-      sizeBytes: buffer.length,
-    });
+  router.get('/api/media', requireAuth, (_req, res) => {
+    res.json({ media: Object.values(engine.getState().mediaIndex) });
   });
 
   router.get('/api/media/:id', (req, res) => {
@@ -380,7 +553,50 @@ export function createApiRouter(
     res.sendFile(filePath);
   });
 
-  // Business endpoints
+  // Templates CRUD + Approval Status Transitions
+  router.get('/api/templates', requireAuth, (_req, res) => {
+    res.json({ templates: engine.getState().templates });
+  });
+
+  router.post('/api/templates', requireAuth, (req, res) => {
+    const { name, bodyText, category } = req.body || {};
+    if (!name || !bodyText || !category) {
+      res.status(400).json({ error: 'name, bodyText, and category (UTILITY|MARKETING|AUTHENTICATION) are required' });
+      return;
+    }
+    const tpl = engine.upsertTemplate(req.body);
+    res.status(201).json({ template: tpl });
+  });
+
+  router.patch('/api/templates/:id/status', requireAuth, (req, res) => {
+    const status = req.body?.status as TemplateApprovalStatus;
+    if (!['PENDING', 'APPROVED', 'REJECTED'].includes(status)) {
+      res.status(400).json({ error: 'status must be PENDING, APPROVED, or REJECTED' });
+      return;
+    }
+    const updated = engine.setTemplateStatus(req.params.id, status, req.body?.rejectionReason);
+    if (!updated) {
+      res.status(404).json({ error: 'Template not found' });
+      return;
+    }
+    res.json({ template: updated });
+  });
+
+  router.delete('/api/templates/:id', requireAuth, (req, res) => {
+    const ok = engine.deleteTemplate(req.params.id);
+    if (!ok) {
+      res.status(404).json({ error: 'Template not found' });
+      return;
+    }
+    res.json({ ok: true });
+  });
+
+  // Conversational Categories & Pricing Simulation
+  router.get('/api/conversations/pricing', requireAuth, (_req, res) => {
+    res.json(engine.getConversationPricingSummary());
+  });
+
+  // Business Profile, Automation, Catalog, Quick Replies, Labels
   router.patch('/api/business/profile', requireAuth, (req, res) => {
     const profile = engine.updateBusinessProfile(req.body || {});
     res.json({ businessProfile: profile });
@@ -472,9 +688,13 @@ export function createApiRouter(
     res.json({ ok: true });
   });
 
-  // Webhook logs
-  router.get('/api/webhooks/logs', requireAuth, (_req, res) => {
-    res.json({ logs: engine.getState().webhookLogs });
+  // Webhook Logs (with optional phoneNumberId filter)
+  router.get('/api/webhooks/logs', requireAuth, (req, res) => {
+    const phoneFilter = typeof req.query.phoneNumberId === 'string' ? req.query.phoneNumberId : '';
+    const logs = engine.getState().webhookLogs.filter((l) =>
+      phoneFilter ? l.phoneNumberId === phoneFilter : true
+    );
+    res.json({ logs });
   });
 
   router.delete('/api/webhooks/logs', requireAuth, (_req, res) => {
@@ -483,4 +703,41 @@ export function createApiRouter(
   });
 
   return router;
+}
+
+function handleMediaSave(
+  store: StateStore,
+  engine: EmulatorEngine,
+  input: { dataUrl?: unknown; base64?: unknown; mimeType?: unknown; filename?: unknown }
+) {
+  let resolvedMime =
+    typeof input.mimeType === 'string' ? input.mimeType : 'application/octet-stream';
+  let rawBase64 = typeof input.base64 === 'string' ? input.base64 : '';
+
+  if (typeof input.dataUrl === 'string' && input.dataUrl.startsWith('data:')) {
+    const match = input.dataUrl.match(/^data:([^;]+);base64,(.+)$/);
+    if (match) {
+      resolvedMime = match[1];
+      rawBase64 = match[2];
+    }
+  }
+  if (!rawBase64) return null;
+
+  const buffer = Buffer.from(rawBase64, 'base64');
+  const extFromName =
+    typeof input.filename === 'string' ? path.extname(input.filename).replace('.', '') : '';
+  const extFromMime = resolvedMime.split('/')[1]?.split(';')[0] || 'bin';
+  const saved = store.saveMedia(buffer, extFromName || extFromMime);
+  const record = engine.registerMedia({
+    id: saved.id,
+    url: `/api/media/${saved.id}`,
+    mimeType: resolvedMime,
+    filename: typeof input.filename === 'string' && input.filename ? input.filename : saved.id,
+    sizeBytes: buffer.length,
+    uploadedAt: new Date().toISOString(),
+  });
+  return {
+    ...record,
+    mediaId: record.id,
+  };
 }

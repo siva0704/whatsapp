@@ -7,19 +7,40 @@ import type {
   CatalogItemRef,
   Chat,
   Contact,
+  ContactCardPayload,
+  ConversationCategory,
   EmulatorState,
   EmulatorVariant,
+  InteractivePayload,
+  LocationPayload,
   MediaAttachment,
+  MessageError,
   MessageStatus,
+  MessageTemplate,
   MessageType,
+  OptInStatus,
+  OrderPayload,
+  PhoneNumberConfig,
   QuickReply,
   ServerWsEvent,
+  TemplateApprovalStatus,
 } from '../../shared/types';
 
 const UI_HEADERS: Record<string, string> = {
   'Content-Type': 'application/json',
   'X-WA-Sim-UI': '1',
 };
+
+export class ApiRequestError extends Error {
+  status: number;
+  metaError?: MessageError;
+
+  constructor(message: string, status: number, metaError?: MessageError) {
+    super(message);
+    this.status = status;
+    this.metaError = metaError;
+  }
+}
 
 async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(path, {
@@ -29,11 +50,18 @@ async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
       ...(init?.headers || {}),
     },
   });
+  const body = await res.json().catch(() => ({}));
   if (!res.ok) {
-    const errBody = await res.json().catch(() => ({}));
-    throw new Error((errBody as { error?: string }).error || `Request failed (${res.status})`);
+    const rawErr = (body as { error?: string | MessageError }).error;
+    if (rawErr && typeof rawErr === 'object') {
+      throw new ApiRequestError(rawErr.message || rawErr.title, res.status, rawErr);
+    }
+    throw new ApiRequestError(
+      typeof rawErr === 'string' ? rawErr : `Request failed (${res.status})`,
+      res.status
+    );
   }
-  return res.json() as Promise<T>;
+  return body as T;
 }
 
 export const emulatorApi = {
@@ -47,11 +75,14 @@ export const emulatorApi = {
 
   updateConfig: (patch: {
     variant?: EmulatorVariant;
+    activePhoneNumberId?: string;
     webhookUrl?: string;
     webhookSecret?: string;
     lifecycleDeliveredMs?: number;
     lifecycleReadMs?: number;
     autoMarkReadOnAutoReply?: boolean;
+    enforce24hWindow?: boolean;
+    enforceOptIn?: boolean;
     self?: Partial<{ name: string; phone: string; about: string }>;
   }) =>
     apiRequest('/api/config', {
@@ -59,16 +90,56 @@ export const emulatorApi = {
       body: JSON.stringify(patch),
     }),
 
+  upsertPhoneNumber: (input: {
+    id?: string;
+    phoneNumber: string;
+    displayName: string;
+    verifiedName?: string;
+    webhookUrl?: string;
+  }) =>
+    apiRequest<{ phoneNumber: PhoneNumberConfig }>('/api/phone-numbers', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    }),
+
   createContact: (input: {
     name: string;
+    profileName?: string;
     phone: string;
     about?: string;
     isBot?: boolean;
     isBusiness?: boolean;
+    optInStatus?: OptInStatus;
   }) =>
     apiRequest<{ contact: Contact; chat: Chat }>('/api/contacts', {
       method: 'POST',
       body: JSON.stringify(input),
+    }),
+
+  updateContact: (
+    contactId: string,
+    patch: Partial<Pick<Contact, 'name' | 'profileName' | 'phone' | 'about' | 'blocked'>>
+  ) =>
+    apiRequest<{ contact: Contact }>(`/api/contacts/${contactId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+    }),
+
+  blockContact: (contactId: string, blocked: boolean) =>
+    apiRequest<{ contact: Contact }>(`/api/contacts/${contactId}/block`, {
+      method: 'POST',
+      body: JSON.stringify({ blocked }),
+    }),
+
+  setContactOptIn: (
+    contactId: string,
+    status: OptInStatus,
+    source: string = 'ui',
+    note?: string
+  ) =>
+    apiRequest<{ contact: Contact }>(`/api/contacts/${contactId}/opt-in`, {
+      method: 'POST',
+      body: JSON.stringify({ status, source, note }),
     }),
 
   createGroup: (input: { name: string; description?: string; participantIds: string[] }) =>
@@ -79,7 +150,22 @@ export const emulatorApi = {
 
   updateChat: (
     chatId: string,
-    patch: Partial<Pick<Chat, 'name' | 'description' | 'archived' | 'pinned' | 'muted' | 'labelIds' | 'participantIds' | 'unreadCount'>>
+    patch: Partial<
+      Pick<
+        Chat,
+        | 'name'
+        | 'description'
+        | 'archived'
+        | 'pinned'
+        | 'muted'
+        | 'labelIds'
+        | 'participantIds'
+        | 'unreadCount'
+        | 'lastInboundAt'
+        | 'conversationCategory'
+        | 'phoneNumberId'
+      >
+    >
   ) =>
     apiRequest<{ chat: Chat }>(`/api/chats/${chatId}`, {
       method: 'PATCH',
@@ -95,7 +181,12 @@ export const emulatorApi = {
   markChatRead: (chatId: string) =>
     apiRequest<{ ok: boolean; chat: Chat }>(`/api/chats/${chatId}/read`, { method: 'POST' }),
 
-  setTyping: (chatId: string, isTyping: boolean, mode: 'typing' | 'recording' = 'typing', contactId?: string) =>
+  setTyping: (
+    chatId: string,
+    isTyping: boolean,
+    mode: 'typing' | 'recording' = 'typing',
+    contactId?: string
+  ) =>
     apiRequest<{ ok: boolean }>(`/api/chats/${chatId}/typing`, {
       method: 'POST',
       body: JSON.stringify({ isTyping, mode, contactId }),
@@ -104,11 +195,23 @@ export const emulatorApi = {
   sendMessage: (payload: {
     chatId?: string;
     toPhone?: string;
-    body: string;
+    phoneNumberId?: string;
+    body?: string;
     type?: MessageType;
     media?: MediaAttachment;
+    mediaId?: string;
+    location?: LocationPayload;
+    contacts?: ContactCardPayload[];
+    interactive?: InteractivePayload;
+    templateId?: string;
+    templateName?: string;
+    templateVariables?: string[];
+    templateOtpCode?: string;
     catalogItemId?: string;
+    carouselItemIds?: string[];
+    order?: OrderPayload;
     replyToMessageId?: string;
+    simulateErrorCode?: number;
   }) =>
     apiRequest('/api/messages/send', {
       method: 'POST',
@@ -117,22 +220,31 @@ export const emulatorApi = {
 
   receiveMessage: (payload: {
     chatId?: string;
+    phoneNumberId?: string;
     fromPhone?: string;
     fromName?: string;
     senderId?: string;
-    body: string;
+    body?: string;
     type?: MessageType;
     media?: MediaAttachment;
+    mediaId?: string;
+    location?: LocationPayload;
+    contacts?: ContactCardPayload[];
+    interactive?: InteractivePayload;
+    order?: OrderPayload;
   }) =>
-    apiRequest('/api/messages/receive', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    }),
+    apiRequest<{ chat?: Chat; optInChanged?: { status: OptInStatus; keyword: string } }>(
+      '/api/messages/receive',
+      {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }
+    ),
 
-  updateReceipt: (messageId: string, status: MessageStatus) =>
+  updateReceipt: (messageId: string, status: MessageStatus, errorCode?: number) =>
     apiRequest(`/api/messages/${messageId}/receipt`, {
       method: 'POST',
-      body: JSON.stringify({ status }),
+      body: JSON.stringify({ status, errorCode }),
     }),
 
   uploadMedia: (payload: { dataUrl: string; filename?: string; mimeType?: string }) =>
@@ -140,6 +252,35 @@ export const emulatorApi = {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
+
+  upsertTemplate: (
+    tpl: Partial<MessageTemplate> & {
+      name: string;
+      bodyText: string;
+      category: MessageTemplate['category'];
+    }
+  ) =>
+    apiRequest<{ template: MessageTemplate }>('/api/templates', {
+      method: 'POST',
+      body: JSON.stringify(tpl),
+    }),
+
+  setTemplateStatus: (id: string, status: TemplateApprovalStatus, rejectionReason?: string) =>
+    apiRequest<{ template: MessageTemplate }>(`/api/templates/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status, rejectionReason }),
+    }),
+
+  deleteTemplate: (id: string) =>
+    apiRequest(`/api/templates/${id}`, { method: 'DELETE' }),
+
+  getPricingSummary: () =>
+    apiRequest<{
+      ratesUsd: Record<ConversationCategory, number>;
+      totalConversations: number;
+      grandTotalUsd: number;
+      byCategory: Record<ConversationCategory, { count: number; totalCostUsd: number }>;
+    }>('/api/conversations/pricing'),
 
   updateBusinessProfile: (patch: Partial<BusinessProfile>) =>
     apiRequest('/api/business/profile', {
@@ -180,7 +321,9 @@ export const emulatorApi = {
   deleteLabel: (id: string) =>
     apiRequest(`/api/business/labels/${id}`, { method: 'DELETE' }),
 
-  upsertAutoReplyRule: (rule: Partial<AutoReplyRule> & { name: string; pattern: string; reply: string }) =>
+  upsertAutoReplyRule: (
+    rule: Partial<AutoReplyRule> & { name: string; pattern: string; reply: string }
+  ) =>
     apiRequest('/api/auto-replies', {
       method: 'POST',
       body: JSON.stringify(rule),
@@ -189,8 +332,7 @@ export const emulatorApi = {
   deleteAutoReplyRule: (id: string) =>
     apiRequest(`/api/auto-replies/${id}`, { method: 'DELETE' }),
 
-  clearWebhookLogs: () =>
-    apiRequest('/api/webhooks/logs', { method: 'DELETE' }),
+  clearWebhookLogs: () => apiRequest('/api/webhooks/logs', { method: 'DELETE' }),
 };
 
 export function applyWsEvent(prev: EmulatorState | null, event: ServerWsEvent): EmulatorState | null {
@@ -203,7 +345,6 @@ export function applyWsEvent(prev: EmulatorState | null, event: ServerWsEvent): 
     case 'message:created': {
       const { chatId, message, chat } = event.payload;
       const existingList = prev.messages[chatId] || [];
-      // Idempotency guard against reconnect races
       const alreadyExists = existingList.some((m) => m.id === message.id);
       const nextList = alreadyExists ? existingList : [...existingList, message];
 
@@ -237,9 +378,7 @@ export function applyWsEvent(prev: EmulatorState | null, event: ServerWsEvent): 
       const exists = prev.chats.some((c) => c.id === chat.id);
       return {
         ...prev,
-        chats: exists
-          ? prev.chats.map((c) => (c.id === chat.id ? chat : c))
-          : [chat, ...prev.chats],
+        chats: exists ? prev.chats.map((c) => (c.id === chat.id ? chat : c)) : [chat, ...prev.chats],
       };
     }
     case 'chat:deleted': {
@@ -282,6 +421,7 @@ export function applyWsEvent(prev: EmulatorState | null, event: ServerWsEvent): 
         ...prev,
         settings: event.payload.settings,
         self: event.payload.self,
+        phoneNumbers: event.payload.phoneNumbers,
       };
     }
     case 'business:updated': {
@@ -291,6 +431,8 @@ export function applyWsEvent(prev: EmulatorState | null, event: ServerWsEvent): 
         quickReplies: event.payload.quickReplies,
         labels: event.payload.labels,
         autoReplyRules: event.payload.autoReplyRules,
+        templates: event.payload.templates,
+        conversations: event.payload.conversations,
       };
     }
     case 'webhook:logged': {
@@ -298,7 +440,7 @@ export function applyWsEvent(prev: EmulatorState | null, event: ServerWsEvent): 
       if (exists) return prev;
       return {
         ...prev,
-        webhookLogs: [event.payload, ...prev.webhookLogs].slice(0, 60),
+        webhookLogs: [event.payload, ...prev.webhookLogs].slice(0, 80),
       };
     }
     default:

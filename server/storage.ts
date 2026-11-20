@@ -8,6 +8,7 @@ export interface StateStore {
   save(state: EmulatorState): void;
   saveMedia(buffer: Buffer, ext: string): { id: string; filePath: string };
   getMediaPath(id: string): string | null;
+  getMediaBuffer?(id: string): Buffer | null;
 }
 
 export class FileStateStore implements StateStore {
@@ -44,7 +45,7 @@ export class FileStateStore implements StateStore {
   saveMedia(buffer: Buffer, ext: string): { id: string; filePath: string } {
     this.ensureDirs();
     const safeExt = ext.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() || 'bin';
-    const id = `${crypto.randomUUID()}.${safeExt}`;
+    const id = `media_${crypto.randomUUID().replace(/-/g, '').slice(0, 14)}.${safeExt}`;
     const filePath = path.join(this.mediaDir, id);
     fs.writeFileSync(filePath, buffer);
     return { id, filePath };
@@ -70,12 +71,16 @@ export class MemoryStateStore implements StateStore {
   }
 
   saveMedia(buffer: Buffer, ext: string): { id: string; filePath: string } {
-    const id = `${crypto.randomUUID()}.${ext || 'bin'}`;
+    const id = `media_${crypto.randomUUID().replace(/-/g, '').slice(0, 14)}.${ext || 'bin'}`;
     this.media.set(id, buffer);
     return { id, filePath: id };
   }
 
   getMediaPath(_id: string): string | null {
     return null;
+  }
+
+  getMediaBuffer(id: string): Buffer | null {
+    return this.media.get(id) || null;
   }
 }
