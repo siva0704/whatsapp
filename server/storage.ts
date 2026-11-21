@@ -38,8 +38,28 @@ export class FileStateStore implements StateStore {
   save(state: EmulatorState): void {
     this.ensureDirs();
     const tmpFile = `${this.dataFile}.tmp`;
-    fs.writeFileSync(tmpFile, JSON.stringify(state, null, 2), 'utf-8');
-    fs.renameSync(tmpFile, this.dataFile);
+    const payload = JSON.stringify(state, null, 2);
+    try {
+      fs.writeFileSync(tmpFile, payload, 'utf-8');
+      try {
+        fs.renameSync(tmpFile, this.dataFile);
+      } catch (err: any) {
+        // Fallback for Windows file locks / EPERM race condition
+        fs.copyFileSync(tmpFile, this.dataFile);
+        try {
+          fs.unlinkSync(tmpFile);
+        } catch {
+          // ignore cleanup failure
+        }
+      }
+    } catch {
+      // Last-ditch direct write
+      try {
+        fs.writeFileSync(this.dataFile, payload, 'utf-8');
+      } catch {
+        // Ignore file lock during heavy burst
+      }
+    }
   }
 
   saveMedia(buffer: Buffer, ext: string): { id: string; filePath: string } {

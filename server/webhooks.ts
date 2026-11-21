@@ -105,12 +105,22 @@ export async function dispatchWebhook(input: WebhookDispatchInput): Promise<Webh
 }
 
 export function buildCloudWebhookEnvelope(
-  field: 'messages' | 'statuses' | 'typing' | 'message_template_status_update' | 'account_update',
+  field:
+    | 'messages'
+    | 'statuses'
+    | 'typing'
+    | 'message_template_status_update'
+    | 'account_update'
+    | 'broadcast_status',
   phoneConfig: Pick<PhoneNumberConfig, 'id' | 'wabaId' | 'phoneNumber'>,
   data: Record<string, unknown>,
   extraContacts?: Array<{ profile: { name: string }; wa_id: string }>
 ): Record<string, unknown> {
-  if (field === 'message_template_status_update' || field === 'account_update') {
+  if (
+    field === 'message_template_status_update' ||
+    field === 'account_update' ||
+    field === 'broadcast_status'
+  ) {
     return {
       object: 'whatsapp_business_account',
       entry: [

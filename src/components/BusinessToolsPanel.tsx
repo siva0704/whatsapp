@@ -251,7 +251,8 @@ export function BusinessToolsPanel({
                   {profile.verified && <BadgeCheck className="w-4 h-4 text-[#00a884] shrink-0" />}
                 </div>
                 <p className="text-[13px] text-[#667781] dark:text-[#8696a0] truncate">
-                  {profile.category} · {activePhoneNumberId}
+                  {[profile.category, activePhoneNumberId].filter(Boolean).join(' · ') ||
+                    'No sender number configured'}
                 </p>
               </div>
             </div>
@@ -418,7 +419,7 @@ export function BusinessToolsPanel({
                           type: tplBtnType,
                           text: tplBtnText.trim(),
                           url: tplBtnType === 'URL' ? 'https://example.com/track' : undefined,
-                          phoneNumber: tplBtnType === 'PHONE_NUMBER' ? '+14155550199' : undefined,
+                          phoneNumber: tplBtnType === 'PHONE_NUMBER' ? '' : undefined,
                           exampleCode:
                             tplBtnType === 'OTP' || tplBtnType === 'COPY_CODE' ? '482910' : undefined,
                         },
@@ -690,7 +691,7 @@ export function BusinessToolsPanel({
               {pnError && <p className="text-[12px] text-[#ea0038]">{pnError}</p>}
               <input
                 type="text"
-                placeholder="Phone Number ID (e.g. wa-sim-phone-003)"
+                placeholder="Phone Number ID (optional)"
                 value={pnId}
                 onChange={(e) => setPnId(e.target.value)}
                 className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[13px] font-mono"
@@ -698,7 +699,7 @@ export function BusinessToolsPanel({
               <input
                 type="text"
                 required
-                placeholder="E.164 Phone (+14155550170)"
+                placeholder="E.164 phone number"
                 value={pnPhone}
                 onChange={(e) => setPnPhone(e.target.value)}
                 className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[13px] font-mono"
@@ -706,7 +707,7 @@ export function BusinessToolsPanel({
               <input
                 type="text"
                 required
-                placeholder="Display Name (e.g. Support Line)"
+                placeholder="Display Name"
                 value={pnName}
                 onChange={(e) => setPnName(e.target.value)}
                 className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[13px]"
@@ -727,6 +728,11 @@ export function BusinessToolsPanel({
             </form>
 
             <div className="space-y-2.5">
+              {phoneNumbers.length === 0 && (
+                <p className="py-6 text-center text-[13px] text-[#667781] dark:text-[#8696a0]">
+                  No WhatsApp Business numbers added yet.
+                </p>
+              )}
               {phoneNumbers.map((pn) => {
                 const isActive = pn.id === activePhoneNumberId;
                 return (

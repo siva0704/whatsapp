@@ -3,14 +3,27 @@ import {
   BriefcaseBusiness,
   MessageSquareText,
   Moon,
+  Radio,
   Settings,
   Sun,
   Terminal,
+  Users,
+  Zap,
 } from 'lucide-react';
 import type { EmulatorVariant, SelfAccount } from '../../shared/types';
 import { Avatar } from './Avatar';
 
-export type SidebarTab = 'chats' | 'archived' | 'updates' | 'calls' | 'business' | 'qa' | 'settings';
+export type SidebarTab =
+  | 'chats'
+  | 'archived'
+  | 'clients'
+  | 'broadcasts'
+  | 'automations'
+  | 'updates'
+  | 'calls'
+  | 'business'
+  | 'qa'
+  | 'settings';
 
 interface LeftRailProps {
   activeTab: SidebarTab;
@@ -21,6 +34,8 @@ interface LeftRailProps {
   onToggleDarkMode: () => void;
   unreadTotal: number;
   archivedCount: number;
+  clientCount?: number;
+  runningBroadcastsCount?: number;
   self: SelfAccount;
 }
 
@@ -33,6 +48,8 @@ export function LeftRail({
   onToggleDarkMode,
   unreadTotal,
   archivedCount,
+  clientCount = 0,
+  runningBroadcastsCount = 0,
   self,
 }: LeftRailProps) {
   const railBtnClass = (active: boolean) =>
@@ -48,13 +65,13 @@ export function LeftRail({
       className="hidden md:flex w-[62px] shrink-0 h-full bg-[#f0f2f5] dark:bg-[#202c33] border-r border-[#d1d7db] dark:border-[#2a3942] flex-col items-center justify-between py-3 select-none"
     >
       {/* Top Icons */}
-      <div className="flex flex-col items-center gap-2.5">
+      <div className="flex flex-col items-center gap-2">
         {/* Authentic WhatsApp / WA Business emblem */}
         <button
           type="button"
           onClick={() => onSelectTab('chats')}
           aria-label={variant === 'business' ? 'WhatsApp Business Home' : 'WhatsApp Home'}
-          title={variant === 'business' ? 'WhatsApp Business Emulator' : 'WhatsApp Personal Emulator'}
+          title={variant === 'business' ? 'WhatsApp Business Emulator (Single Sender)' : 'WhatsApp Personal Emulator'}
           className="w-10 h-10 rounded-full bg-[#00a884] text-white flex items-center justify-center mb-1 shadow-xs hover:bg-[#008f72] transition-colors"
         >
           {variant === 'business' ? (
@@ -95,24 +112,66 @@ export function LeftRail({
         </button>
 
         {variant === 'business' && (
-          <button
-            type="button"
-            onClick={() => onSelectTab('business')}
-            aria-label="Business tools"
-            title="Business Tools (Profile, Catalog, Quick Replies, Labels, Automation)"
-            className={railBtnClass(activeTab === 'business')}
-          >
-            <BriefcaseBusiness className="w-5 h-5" />
-          </button>
+          <>
+            <div className="w-7 h-px bg-[#d1d7db] dark:bg-[#2a3942] my-0.5" />
+
+            <button
+              type="button"
+              onClick={() => onSelectTab('clients')}
+              aria-label="Clients"
+              title={`Seeded Clients (${clientCount})`}
+              className={railBtnClass(activeTab === 'clients')}
+            >
+              <Users className="w-5 h-5" />
+              {clientCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-[#54656f] dark:bg-[#374248] text-white text-[9.5px] font-semibold font-mono tabular-nums flex items-center justify-center">
+                  {clientCount > 99 ? '99+' : clientCount}
+                </span>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onSelectTab('broadcasts')}
+              aria-label="Broadcasts"
+              title="Broadcast Campaigns & Delivery Monitor"
+              className={railBtnClass(activeTab === 'broadcasts')}
+            >
+              <Radio className="w-5 h-5" />
+              {runningBroadcastsCount > 0 && (
+                <span className="absolute top-0.5 right-0.5 w-2.5 h-2.5 rounded-full bg-[#25d366] ring-2 ring-[#f0f2f5] dark:ring-[#202c33]" />
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onSelectTab('automations')}
+              aria-label="Automations"
+              title="Automations, Failure Injection & Rate Limits"
+              className={railBtnClass(activeTab === 'automations')}
+            >
+              <Zap className="w-5 h-5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onSelectTab('business')}
+              aria-label="Business tools"
+              title="Business Tools (Profile, Templates, Catalog, WABA Lines, Pricing)"
+              className={railBtnClass(activeTab === 'business')}
+            >
+              <BriefcaseBusiness className="w-5 h-5" />
+            </button>
+          </>
         )}
 
-        <div className="w-7 h-px bg-[#d1d7db] dark:bg-[#2a3942] my-1" />
+        <div className="w-7 h-px bg-[#d1d7db] dark:bg-[#2a3942] my-0.5" />
 
         <button
           type="button"
           onClick={() => onSelectTab('qa')}
           aria-label="QA Test Console"
-          title="QA Console (Inbound Simulator, Auto-Reply Rules, Webhook Logs)"
+          title="QA Console (Scale Runners, Inbound Simulator, Webhook Logs)"
           className={railBtnClass(activeTab === 'qa')}
         >
           <Terminal className="w-5 h-5" />
@@ -120,7 +179,7 @@ export function LeftRail({
       </div>
 
       {/* Bottom Controls */}
-      <div className="flex flex-col items-center gap-2.5">
+      <div className="flex flex-col items-center gap-2">
         <button
           type="button"
           onClick={onToggleVariant}
@@ -159,7 +218,7 @@ export function LeftRail({
           type="button"
           onClick={() => onSelectTab('settings')}
           aria-label={`Profile: ${self.name}`}
-          title={`${self.name} (${self.phone})`}
+          title={self.phone ? `${self.name} (${self.phone})` : self.name}
           className="rounded-full ring-2 ring-transparent hover:ring-[#00a884] transition-all"
         >
           <Avatar name={self.name} avatarUrl={self.avatarUrl} size="sm" />

@@ -1,10 +1,12 @@
 import {
-  BriefcaseBusiness,
   CircleDashed,
   MessageSquareText,
   Phone,
+  Radio,
   Settings,
   Terminal,
+  Users,
+  Zap,
 } from 'lucide-react';
 import type { EmulatorVariant } from '../../shared/types';
 import type { SidebarTab } from './LeftRail';
@@ -27,15 +29,22 @@ export function MobileBottomNav({
     label: string;
     icon: typeof MessageSquareText;
     badge?: number;
-  }> = [
-    { id: 'chats', label: 'Chats', icon: MessageSquareText, badge: unreadTotal },
-    { id: 'updates', label: 'Updates', icon: CircleDashed },
+  }> =
     variant === 'business'
-      ? { id: 'business', label: 'Tools', icon: BriefcaseBusiness }
-      : { id: 'calls', label: 'Calls', icon: Phone },
-    { id: 'qa', label: 'QA', icon: Terminal },
-    { id: 'settings', label: 'Settings', icon: Settings },
-  ];
+      ? [
+          { id: 'chats', label: 'Chats', icon: MessageSquareText, badge: unreadTotal },
+          { id: 'clients', label: 'Clients', icon: Users },
+          { id: 'broadcasts', label: 'Broadcasts', icon: Radio },
+          { id: 'automations', label: 'Auto', icon: Zap },
+          { id: 'qa', label: 'QA', icon: Terminal },
+        ]
+      : [
+          { id: 'chats', label: 'Chats', icon: MessageSquareText, badge: unreadTotal },
+          { id: 'updates', label: 'Updates', icon: CircleDashed },
+          { id: 'calls', label: 'Calls', icon: Phone },
+          { id: 'qa', label: 'QA', icon: Terminal },
+          { id: 'settings', label: 'Settings', icon: Settings },
+        ];
 
   return (
     <nav
@@ -54,18 +63,18 @@ export function MobileBottomNav({
               onClick={() => onSelectTab(item.id)}
               aria-label={item.label}
               aria-current={active ? 'page' : undefined}
-              className="min-h-[44px] flex flex-col items-center justify-center gap-0.5 text-[10.5px] font-medium transition-colors"
+              className="min-h-[44px] flex flex-col items-center justify-center gap-0.5 text-[10.5px] font-medium whitespace-nowrap transition-colors"
             >
               <span
-                className={`relative px-3.5 py-0.5 rounded-full flex items-center justify-center transition-colors ${
+                className={`relative px-3 py-0.5 rounded-full flex items-center justify-center transition-colors ${
                   active
                     ? 'bg-[#d9fdd3] dark:bg-[#0a332c] text-[#008069] dark:text-[#25d366]'
                     : 'text-[#54656f] dark:text-[#aebac1]'
                 }`}
               >
-                <Icon className="w-[19px] h-[19px]" />
+                <Icon className="w-[18px] h-[18px]" />
                 {item.badge && item.badge > 0 ? (
-                  <span className="absolute -top-1 right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-[#25d366] text-[#111b21] text-[9.5px] font-bold font-mono tabular-nums flex items-center justify-center">
+                  <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-[16px] px-1 rounded-full bg-[#25d366] text-[#111b21] text-[9px] font-bold font-mono tabular-nums flex items-center justify-center shadow-xs">
                     {item.badge > 99 ? '99+' : item.badge}
                   </span>
                 ) : null}

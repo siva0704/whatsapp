@@ -1,16 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import type {
   AutoReplyRule,
+  BroadcastCreateRequest,
+  BroadcastJob,
+  BulkSeedRequest,
   BusinessAutomation,
   BusinessLabel,
   BusinessProfile,
   CatalogItemRef,
   Chat,
+  ClientResponseSimulationRequest,
   Contact,
   ContactCardPayload,
   ConversationCategory,
   EmulatorState,
   EmulatorVariant,
+  FailureInjectionConfig,
   InteractivePayload,
   LocationPayload,
   MediaAttachment,
@@ -22,6 +27,8 @@ import type {
   OrderPayload,
   PhoneNumberConfig,
   QuickReply,
+  RateLimitConfig,
+  RateLimitSnapshot,
   ServerWsEvent,
   TemplateApprovalStatus,
 } from '../../shared/types';
@@ -118,7 +125,23 @@ export const emulatorApi = {
 
   updateContact: (
     contactId: string,
-    patch: Partial<Pick<Contact, 'name' | 'profileName' | 'phone' | 'about' | 'blocked'>>
+    patch: Partial<
+      Pick<
+        Contact,
+        | 'name'
+        | 'profileName'
+        | 'phone'
+        | 'about'
+        | 'blocked'
+        | 'disabled'
+        | 'invalidNumber'
+        | 'country'
+        | 'tags'
+        | 'timezone'
+        | 'personality'
+        | 'customReplyText'
+      >
+    >
   ) =>
     apiRequest<{ contact: Contact }>(`/api/contacts/${contactId}`, {
       method: 'PATCH',
@@ -333,6 +356,63 @@ export const emulatorApi = {
     apiRequest(`/api/auto-replies/${id}`, { method: 'DELETE' }),
 
   clearWebhookLogs: () => apiRequest('/api/webhooks/logs', { method: 'DELETE' }),
+
+  // Phase 3: Seeded Clients, Broadcasts, Failure Injection & Rate Limits
+  bulkSeedClients: (payload: BulkSeedRequest) =>
+    apiRequest<{ seededCount: number; contacts: Contact[]; chats: Chat[] }>('/api/clients/seed', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+
+  simulateClientResponse: (payload: ClientResponseSimulationRequest) =>
+    apiRequest<{
+      ok: boolean;
+      affected: number;
+      results: Array<{ contactId: string; phone: string; action: string; ok: boolean; note?: string }>;
+    }>('/api/clients/simulate-response', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+
+  createBroadcast: (payload: BroadcastCreateRequest) =>
+    apiRequest<{ broadcast: BroadcastJob }>('/api/broadcasts', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+
+  scheduleBroadcast: (payload: BroadcastCreateRequest) =>
+    apiRequest<{ broadcast: BroadcastJob }>('/api/broadcasts/schedule', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+
+  dispatchBroadcastNow: (broadcastId: string) =>
+    apiRequest<{ broadcast: BroadcastJob }>(`/api/broadcasts/${broadcastId}/dispatch`, {
+      method: 'POST',
+    }),
+
+  getBroadcast: (broadcastId: string) =>
+    apiRequest<{ broadcast: BroadcastJob }>(`/api/broadcasts/${broadcastId}`),
+
+  updateFailureInjection: (patch: Partial<FailureInjectionConfig>) =>
+    apiRequest<{ failureInjection: FailureInjectionConfig }>('/api/testing/failure-injection', {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+    }),
+
+  updateRateLimits: (patch: Partial<RateLimitConfig>) =>
+    apiRequest<{ rateLimits: RateLimitConfig; usage: RateLimitSnapshot }>(
+      '/api/testing/rate-limits',
+      {
+        method: 'PATCH',
+        body: JSON.stringify(patch),
+      }
+    ),
+
+  resetRateLimits: () =>
+    apiRequest<{ ok: boolean; usage: RateLimitSnapshot }>('/api/testing/rate-limits/reset', {
+      method: 'POST',
+    }),
 };
 
 export function applyWsEvent(prev: EmulatorState | null, event: ServerWsEvent): EmulatorState | null {
@@ -433,6 +513,46 @@ export function applyWsEvent(prev: EmulatorState | null, event: ServerWsEvent): 
         autoReplyRules: event.payload.autoReplyRules,
         templates: event.payload.templates,
         conversations: event.payload.conversations,
+      };
+    }
+    case 'broadcast:updated': {
+      const job = event.payload;
+      const existing = prev.broadcasts || [];
+      const exists = existing.some((b) => b.id === job.id);
+      return {
+        ...prev,
+        broadcasts: exists
+          ? existing.map((b) => (b.id === job.id ? job : b))
+          : [job, ...existing].slice(0, 40),
+      };
+    }
+    case 'clients:seeded': {
+      const { contacts: addedContacts, chats: addedChats } = event.payload;
+      const existingContactIds = new Set(prev.contacts.map((c) => c.id));
+      const existingChatIds = new Set(prev.chats.map((c) => c.id));
+      const nextMessages = { ...prev.messages };
+      for (const ch of addedChats) {
+        if (!nextMessages[ch.id]) nextMessages[ch.id] = [];
+      }
+      return {
+        ...prev,
+        contacts: [
+          ...prev.contacts,
+          ...addedContacts.filter((c) => !existingContactIds.has(c.id)),
+        ],
+        chats: [
+          ...prev.chats,
+          ...addedChats.filter((c) => !existingChatIds.has(c.id)),
+        ],
+        messages: nextMessages,
+      };
+    }
+    case 'testing:updated': {
+      return {
+        ...prev,
+        failureInjection: event.payload.failureInjection,
+        rateLimits: event.payload.rateLimits,
+        rateLimitUsage: event.payload.rateLimitUsage,
       };
     }
     case 'webhook:logged': {

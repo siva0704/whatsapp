@@ -4,6 +4,7 @@ import {
   ArchiveRestore,
   ArrowLeft,
   BellOff,
+  BriefcaseBusiness,
   ChevronDown,
   FileText,
   Film,
@@ -16,6 +17,7 @@ import {
   Pin,
   Receipt,
   Search,
+  Settings,
   ShoppingBag,
   Sparkles,
   Sun,
@@ -56,6 +58,8 @@ interface ChatListPanelProps {
   onBackFromArchive: () => void;
   onOpenNewChat: () => void;
   onOpenNewGroup: () => void;
+  onOpenBusinessTools?: () => void;
+  onOpenSettings?: () => void;
   onUpdateChat: (
     chatId: string,
     patch: Partial<Pick<Chat, 'archived' | 'pinned' | 'muted' | 'unreadCount'>>
@@ -84,6 +88,8 @@ export function ChatListPanel({
   onBackFromArchive,
   onOpenNewChat,
   onOpenNewGroup,
+  onOpenBusinessTools,
+  onOpenSettings,
   onUpdateChat,
 }: ChatListPanelProps) {
   const [search, setSearch] = useState('');
@@ -92,6 +98,7 @@ export function ChatListPanel({
   const [phoneFilter, setPhoneFilter] = useState<string>('all');
   const [menuChatId, setMenuChatId] = useState<string | null>(null);
   const [swipedChatId, setSwipedChatId] = useState<string | null>(null);
+  const [visibleChats, setVisibleChats] = useState(40);
   const touchStartRef = useRef<{ x: number; y: number; chatId: string } | null>(null);
 
   const archivedCount = useMemo(() => chats.filter((c) => c.archived).length, [chats]);
@@ -252,17 +259,39 @@ export function ChatListPanel({
                 type="button"
                 onClick={onToggleDarkMode}
                 aria-label={darkMode ? 'Switch to light theme' : 'Switch to dark theme'}
-                className="md:hidden min-w-[40px] min-h-[40px] rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10"
+                className="md:hidden min-w-[38px] min-h-[38px] rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10"
               >
                 {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </button>
+              {variant === 'business' && onOpenBusinessTools && (
+                <button
+                  type="button"
+                  onClick={onOpenBusinessTools}
+                  aria-label="Business tools"
+                  title="Business tools"
+                  className="md:hidden min-w-[38px] min-h-[38px] rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10"
+                >
+                  <BriefcaseBusiness className="w-4 h-4" />
+                </button>
+              )}
+              {variant === 'business' && onOpenSettings && (
+                <button
+                  type="button"
+                  onClick={onOpenSettings}
+                  aria-label="Settings"
+                  title="Settings"
+                  className="md:hidden min-w-[38px] min-h-[38px] rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10"
+                >
+                  <Settings className="w-4 h-4" />
+                </button>
+              )}
 
               <button
                 type="button"
                 onClick={onOpenNewGroup}
                 aria-label="New group"
                 title="New group"
-                className="min-w-[40px] min-h-[40px] md:min-w-0 md:min-h-0 md:w-9 md:h-9 rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                className="hidden sm:flex md:flex min-w-[38px] min-h-[38px] md:min-w-0 md:min-h-0 md:w-9 md:h-9 rounded-full items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
               >
                 <Users className="w-5 h-5" />
               </button>
@@ -271,7 +300,7 @@ export function ChatListPanel({
                 onClick={onOpenNewChat}
                 aria-label="New chat"
                 title="New chat"
-                className="min-w-[40px] min-h-[40px] md:min-w-0 md:min-h-0 md:w-9 md:h-9 rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                className="min-w-[38px] min-h-[38px] md:min-w-0 md:min-h-0 md:w-9 md:h-9 rounded-full flex items-center justify-center text-[#54656f] dark:text-[#aebac1] hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
               >
                 <MessageSquarePlus className="w-5 h-5" />
               </button>
@@ -428,7 +457,7 @@ export function ChatListPanel({
             )}
           </div>
         ) : (
-          filteredChats.map((chat) => {
+          filteredChats.slice(0, visibleChats).map((chat) => {
             const selected = chat.id === selectedChatId;
             const contact = chat.contactId
               ? contacts.find((c) => c.id === chat.contactId)
@@ -662,6 +691,17 @@ export function ChatListPanel({
               </div>
             );
           })
+        )}
+        {filteredChats.length > visibleChats && (
+          <div className="p-3 text-center">
+            <button
+              type="button"
+              onClick={() => setVisibleChats((v) => v + 50)}
+              className="px-4 py-2 rounded-md border border-[#d1d7db] dark:border-[#374248] text-[12.5px] font-semibold text-[#54656f] dark:text-[#aebac1] hover:bg-[#f0f2f5] dark:hover:bg-[#202c33]"
+            >
+              Load more chats ({filteredChats.length - visibleChats} remaining)
+            </button>
+          </div>
         )}
       </div>
     </aside>

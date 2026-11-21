@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 import type { Contact } from '../shared/types';
+import { AutomationsPanel } from './components/AutomationsPanel';
+import { BroadcastsPanel } from './components/BroadcastsPanel';
 import { BusinessToolsPanel } from './components/BusinessToolsPanel';
 import { ChatListPanel } from './components/ChatListPanel';
 import { ChatView } from './components/ChatView';
+import { ClientsPanel } from './components/ClientsPanel';
 import { ContactInfoDrawer } from './components/ContactInfoDrawer';
 import { LeftRail, type SidebarTab } from './components/LeftRail';
 import { MobileBottomNav } from './components/MobileBottomNav';
@@ -71,9 +74,15 @@ export default function App() {
     }
   }, [state, selectedChatId]);
 
-  // If variant switches to personal while Business Tools tab is open, return to chats
+  // If variant switches to personal while Business-only tab is open, return to chats
   useEffect(() => {
-    if (state?.settings.variant === 'personal' && activeTab === 'business') {
+    if (
+      state?.settings.variant === 'personal' &&
+      (activeTab === 'business' ||
+        activeTab === 'clients' ||
+        activeTab === 'broadcasts' ||
+        activeTab === 'automations')
+    ) {
       setActiveTab('chats');
     }
     if (state?.settings.variant === 'business' && activeTab === 'calls') {
@@ -98,6 +107,23 @@ export default function App() {
     () => (state?.chats || []).filter((c) => c.archived).length,
     [state]
   );
+
+  const clientCount = useMemo(
+    () => (state?.contacts || []).filter((c) => !c.isBot).length,
+    [state]
+  );
+
+  const runningBroadcastsCount = useMemo(
+    () =>
+      (state?.broadcasts || []).filter(
+        (b) => b.status === 'running' || b.status === 'scheduled'
+      ).length,
+    [state]
+  );
+
+  const isFullWidthTab =
+    state?.settings.variant === 'business' &&
+    (activeTab === 'clients' || activeTab === 'broadcasts' || activeTab === 'automations');
 
   if (loading) {
     return (
@@ -183,39 +209,122 @@ export default function App() {
         onToggleDarkMode={() => setDarkMode((d) => !d)}
         unreadTotal={unreadTotal}
         archivedCount={archivedCount}
+        clientCount={clientCount}
+        runningBroadcastsCount={runningBroadcastsCount}
         self={state.self}
       />
 
+      {/* Full-Width Single-Sender Console Screens (Clients, Broadcasts, Automations) */}
+      {isFullWidthTab && (
+        <div className="flex-1 min-w-0 min-h-0 flex">
+          {activeTab === 'clients' && (
+            <ClientsPanel
+              contacts={state.contacts}
+              onBulkSeed={(req) => emulatorApi.bulkSeedClients(req)}
+              onOpenChat={handleSelectExistingContact}
+              onUpdateContact={async (contactId, patch) => {
+                await emulatorApi.updateContact(contactId, patch);
+              }}
+              onSetOptIn={async (contactId, status) => {
+                await emulatorApi.setContactOptIn(contactId, status, 'ui');
+              }}
+              onSimulateResponse={async (req) => {
+                await emulatorApi.simulateClientResponse(req);
+              }}
+            />
+          )}
+
+          {activeTab === 'broadcasts' && (
+            <BroadcastsPanel
+              broadcasts={state.broadcasts || []}
+              contacts={state.contacts}
+              templates={state.templates}
+              phoneNumbers={state.phoneNumbers}
+              activePhoneNumberId={state.settings.activePhoneNumberId}
+              onCreateBroadcast={async (req) => {
+                const res =
+                  req.delaySeconds && req.delaySeconds > 0
+                    ? await emulatorApi.scheduleBroadcast(req)
+                    : await emulatorApi.createBroadcast(req);
+                return res.broadcast;
+              }}
+              onDispatchBroadcastNow={async (id) => {
+                await emulatorApi.dispatchBroadcastNow(id);
+              }}
+              onOpenChatByContactId={handleOpenContactChatById}
+            />
+          )}
+
+          {activeTab === 'automations' && (
+            <AutomationsPanel
+              automation={state.settings.businessAutomation}
+              autoReplyRules={state.autoReplyRules}
+              contacts={state.contacts}
+              failureInjection={state.failureInjection}
+              rateLimits={state.rateLimits}
+              rateLimitUsage={state.rateLimitUsage}
+              onUpdateAutomation={async (patch) => {
+                await emulatorApi.updateBusinessAutomation(patch);
+              }}
+              onSaveRule={async (rule) => {
+                await emulatorApi.upsertAutoReplyRule(rule);
+              }}
+              onDeleteRule={async (id) => {
+                await emulatorApi.deleteAutoReplyRule(id);
+              }}
+              onUpdateFailureInjection={async (patch) => {
+                await emulatorApi.updateFailureInjection(patch);
+              }}
+              onUpdateRateLimits={async (patch) => {
+                await emulatorApi.updateRateLimits(patch);
+              }}
+              onResetRateLimits={async () => {
+                await emulatorApi.resetRateLimits();
+              }}
+            />
+          )}
+        </div>
+      )}
+
       {/* Left Sidebar View (full-width on mobile when chat isn't open) */}
-      <div
-        className={`${
-          mobileShowChat ? 'hidden md:flex' : 'flex'
-        } flex-1 md:flex-none min-h-0 md:h-full min-w-0`}
-      >
-        {(activeTab === 'chats' || activeTab === 'archived') && (
-          <ChatListPanel
-            mode={activeTab}
-            variant={state.settings.variant}
-            enforce24hWindow={state.settings.enforce24hWindow}
-            darkMode={darkMode}
-            onToggleDarkMode={() => setDarkMode((d) => !d)}
-            onToggleVariant={handleToggleVariant}
-            phoneNumbers={state.phoneNumbers}
-            activePhoneNumberId={state.settings.activePhoneNumberId}
-            onSelectPhoneNumber={(id) => void emulatorApi.updateConfig({ activePhoneNumberId: id })}
-            chats={state.chats}
-            contacts={state.contacts}
-            messagesByChat={state.messages}
-            labels={state.labels}
-            selectedChatId={selectedChatId}
-            onSelectChat={handleSelectChat}
-            onOpenArchive={() => setActiveTab('archived')}
-            onBackFromArchive={() => setActiveTab('chats')}
-            onOpenNewChat={() => setShowNewChat(true)}
-            onOpenNewGroup={() => setShowNewGroup(true)}
-            onUpdateChat={(chatId, patch) => void emulatorApi.updateChat(chatId, patch)}
-          />
-        )}
+      {!isFullWidthTab && (
+        <div
+          className={`${
+            mobileShowChat ? 'hidden md:flex' : 'flex'
+          } flex-1 md:flex-none min-h-0 md:h-full min-w-0`}
+        >
+          {(activeTab === 'chats' || activeTab === 'archived') && (
+            <ChatListPanel
+              mode={activeTab}
+              variant={state.settings.variant}
+              enforce24hWindow={state.settings.enforce24hWindow}
+              darkMode={darkMode}
+              onToggleDarkMode={() => setDarkMode((d) => !d)}
+              onToggleVariant={handleToggleVariant}
+              phoneNumbers={state.phoneNumbers}
+              activePhoneNumberId={state.settings.activePhoneNumberId}
+              onSelectPhoneNumber={(id) => void emulatorApi.updateConfig({ activePhoneNumberId: id })}
+              chats={state.chats}
+              contacts={state.contacts}
+              messagesByChat={state.messages}
+              labels={state.labels}
+              selectedChatId={selectedChatId}
+              onSelectChat={handleSelectChat}
+              onOpenArchive={() => setActiveTab('archived')}
+              onBackFromArchive={() => setActiveTab('chats')}
+              onOpenNewChat={() => setShowNewChat(true)}
+              onOpenNewGroup={() => setShowNewGroup(true)}
+              onOpenBusinessTools={() => {
+                setActiveTab('business');
+                setMobileShowChat(false);
+              }}
+              onOpenSettings={() => {
+                setActiveTab('settings');
+                setMobileShowChat(false);
+              }}
+              onUpdateChat={(chatId, patch) => void emulatorApi.updateChat(chatId, patch)}
+            />
+          )}
 
         {activeTab === 'updates' && (
           <UpdatesPanel
@@ -377,6 +486,10 @@ export default function App() {
             onClearWebhookLogs={async () => {
               await emulatorApi.clearWebhookLogs();
             }}
+            onOpenTab={(tab) => {
+              setActiveTab(tab);
+              setMobileShowChat(false);
+            }}
           />
         )}
 
@@ -396,13 +509,15 @@ export default function App() {
           />
         )}
       </div>
+      )}
 
       {/* Main Conversation Pane (full-screen on mobile when chat is opened) */}
-      <div
-        className={`${
-          mobileShowChat ? 'flex' : 'hidden md:flex'
-        } flex-1 min-w-0 min-h-0 md:h-full`}
-      >
+      {!isFullWidthTab && (
+        <div
+          className={`${
+            mobileShowChat ? 'flex' : 'hidden md:flex'
+          } flex-1 min-w-0 min-h-0 md:h-full`}
+        >
         <ErrorBoundary key={selectedChat?.id || 'none'}>
           <ChatView
             chat={selectedChat}
@@ -483,6 +598,7 @@ export default function App() {
           />
         )}
       </div>
+      )}
 
       {/* Mobile Bottom Tab Navigation (hidden when viewing a full-screen chat thread) */}
       {!mobileShowChat && (
