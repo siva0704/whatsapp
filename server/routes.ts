@@ -492,6 +492,7 @@ export function createApiRouter(
       templateName: normalized.templateName,
       templateVariables: normalized.templateVariables,
       templateOtpCode: normalized.templateOtpCode,
+      templateHeaderImageUrl: normalized.templateHeaderImageUrl,
       metadata: { cloudApiVersion: req.params.version, phoneNumberId: req.params.phoneNumberId },
     });
 

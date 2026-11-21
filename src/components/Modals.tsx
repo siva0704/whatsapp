@@ -765,19 +765,27 @@ interface ImageLightboxProps {
 }
 
 export function ImageLightbox({ url, caption, onClose }: ImageLightboxProps) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-label="Image preview"
       onClick={onClose}
-      className="fixed inset-0 z-50 bg-black/85 flex flex-col items-center justify-center p-6"
+      className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-xs flex flex-col items-center justify-center p-4 sm:p-6"
     >
       <button
         type="button"
         onClick={onClose}
         aria-label="Close image preview"
-        className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 text-white hover:bg-white/20 flex items-center justify-center"
+        className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 text-white hover:bg-white/20 flex items-center justify-center cursor-pointer transition-colors"
       >
         <X className="w-5 h-5" />
       </button>
@@ -786,10 +794,10 @@ export function ImageLightbox({ url, caption, onClose }: ImageLightboxProps) {
         alt={caption || 'Media preview'}
         referrerPolicy="no-referrer"
         onClick={(e) => e.stopPropagation()}
-        className="max-w-full max-h-[80vh] rounded-lg object-contain shadow-2xl"
+        className="max-w-[95vw] max-h-[85vh] rounded-lg object-contain shadow-2xl"
       />
       {caption && (
-        <p className="mt-4 text-[14px] text-white/90 text-center max-w-xl">{caption}</p>
+        <p className="mt-4 text-[14px] text-white/90 text-center max-w-xl select-text">{caption}</p>
       )}
     </div>
   );
