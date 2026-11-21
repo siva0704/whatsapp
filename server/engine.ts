@@ -90,6 +90,7 @@ export interface SendMessageParams {
   templateId?: string;
   templateVariables?: string[];
   templateOtpCode?: string;
+  templateHeaderImageUrl?: string;
   catalogItemId?: string;
   carouselItemIds?: string[];
   order?: OrderPayload;
@@ -140,6 +141,7 @@ export interface CloudApiNormalizedSend {
   templateName?: string;
   templateVariables?: string[];
   templateOtpCode?: string;
+  templateHeaderImageUrl?: string;
 }
 
 export function normalizeCloudApiSendPayload(
@@ -310,10 +312,21 @@ export function normalizeCloudApiSendPayload(
       : [];
     const variables: string[] = [];
     let otpCode: string | undefined;
+    let headerImageUrl: string | undefined;
+
     for (const comp of components) {
       const params = Array.isArray(comp.parameters)
         ? (comp.parameters as Array<Record<string, unknown>>)
         : [];
+      if (comp.type === 'header') {
+        for (const p of params) {
+          if (p.type === 'image' && p.image) {
+            const imgObj = p.image as Record<string, unknown>;
+            if (typeof imgObj.link === 'string') headerImageUrl = imgObj.link;
+            else if (typeof imgObj.id === 'string') headerImageUrl = imgObj.id;
+          }
+        }
+      }
       if (comp.type === 'body') {
         for (const p of params) {
           if (typeof p.text === 'string') variables.push(p.text);
@@ -330,6 +343,7 @@ export function normalizeCloudApiSendPayload(
       templateName: name,
       templateVariables: variables,
       templateOtpCode: otpCode,
+      templateHeaderImageUrl: headerImageUrl,
     };
   }
 
@@ -1371,7 +1385,7 @@ export class EmulatorEngine {
         language: tpl.language,
         category: tpl.category,
         headerText: tpl.headerText,
-        headerImageUrl: tpl.headerImageUrl,
+        headerImageUrl: params.templateHeaderImageUrl || tpl.headerImageUrl,
         renderedBody,
         footerText: tpl.footerText,
         buttons: tpl.buttons,

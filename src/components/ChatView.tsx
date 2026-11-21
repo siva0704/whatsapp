@@ -828,14 +828,18 @@ export function ChatView({
                         type="button"
                         onClick={() => onPreviewImage(msg.media!.url, msg.media?.caption || msg.body)}
                         aria-label="View full image"
-                        className="block w-full mb-1.5 rounded-md overflow-hidden bg-black/10"
+                        className="group relative block w-full mb-1.5 rounded-md overflow-hidden bg-slate-950/70 cursor-pointer text-left focus:outline-none"
                       >
                         <img
                           src={msg.media.url}
                           alt={msg.media.caption || msg.media.filename || 'Attachment'}
                           referrerPolicy="no-referrer"
-                          className="w-full h-[215px] object-cover hover:opacity-95 transition-opacity"
+                          className="w-full max-h-[460px] object-contain hover:opacity-95 transition-opacity mx-auto"
                         />
+                        <div className="absolute top-2 right-2 px-2.5 py-1 rounded-md bg-black/75 text-white text-[11px] font-medium backdrop-blur-xs flex items-center gap-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity border border-white/10 pointer-events-none">
+                          <ZoomIn className="w-3.5 h-3.5 text-white" />
+                          <span>Tap to view</span>
+                        </div>
                       </button>
                     )}
 
@@ -960,19 +964,17 @@ export function ChatView({
                             <button
                               type="button"
                               onClick={() => onPreviewImage(bannerUrl, captionText)}
-                              aria-label="View full size banner image"
+                              aria-label="View full size attached image"
                               className="group relative block w-full rounded-t-xl overflow-hidden bg-slate-950/70 mb-2 shadow-xs cursor-pointer text-left focus:outline-none"
                             >
                               <img
                                 src={bannerUrl}
                                 alt={captionText}
-                                className="w-full max-h-[460px] object-contain mx-auto transition-transform duration-200 group-hover:scale-[1.01]"
+                                className="w-full max-h-[480px] object-contain mx-auto transition-transform duration-200 group-hover:scale-[1.01]"
                               />
-                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                <span className="px-3 py-1.5 rounded-full bg-black/80 text-white text-[11.5px] font-medium backdrop-blur-xs flex items-center gap-1.5 shadow-lg border border-white/10">
-                                  <ZoomIn className="w-3.5 h-3.5 text-white" />
-                                  Click to view full image
-                                </span>
+                              <div className="absolute top-2 right-2 px-2.5 py-1 rounded-md bg-black/80 text-white text-[11px] font-medium backdrop-blur-xs flex items-center gap-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity border border-white/10 pointer-events-none">
+                                <ZoomIn className="w-3.5 h-3.5 text-white" />
+                                <span>Tap to view full image</span>
                               </div>
                             </button>
                           );
