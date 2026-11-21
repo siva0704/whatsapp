@@ -41,6 +41,7 @@ import { MessageTicks } from './MessageTicks';
 interface ChatListPanelProps {
   mode: 'chats' | 'archived';
   variant: EmulatorVariant;
+  perspective?: 'client' | 'business';
   enforce24hWindow: boolean;
   darkMode: boolean;
   onToggleDarkMode: () => void;
@@ -71,6 +72,7 @@ type FilterMode = 'all' | 'unread' | 'groups';
 export function ChatListPanel({
   mode,
   variant,
+  perspective = 'client',
   enforce24hWindow,
   darkMode,
   onToggleDarkMode,
@@ -176,14 +178,25 @@ export function ChatListPanel({
       return <span className="text-[#667781] dark:text-[#8696a0] italic">No messages yet</span>;
     }
 
+    const isClientView = perspective === 'client';
+    const isOutboundFromPerspective = isClientView
+      ? last.direction === 'inbound'
+      : last.direction === 'outbound';
+
     const prefix =
       chat.type === 'group' && last.direction === 'inbound' && last.type !== 'system'
         ? `${last.senderName.split(' ')[0]}: `
-        : '';
+        : isClientView
+          ? last.direction === 'outbound'
+            ? 'Wealth Transformers: '
+            : 'You: '
+          : last.direction === 'outbound'
+            ? 'You: '
+            : '';
 
     return (
       <span className="flex items-center gap-1 min-w-0 text-[#667781] dark:text-[#8696a0]">
-        {last.direction === 'outbound' && <MessageTicks status={last.status} />}
+        {isOutboundFromPerspective && <MessageTicks status={last.status} />}
         {last.type === 'image' && <ImageIcon className="w-3.5 h-3.5 shrink-0" />}
         {last.type === 'video' && <Film className="w-3.5 h-3.5 shrink-0" />}
         {last.type === 'document' && <FileText className="w-3.5 h-3.5 shrink-0" />}

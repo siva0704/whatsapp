@@ -127,6 +127,7 @@ export interface MessageTemplate {
   category: TemplateCategory;
   status: TemplateApprovalStatus;
   headerText?: string;
+  headerImageUrl?: string;
   bodyText: string; // Supports {{1}}, {{2}}, etc.
   footerText?: string;
   buttons: TemplateButton[];
@@ -142,6 +143,7 @@ export interface TemplateMessagePayload {
   language: string;
   category: TemplateCategory;
   headerText?: string;
+  headerImageUrl?: string;
   renderedBody: string;
   footerText?: string;
   buttons: TemplateButton[];

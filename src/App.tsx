@@ -20,6 +20,7 @@ import {
 } from './components/Modals';
 import { QaConsolePanel } from './components/QaConsolePanel';
 import { SettingsPanel } from './components/SettingsPanel';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { emulatorApi, useEmulatorState } from './services/api';
 
 export default function App() {
@@ -46,6 +47,14 @@ export default function App() {
     } catch {
       return false;
     }
+  });
+
+  const [perspective, setPerspective] = useState<'client' | 'business'>(() => {
+    try {
+      const saved = localStorage.getItem('wa_sim_perspective');
+      if (saved === 'client' || saved === 'business') return saved;
+    } catch {}
+    return 'client';
   });
 
   // Sync `.dark` class on <html>
@@ -185,9 +194,24 @@ export default function App() {
     if (ct) handleSelectExistingContact(ct);
   };
 
+  const handleTogglePerspective = () => {
+    setPerspective((prev) => {
+      const next = prev === 'client' ? 'business' : 'client';
+      try {
+        localStorage.setItem('wa_sim_perspective', next);
+      } catch {}
+      return next;
+    });
+  };
+
   const handleToggleVariant = () => {
     const next = state.settings.variant === 'business' ? 'personal' : 'business';
     void emulatorApi.updateConfig({ variant: next });
+    const nextPerspective = next === 'personal' ? 'client' : 'business';
+    setPerspective(nextPerspective);
+    try {
+      localStorage.setItem('wa_sim_perspective', nextPerspective);
+    } catch {}
   };
 
   return (
@@ -296,6 +320,7 @@ export default function App() {
             <ChatListPanel
               mode={activeTab}
               variant={state.settings.variant}
+              perspective={perspective}
               enforce24hWindow={state.settings.enforce24hWindow}
               darkMode={darkMode}
               onToggleDarkMode={() => setDarkMode((d) => !d)}
@@ -517,53 +542,72 @@ export default function App() {
             mobileShowChat ? 'flex' : 'hidden md:flex'
           } flex-1 min-w-0 min-h-0 md:h-full`}
         >
-        <ChatView
-          chat={selectedChat}
-          variant={state.settings.variant}
-          enforce24hWindow={state.settings.enforce24hWindow}
-          self={state.self}
-          contacts={state.contacts}
-          messages={selectedChat ? state.messages[selectedChat.id] || [] : []}
-          quickReplies={state.quickReplies}
-          catalog={state.catalog}
-          highlightedMessageId={highlightedMessageId}
-          onBackMobile={() => {
-            setMobileShowChat(false);
-            setRightDrawer(null);
-          }}
-          onOpenInfo={() => setRightDrawer(rightDrawer === 'info' ? null : 'info')}
-          onOpenSearch={() => setRightDrawer(rightDrawer === 'search' ? null : 'search')}
-          onOpenTemplateModal={() => setTemplateModalState({ open: true })}
-          onOpenRichModal={() => setShowRichModal(true)}
-          onSendMessage={async (payload) => {
-            await emulatorApi.sendMessage(payload);
-          }}
-          onSimulateInteractiveReply={async ({ chatId, selectedId, selectedTitle, kind }) => {
-            const targetChat = state.chats.find((c) => c.id === chatId);
-            const ct = targetChat?.contactId
-              ? state.contacts.find((c) => c.id === targetChat.contactId)
-              : undefined;
-            await emulatorApi.receiveMessage({
-              chatId,
-              senderId: ct?.id,
-              fromPhone: ct?.phone,
-              fromName: ct?.name,
-              type: 'interactive',
-              body: selectedTitle,
-              interactive: {
-                kind,
-                bodyText: selectedTitle,
-                selectedId,
-                selectedTitle,
-              },
-            });
-          }}
-          onUploadMedia={(payload) => emulatorApi.uploadMedia(payload)}
-          onUpdateReceipt={async (messageId, status, errorCode) => {
-            await emulatorApi.updateReceipt(messageId, status, errorCode);
-          }}
-          onPreviewImage={(url, caption) => setLightbox({ url, caption })}
-        />
+        <ErrorBoundary key={selectedChat?.id || 'none'}>
+          <ChatView
+            chat={selectedChat}
+            variant={state.settings.variant}
+            perspective={perspective}
+            onTogglePerspective={handleTogglePerspective}
+            enforce24hWindow={state.settings.enforce24hWindow}
+            self={state.self}
+            contacts={state.contacts}
+            messages={selectedChat ? state.messages[selectedChat.id] || [] : []}
+            quickReplies={state.quickReplies}
+            catalog={state.catalog}
+            highlightedMessageId={highlightedMessageId}
+            onBackMobile={() => {
+              setMobileShowChat(false);
+              setRightDrawer(null);
+            }}
+            onOpenInfo={() => setRightDrawer(rightDrawer === 'info' ? null : 'info')}
+            onOpenSearch={() => setRightDrawer(rightDrawer === 'search' ? null : 'search')}
+            onOpenTemplateModal={() => setTemplateModalState({ open: true })}
+            onOpenRichModal={() => setShowRichModal(true)}
+            onSendMessage={async (payload) => {
+              await emulatorApi.sendMessage(payload);
+            }}
+            onSendAsClient={async ({ chatId, body, type, replyToMessageId }) => {
+              const targetChat = state.chats.find((c) => c.id === chatId);
+              const ct = targetChat?.contactId
+                ? state.contacts.find((c) => c.id === targetChat.contactId)
+                : undefined;
+              await emulatorApi.receiveMessage({
+                chatId,
+                senderId: ct?.id,
+                fromPhone: ct?.phone,
+                fromName: ct?.name,
+                type: type || 'text',
+                body,
+                replyToMessageId,
+              });
+            }}
+            onSimulateInteractiveReply={async ({ chatId, selectedId, selectedTitle, kind }) => {
+              const targetChat = state.chats.find((c) => c.id === chatId);
+              const ct = targetChat?.contactId
+                ? state.contacts.find((c) => c.id === targetChat.contactId)
+                : undefined;
+              await emulatorApi.receiveMessage({
+                chatId,
+                senderId: ct?.id,
+                fromPhone: ct?.phone,
+                fromName: ct?.name,
+                type: 'interactive',
+                body: selectedTitle,
+                interactive: {
+                  kind,
+                  bodyText: selectedTitle,
+                  selectedId,
+                  selectedTitle,
+                },
+              });
+            }}
+            onUploadMedia={(payload) => emulatorApi.uploadMedia(payload)}
+            onUpdateReceipt={async (messageId, status, errorCode) => {
+              await emulatorApi.updateReceipt(messageId, status, errorCode);
+            }}
+            onPreviewImage={(url, caption) => setLightbox({ url, caption })}
+          />
+        </ErrorBoundary>
 
         {/* Right Info / Search Drawer */}
         {selectedChat && rightDrawer && (

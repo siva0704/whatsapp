@@ -297,6 +297,15 @@ export function BroadcastsPanel({
                   className="h-9 px-2.5 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[12.5px] font-mono"
                 />
               </div>
+              {selectedTemplate?.headerImageUrl && (
+                <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden bg-slate-900 shadow-xs mb-1.5">
+                  <img
+                    src={selectedTemplate.headerImageUrl}
+                    alt="Template Header Banner"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
               {renderedPreview && (
                 <div className="p-2.5 rounded-lg bg-[#d9fdd3]/60 dark:bg-[#005c4b]/40 text-[12.5px] text-[#111b21] dark:text-[#e9edef] leading-relaxed">
                   {renderedPreview}

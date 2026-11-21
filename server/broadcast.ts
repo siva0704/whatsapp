@@ -42,6 +42,7 @@ export function resolveRecipientTemplateVariables(
   return source.map((raw) =>
     raw
       .replace(/\{\{name\}\}/gi, contact.name)
+      .replace(/\{\{1\}\}/gi, contact.name)
       .replace(/\{\{first_name\}\}/gi, firstName)
       .replace(/\{\{phone\}\}/gi, contact.phone)
       .replace(/\{\{country\}\}/gi, contact.country || 'US')

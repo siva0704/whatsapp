@@ -20,8 +20,8 @@ function hasFlag(flag: string): boolean {
 }
 
 async function main() {
-  const baseUrl = (getArg('--url') || process.env.WA_SIM_URL || 'http://localhost:3000').replace(/\/+$/, '');
-  const apiKey = getArg('--api-key') || process.env.EMULATOR_API_KEY || '';
+  const baseUrl = (getArg('--url') || process.env.WA_SIM_URL || 'http://localhost:4020').replace(/\/+$/, '');
+  const apiKey = getArg('--api-key') || process.env.EMULATOR_API_KEY || 'wa-sim-local-dev-token';
   const fileArg = getArg('--file');
   const count = Number(getArg('--count') || '50');
   const seed = Number(getArg('--seed') || '202604');

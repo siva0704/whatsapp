@@ -75,6 +75,16 @@ export function createApiRouter(
     res.json({ ok: true, state });
   });
 
+  // SIT compatibility endpoint
+  router.get('/config', (_req, res) => {
+    res.json({
+      port: env.port || 4020,
+      mockServerUrl: 'http://localhost:4010',
+      sutBackendUrl: 'http://localhost:3000',
+      variant: env.variant || 'business',
+    });
+  });
+
   // Config & Self Profile
   router.get('/api/config', requireAuth, (_req, res) => {
     const { settings, self, phoneNumbers } = engine.getState();
