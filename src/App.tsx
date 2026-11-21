@@ -186,9 +186,30 @@ export default function App() {
     if (ct) handleSelectExistingContact(ct);
   };
 
+  const [perspective, setPerspective] = useState<'client' | 'business'>(() => {
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('wa_sim_perspective') : null;
+    if (saved === 'client' || saved === 'business') return saved;
+    return 'client';
+  });
+
+  const handleTogglePerspective = () => {
+    setPerspective((prev) => {
+      const next = prev === 'client' ? 'business' : 'client';
+      try {
+        localStorage.setItem('wa_sim_perspective', next);
+      } catch {}
+      return next;
+    });
+  };
+
   const handleToggleVariant = () => {
     const next = state.settings.variant === 'business' ? 'personal' : 'business';
     void emulatorApi.updateConfig({ variant: next });
+    const nextPerspective = next === 'personal' ? 'client' : 'business';
+    setPerspective(nextPerspective);
+    try {
+      localStorage.setItem('wa_sim_perspective', nextPerspective);
+    } catch {}
   };
 
   return (
@@ -297,6 +318,7 @@ export default function App() {
             <ChatListPanel
               mode={activeTab}
               variant={state.settings.variant}
+              perspective={perspective}
               enforce24hWindow={state.settings.enforce24hWindow}
               darkMode={darkMode}
               onToggleDarkMode={() => setDarkMode((d) => !d)}
@@ -522,6 +544,8 @@ export default function App() {
           <ChatView
             chat={selectedChat}
             variant={state.settings.variant}
+            perspective={perspective}
+            onTogglePerspective={handleTogglePerspective}
             enforce24hWindow={state.settings.enforce24hWindow}
             self={state.self}
             contacts={state.contacts}
@@ -539,6 +563,21 @@ export default function App() {
             onOpenRichModal={() => setShowRichModal(true)}
             onSendMessage={async (payload) => {
               await emulatorApi.sendMessage(payload);
+            }}
+            onSendAsClient={async ({ chatId, body, type, replyToMessageId }) => {
+              const targetChat = state.chats.find((c) => c.id === chatId);
+              const ct = targetChat?.contactId
+                ? state.contacts.find((c) => c.id === targetChat.contactId)
+                : undefined;
+              await emulatorApi.receiveMessage({
+                chatId,
+                senderId: ct?.id,
+                fromPhone: ct?.phone,
+                fromName: ct?.name,
+                type: type || 'text',
+                body,
+                replyToMessageId,
+              });
             }}
             onSimulateInteractiveReply={async ({ chatId, selectedId, selectedTitle, kind }) => {
               const targetChat = state.chats.find((c) => c.id === chatId);

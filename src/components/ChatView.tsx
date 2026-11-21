@@ -72,6 +72,8 @@ import { VoiceNoteBubble } from './VoiceNoteBubble';
 interface ChatViewProps {
   chat: Chat | null;
   variant: EmulatorVariant;
+  perspective?: 'client' | 'business';
+  onTogglePerspective?: () => void;
   enforce24hWindow: boolean;
   self: SelfAccount;
   contacts: Contact[];
@@ -97,6 +99,12 @@ interface ChatViewProps {
     order?: OrderPayload;
     replyToMessageId?: string;
   }) => Promise<void>;
+  onSendAsClient?: (payload: {
+    chatId: string;
+    body: string;
+    type?: Message['type'];
+    replyToMessageId?: string;
+  }) => Promise<void>;
   onSimulateInteractiveReply: (payload: {
     chatId: string;
     selectedId: string;
@@ -117,6 +125,8 @@ const COMMON_EMOJIS = ['👍', '✅', '🎉', '🔥', '🙏', '👋', '📦', '�
 export function ChatView({
   chat,
   variant,
+  perspective = 'client',
+  onTogglePerspective,
   enforce24hWindow,
   self,
   contacts,
@@ -130,6 +140,7 @@ export function ChatView({
   onOpenTemplateModal,
   onOpenRichModal,
   onSendMessage,
+  onSendAsClient,
   onSimulateInteractiveReply,
   onUploadMedia,
   onUpdateReceipt,
@@ -263,18 +274,29 @@ export function ChatView({
     }
   };
 
+  const isClientView = perspective === 'client';
+
   const handleSendText = async () => {
     const trimmed = draft.trim();
     if (!trimmed) return;
     setDraft('');
     setShowEmoji(false);
     await sendSafe(async () => {
-      await onSendMessage({
-        chatId: chat.id,
-        body: trimmed,
-        type: 'text',
-        replyToMessageId: replyingTo?.id,
-      });
+      if (isClientView && onSendAsClient) {
+        await onSendAsClient({
+          chatId: chat.id,
+          body: trimmed,
+          type: 'text',
+          replyToMessageId: replyingTo?.id,
+        });
+      } else {
+        await onSendMessage({
+          chatId: chat.id,
+          body: trimmed,
+          type: 'text',
+          replyToMessageId: replyingTo?.id,
+        });
+      }
       setReplyingTo(null);
     });
   };
@@ -413,17 +435,30 @@ export function ChatView({
             aria-label={`View info for ${chat.name}`}
             className="flex items-center gap-2.5 md:gap-3 min-w-0 text-left rounded-lg py-1 pr-2 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
-            <Avatar
-              name={chat.name}
-              avatarUrl={chat.avatarUrl}
-              color={chat.avatarColor}
-              size="md"
-              isGroup={chat.type === 'group'}
-              isBot={directContact?.isBot}
-            />
+            {isClientView && chat.type !== 'group' ? (
+              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#008069] to-[#25d366] text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs ring-2 ring-[#00a884]/30">
+                WT
+              </div>
+            ) : (
+              <Avatar
+                name={chat.name}
+                avatarUrl={chat.avatarUrl}
+                color={chat.avatarColor}
+                size="md"
+                isGroup={chat.type === 'group'}
+                isBot={directContact?.isBot}
+              />
+            )}
             <div className="min-w-0">
-              <div className="text-[15px] md:text-[15.5px] font-semibold text-[#111b21] dark:text-[#e9edef] truncate leading-snug">
-                {chat.name}
+              <div className="flex items-center gap-1.5 text-[15px] md:text-[15.5px] font-semibold text-[#111b21] dark:text-[#e9edef] truncate leading-snug">
+                <span>{isClientView && chat.type !== 'group' ? 'Wealth Transformers India Pvt Ltd' : chat.name}</span>
+                {isClientView && chat.type !== 'group' && (
+                  <span title="Verified Business Account" className="inline-flex text-[#00a884] shrink-0">
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                    </svg>
+                  </span>
+                )}
               </div>
               <div
                 className={`text-[12px] md:text-[12.5px] truncate leading-snug ${
@@ -434,13 +469,46 @@ export function ChatView({
                       : 'text-[#667781] dark:text-[#8696a0]'
                 }`}
               >
-                {subtitle}
+                {isClientView && chat.type !== 'group' ? (
+                  <span>
+                    <span className="text-[#00a884] font-medium">Verified Business Account</span>
+                    <span className="mx-1 text-[#8696a0]">·</span>
+                    <span className="text-[#667781] dark:text-[#aebac1]">Simulating {chat.name} ({directContact?.phone || ''})</span>
+                  </span>
+                ) : (
+                  subtitle
+                )}
               </div>
             </div>
           </button>
         </div>
 
-        <div className="flex items-center gap-0.5 shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0">
+          {onTogglePerspective && (
+            <button
+              type="button"
+              onClick={onTogglePerspective}
+              className={`min-h-[32px] px-3 py-1 rounded-full text-[11.5px] font-semibold flex items-center gap-1.5 border transition-all ${
+                isClientView
+                  ? 'bg-[#00a884]/15 border-[#00a884] text-[#008069] dark:text-[#25d366] hover:bg-[#00a884]/25 shadow-xs'
+                  : 'bg-black/5 dark:bg-white/10 border-[#d1d7db] dark:border-[#374248] text-[#54656f] dark:text-[#aebac1] hover:border-[#00a884]'
+              }`}
+              title={isClientView ? 'Currently viewing from Client perspective (Received). Click to switch to Business view.' : 'Currently viewing from Business perspective (Sent). Click to switch to Client view.'}
+            >
+              {isClientView ? (
+                <>
+                  <span className="w-2 h-2 rounded-full bg-[#00a884] animate-pulse" />
+                  <span>Client View (Received)</span>
+                </>
+              ) : (
+                <>
+                  <span className="w-2 h-2 rounded-full bg-[#3b82f6]" />
+                  <span>Business View (Sent)</span>
+                </>
+              )}
+            </button>
+          )}
+
           <button
             type="button"
             onClick={onOpenSearch}
@@ -462,8 +530,13 @@ export function ChatView({
         </div>
       </header>
 
-      {/* Business Compliance Context Bar (24h Customer Service Window & Opt-Out) */}
-      {variant === 'business' && chat.type === 'direct' && (
+      {/* Client Encryption & Business Badge OR Business Compliance Context Bar */}
+      {isClientView ? (
+        <div className="px-3 sm:px-3.5 py-1 text-[11.5px] flex items-center justify-center gap-1.5 bg-[#f7f8fa] dark:bg-[#182229] border-b border-[#e9edef] dark:border-[#222d34] text-[#54656f] dark:text-[#8696a0] shrink-0">
+          <Lock className="w-3 h-3 text-[#00a884] shrink-0" />
+          <span>Messages are end-to-end encrypted · Official Business Account of Wealth Transformers India Pvt Ltd</span>
+        </div>
+      ) : variant === 'business' && chat.type === 'direct' ? (
         <div
           data-testid="window-status-bar"
           className={`px-3 sm:px-3.5 py-1.5 text-[11.5px] sm:text-[12px] flex items-center justify-between gap-2 border-b shrink-0 ${
@@ -520,7 +593,7 @@ export function ChatView({
             )}
           </div>
         </div>
-      )}
+      ) : null}
 
       {/* Message Thread */}
       <div
@@ -535,7 +608,9 @@ export function ChatView({
           messages.map((msg, idx) => {
             const prev = idx > 0 ? messages[idx - 1] : null;
             const showDateDivider = !prev || getDayKey(prev.timestamp) !== getDayKey(msg.timestamp);
-            const isOutbound = msg.direction === 'outbound';
+            const isBubbleOutbound = isClientView
+              ? msg.direction === 'inbound'
+              : msg.direction === 'outbound';
             const isHighlighted = highlightedMessageId === msg.id;
             const senderContact = contacts.find((c) => c.id === msg.senderId);
 
@@ -579,7 +654,7 @@ export function ChatView({
                 <div
                   onTouchStart={(e) => handleBubbleTouchStart(e, msg)}
                   onTouchEnd={(e) => handleBubbleTouchEnd(e, msg)}
-                  className={`flex ${isOutbound ? 'justify-end' : 'justify-start'} ${
+                  className={`flex ${isBubbleOutbound ? 'justify-end' : 'justify-start'} ${
                     sameSenderAsPrev ? 'mt-0.5' : 'mt-2'
                   }`}
                 >
@@ -593,14 +668,14 @@ export function ChatView({
                             ? 'w-[285px] sm:w-[324px] max-w-[88%]'
                             : 'max-w-[85%] sm:max-w-[68%]'
                     } rounded-lg px-2.5 pt-1.5 pb-1.5 shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] transition-all ${
-                      isOutbound
+                      isBubbleOutbound
                         ? `bg-[#d9fdd3] dark:bg-[#005c4b] text-[#111b21] dark:text-[#e9edef] ${!sameSenderAsPrev ? 'rounded-tr-none' : ''}`
                         : `bg-white dark:bg-[#202c33] text-[#111b21] dark:text-[#e9edef] ${!sameSenderAsPrev ? 'rounded-tl-none' : ''}`
                     } ${isHighlighted ? 'ring-2 ring-[#00a884]' : ''}`}
                     data-testid={`message-bubble-${msg.direction}`}
                   >
                     {/* Authentic WhatsApp Bubble Corner Tail */}
-                    {!sameSenderAsPrev && isOutbound && (
+                    {!sameSenderAsPrev && isBubbleOutbound && (
                       <svg
                         aria-hidden="true"
                         viewBox="0 0 8 13"
@@ -614,7 +689,7 @@ export function ChatView({
                         />
                       </svg>
                     )}
-                    {!sameSenderAsPrev && !isOutbound && (
+                    {!sameSenderAsPrev && !isBubbleOutbound && (
                       <svg
                         aria-hidden="true"
                         viewBox="0 0 8 13"
@@ -632,7 +707,7 @@ export function ChatView({
                     {/* Hover quick actions: Reply + Outbound Receipt Switcher */}
                     <div
                       className={`hidden sm:flex absolute top-1 ${
-                        isOutbound ? '-left-16' : '-right-9'
+                        isBubbleOutbound ? '-left-16' : '-right-9'
                       } items-center gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity`}
                     >
                       <button
@@ -648,7 +723,7 @@ export function ChatView({
                         <Reply className="w-3.5 h-3.5" />
                       </button>
 
-                      {isOutbound && (
+                      {isBubbleOutbound && (
                         <div className="relative">
                           <button
                             type="button"
@@ -707,8 +782,19 @@ export function ChatView({
                       )}
                     </div>
 
-                    {/* Group sender name */}
-                    {chat.type === 'group' && !isOutbound && !sameSenderAsPrev && (
+                    {/* Group sender name OR In Client View: show "Wealth Transformers India Pvt Ltd" badge on received business messages */}
+                    {isClientView && !isBubbleOutbound && !sameSenderAsPrev && (
+                      <div className="flex items-center gap-1.5 text-[12px] font-semibold text-[#008069] dark:text-[#25d366] mb-1">
+                        <span>Wealth Transformers India Pvt Ltd</span>
+                        <span title="Verified Business Account" className="inline-flex text-[#00a884]">
+                          <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                          </svg>
+                        </span>
+                      </div>
+                    )}
+
+                    {chat.type === 'group' && !isBubbleOutbound && !sameSenderAsPrev && (
                       <div
                         className="text-[12.5px] font-semibold mb-0.5 leading-tight"
                         style={{ color: getSenderColor(msg.senderId) }}
@@ -800,10 +886,10 @@ export function ChatView({
                     {(msg.type === 'voice' || msg.type === 'audio') && (
                       <VoiceNoteBubble
                         media={msg.media}
-                        senderName={isOutbound ? self.name : msg.senderName}
-                        senderAvatarUrl={isOutbound ? self.avatarUrl : senderContact?.avatarUrl}
+                        senderName={isBubbleOutbound ? self.name : (isClientView ? 'Wealth Transformers' : msg.senderName)}
+                        senderAvatarUrl={isBubbleOutbound ? self.avatarUrl : senderContact?.avatarUrl}
                         senderColor={senderContact?.avatarColor || '#00a884'}
-                        isOutbound={isOutbound}
+                        isOutbound={isBubbleOutbound}
                       />
                     )}
 
@@ -1194,7 +1280,7 @@ export function ChatView({
                         )}
                       <span className="inline-flex items-center gap-1 text-[11px] font-mono tabular-nums text-[#667781] dark:text-[#8696a0] ml-auto pt-0.5 select-none">
                         <span>{formatTime(msg.timestamp)}</span>
-                        {isOutbound && <MessageTicks status={msg.status} />}
+                        {isBubbleOutbound && <MessageTicks status={msg.status} />}
                       </span>
                     </div>
 
@@ -1505,7 +1591,7 @@ export function ChatView({
               Contact info
             </button>
           </div>
-        ) : isWindowLocked ? (
+        ) : !isClientView && isWindowLocked ? (
           <div
             data-testid="composer-window-locked"
             className="min-h-[60px] px-4 py-3 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3"
@@ -1599,9 +1685,11 @@ export function ChatView({
               onKeyDown={handleKeyDown}
               aria-label="Message input"
               placeholder={
-                variant === 'business'
-                  ? 'Message or /quick-reply'
-                  : 'Type a message'
+                isClientView
+                  ? `Reply as ${chat.name}... (type START, STOP, or chat)`
+                  : variant === 'business'
+                    ? 'Message or /quick-reply'
+                    : 'Type a message'
               }
               className="flex-1 min-w-0 h-[42px] px-3.5 sm:px-4 rounded-lg bg-white dark:bg-[#2a3942] text-[14.5px] text-[#111b21] dark:text-[#e9edef] placeholder:text-[#667781] dark:placeholder:text-[#8696a0] focus:outline-none focus:ring-2 focus:ring-[#00a884]/35"
             />
