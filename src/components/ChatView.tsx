@@ -39,6 +39,7 @@ import {
   UserRound,
   X,
   Zap,
+  ZoomIn,
 } from 'lucide-react';
 import type {
   CatalogItemRef,
@@ -639,6 +640,10 @@ export function ChatView({
               msg.type === 'location' ||
               msg.type === 'order';
 
+            const isTemplateWithImage =
+              msg.type === 'template' &&
+              Boolean(msg.template?.headerImageUrl || msg.media?.url);
+
             const isSticker = msg.type === 'sticker';
 
             return (
@@ -664,9 +669,11 @@ export function ChatView({
                         ? 'max-w-[190px]'
                         : msg.type === 'product_carousel'
                           ? 'w-full max-w-[340px] sm:max-w-[440px]'
-                          : isFixedCardWidth
-                            ? 'w-[285px] sm:w-[324px] max-w-[88%]'
-                            : 'max-w-[85%] sm:max-w-[68%]'
+                          : isTemplateWithImage
+                            ? 'w-[320px] sm:w-[380px] max-w-[92%]'
+                            : isFixedCardWidth
+                              ? 'w-[285px] sm:w-[324px] max-w-[88%]'
+                              : 'max-w-[85%] sm:max-w-[68%]'
                     } rounded-lg px-2.5 pt-1.5 pb-1.5 shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] transition-all ${
                       isBubbleOutbound
                         ? `bg-[#d9fdd3] dark:bg-[#005c4b] text-[#111b21] dark:text-[#e9edef] ${!sameSenderAsPrev ? 'rounded-tr-none' : ''}`
@@ -946,15 +953,30 @@ export function ChatView({
                     {msg.type === 'template' && msg.template && (
                       <div className="mb-1 space-y-1.5 -mx-1 -mt-1">
                         {/* 1. Top Header Banner Image */}
-                        {Boolean(msg.template.headerImageUrl || msg.media?.url) && (
-                          <div className="relative aspect-[16/9] w-full rounded-t-xl overflow-hidden bg-slate-900 mb-2 shadow-xs">
-                            <img
-                              src={msg.template.headerImageUrl || msg.media?.url}
-                              alt="Template Header Banner"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        )}
+                        {Boolean(msg.template.headerImageUrl || msg.media?.url) && (() => {
+                          const bannerUrl = (msg.template.headerImageUrl || msg.media?.url) as string;
+                          const captionText = msg.template.headerText || msg.template.templateName || 'Template Banner';
+                          return (
+                            <button
+                              type="button"
+                              onClick={() => onPreviewImage(bannerUrl, captionText)}
+                              aria-label="View full size banner image"
+                              className="group relative block w-full rounded-t-xl overflow-hidden bg-slate-950/70 mb-2 shadow-xs cursor-pointer text-left focus:outline-none"
+                            >
+                              <img
+                                src={bannerUrl}
+                                alt={captionText}
+                                className="w-full max-h-[460px] object-contain mx-auto transition-transform duration-200 group-hover:scale-[1.01]"
+                              />
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                <span className="px-3 py-1.5 rounded-full bg-black/80 text-white text-[11.5px] font-medium backdrop-blur-xs flex items-center gap-1.5 shadow-lg border border-white/10">
+                                  <ZoomIn className="w-3.5 h-3.5 text-white" />
+                                  Click to view full image
+                                </span>
+                              </div>
+                            </button>
+                          );
+                        })()}
 
                         <div className="px-1 space-y-1.5">
                           {msg.template.headerText && (
