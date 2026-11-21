@@ -389,14 +389,15 @@ export function createSeedState(env: EmulatorEnvConfig): EmulatorState {
   const minsAgo = (m: number) => new Date(now - m * 60_000).toISOString();
 
   const defaultBusinessProfile: BusinessProfile = {
-    name: env.selfName || 'WhatsApp Business',
-    category: '',
-    description: '',
-    address: '',
-    hours: '',
-    email: '',
-    website: '',
-    verified: false,
+    name: env.selfName || 'Wealth Transformers India Pvt Ltd',
+    avatarUrl: '/assets/logo.png',
+    category: 'Finance & Wealth Advisory',
+    description: 'Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765',
+    address: 'Bengaluru, India',
+    hours: 'Mon-Fri 09:00 - 18:00 IST',
+    email: 'compliance@wealthtransformers.in',
+    website: 'https://wealthtransformersindia.vercel.app',
+    verified: true,
   };
 
   // Strictly empty unless explicitly configured via .env
@@ -476,9 +477,10 @@ export function createSeedState(env: EmulatorEnvConfig): EmulatorState {
   return {
     self: {
       id: 'me',
-      name: env.selfName || 'WhatsApp Business',
+      name: env.selfName || 'Wealth Transformers India Pvt Ltd',
       phone: env.selfPhone ? normalizeE164(env.selfPhone) : '',
-      about: '',
+      about: 'Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765',
+      avatarUrl: '/assets/logo.png',
     },
     settings: {
       variant: env.variant,

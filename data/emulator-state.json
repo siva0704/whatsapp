@@ -3,7 +3,8 @@
     "id": "me",
     "name": "Wealth Transformers India Pvt Ltd",
     "phone": "+919820012345",
-    "about": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
+    "about": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765",
+    "avatarUrl": "/assets/logo.png"
   },
   "settings": {
     "variant": "personal",
@@ -248,7 +249,7 @@
       "participantIds": [
         "contact-8286a1d5"
       ],
-      "unreadCount": 2,
+      "unreadCount": 0,
       "archived": false,
       "pinned": false,
       "muted": false,
@@ -1888,7 +1889,7 @@
         "type": "text",
         "body": "stop",
         "timestamp": "2026-11-21T13:07:25.760Z",
-        "status": "delivered",
+        "status": "read",
         "conversationCategory": "SERVICE"
       },
       {
@@ -1901,7 +1902,7 @@
         "type": "text",
         "body": "start",
         "timestamp": "2026-11-21T13:07:42.166Z",
-        "status": "delivered",
+        "status": "read",
         "conversationCategory": "SERVICE"
       },
       {
@@ -2405,7 +2406,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T13:05:36.715Z",
-      "updatedAt": "2026-11-21T14:13:48.871Z"
+      "updatedAt": "2026-11-21T15:38:20.467Z"
     },
     {
       "id": "tpl-9deab1dc",
@@ -2421,7 +2422,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T11:52:39.523Z",
-      "updatedAt": "2026-11-21T14:13:48.761Z",
+      "updatedAt": "2026-11-21T15:38:20.400Z",
       "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
     },
     {
@@ -2441,7 +2442,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T10:15:19.237Z",
-      "updatedAt": "2026-11-21T14:13:48.702Z",
+      "updatedAt": "2026-11-21T15:38:20.295Z",
       "headerImageUrl": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1200&q=80",
       "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
     },
@@ -2462,7 +2463,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T10:15:19.202Z",
-      "updatedAt": "2026-11-21T14:13:48.651Z",
+      "updatedAt": "2026-11-21T15:38:20.240Z",
       "headerImageUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80",
       "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
     },
@@ -2483,7 +2484,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T10:15:19.159Z",
-      "updatedAt": "2026-11-21T14:13:48.586Z",
+      "updatedAt": "2026-11-21T15:38:20.178Z",
       "headerImageUrl": "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80",
       "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
     },
@@ -2504,7 +2505,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T10:15:19.060Z",
-      "updatedAt": "2026-11-21T14:13:48.523Z",
+      "updatedAt": "2026-11-21T15:38:20.119Z",
       "headerImageUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80",
       "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
     },
@@ -3292,6 +3293,52 @@
     }
   ],
   "webhookLogs": [
+    {
+      "id": "wh_d8b1b69f-43b",
+      "event": "message.status",
+      "phoneNumberId": "default",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:15:32.556Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 17,
+      "signatureHeader": "sha256=954f5b8cc707b16c179ce942628bafc37632de2181a84193c46284e652939198",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "default"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.d4f90cd24ffd46a7a3",
+                      "status": "read",
+                      "timestamp": "1795270532",
+                      "chat_id": "chat-3f5506e2"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.d4f90cd24ffd46a7a3",
+          "status": "read",
+          "timestamp": "1795270532",
+          "chat_id": "chat-3f5506e2"
+        }
+      }
+    },
     {
       "id": "wh_312cb3c1-488",
       "event": "message.status",
@@ -8553,52 +8600,6 @@
           }
         }
       }
-    },
-    {
-      "id": "wh_0a3f5e0d-7d7",
-      "event": "account.opt_in_updated",
-      "phoneNumberId": "default",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:13:25.181Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 88,
-      "signatureHeader": "sha256=7b1b7641047a1db5abc1caddcaaa1cfdf90f31461944ef07935b9b4b628567ad",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "time": 1795263205,
-            "changes": [
-              {
-                "field": "account_update",
-                "value": {
-                  "event": "CONTACT_OPT_IN",
-                  "contact_id": "contact-8286a1d5",
-                  "wa_id": "919848011223",
-                  "phone": "+919848011223",
-                  "opt_in_status": "opted_in",
-                  "source": "inbound_keyword",
-                  "keyword": "START",
-                  "timestamp": "2026-11-21T12:13:25.175Z"
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "account_update",
-        "data": {
-          "event": "CONTACT_OPT_IN",
-          "contact_id": "contact-8286a1d5",
-          "wa_id": "919848011223",
-          "phone": "+919848011223",
-          "opt_in_status": "opted_in",
-          "source": "inbound_keyword",
-          "keyword": "START",
-          "timestamp": "2026-11-21T12:13:25.175Z"
-        }
-      }
     }
   ],
   "statusUpdates": [],
@@ -8620,12 +8621,12 @@
   },
   "rateLimitUsage": {
     "windowSecondCounts": {
-      "phone-sit-2001": 1,
-      "phone-sit-2002": 1
+      "phone-sit-2001": 0,
+      "phone-sit-2002": 0
     },
     "windowMinuteCounts": {
-      "phone-sit-2001": 3,
-      "phone-sit-2002": 1
+      "phone-sit-2001": 0,
+      "phone-sit-2002": 0
     },
     "dailyTemplatesSent": 11,
     "dailyResetAt": "2026-11-22T00:00:00.000Z",
