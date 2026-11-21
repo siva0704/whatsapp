@@ -1321,7 +1321,7 @@ export class EmulatorEngine {
             : isFest
             ? 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80'
             : 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80',
-          footerText: 'Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765',
+          footerText: undefined,
           buttons: [
             {
               type: 'URL',

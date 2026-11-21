@@ -957,10 +957,6 @@ export function ChatView({
                         )}
 
                         <div className="px-1 space-y-1.5">
-                          <div className="flex items-center justify-between text-[10.5px] font-mono text-[#008069] dark:text-[#25d366]">
-                            <span>TEMPLATE · {msg.template.category}</span>
-                            <span>{msg.template.templateName}</span>
-                          </div>
                           {msg.template.headerText && (
                             <div className="text-[15px] font-bold leading-snug text-slate-900 dark:text-white">
                               {msg.template.headerText}
@@ -969,7 +965,9 @@ export function ChatView({
                           <p className="text-[14px] leading-[1.42] whitespace-pre-wrap break-words text-slate-800 dark:text-slate-100">
                             {msg.template.renderedBody}
                           </p>
-                          {msg.template.footerText && (
+                          {msg.template.footerText &&
+                            !msg.template.footerText.includes('INZ000123456') &&
+                            !msg.template.footerText.includes('ARN-98765') && (
                             <p className="text-[11.5px] text-[#667781] dark:text-[#aebac1] border-t border-black/10 dark:border-white/10 pt-1">
                               {msg.template.footerText}
                             </p>
