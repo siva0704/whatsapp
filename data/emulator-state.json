@@ -381,9 +381,189 @@
       ],
       "presence": "offline",
       "lastSeen": "2026-11-20T10:00:30.312Z"
+    },
+    {
+      "id": "contact-1ce13925",
+      "name": "+919833445566",
+      "profileName": "+919833445566",
+      "phone": "+919833445566",
+      "avatarColor": "#e542a3",
+      "about": "Hey there! I am using WhatsApp.",
+      "isBot": false,
+      "isBusiness": false,
+      "blocked": false,
+      "optInStatus": "opted_in",
+      "optInUpdatedAt": "2026-11-21T07:24:28.337Z",
+      "optInSource": "manual",
+      "optInHistory": [
+        {
+          "id": "opt-6ce547ed",
+          "status": "opted_in",
+          "timestamp": "2026-11-21T07:24:28.337Z",
+          "source": "manual",
+          "note": "Initial contact registration"
+        }
+      ],
+      "presence": "online",
+      "lastSeen": "2026-11-21T07:24:28.337Z"
+    },
+    {
+      "id": "contact-643c0fb3",
+      "name": "+919819876543",
+      "profileName": "+919819876543",
+      "phone": "+919819876543",
+      "avatarColor": "#ff7b29",
+      "about": "Hey there! I am using WhatsApp.",
+      "isBot": false,
+      "isBusiness": false,
+      "blocked": false,
+      "optInStatus": "opted_in",
+      "optInUpdatedAt": "2026-11-21T07:26:13.043Z",
+      "optInSource": "manual",
+      "optInHistory": [
+        {
+          "id": "opt-c29335c6",
+          "status": "opted_in",
+          "timestamp": "2026-11-21T07:26:13.043Z",
+          "source": "manual",
+          "note": "Initial contact registration"
+        }
+      ],
+      "presence": "online",
+      "lastSeen": "2026-11-21T07:26:13.043Z"
+    },
+    {
+      "id": "contact-f960e249",
+      "name": "+919723456789",
+      "profileName": "+919723456789",
+      "phone": "+919723456789",
+      "avatarColor": "#009de2",
+      "about": "Hey there! I am using WhatsApp.",
+      "isBot": false,
+      "isBusiness": false,
+      "blocked": false,
+      "optInStatus": "opted_in",
+      "optInUpdatedAt": "2026-11-21T07:26:13.131Z",
+      "optInSource": "manual",
+      "optInHistory": [
+        {
+          "id": "opt-b6f5d757",
+          "status": "opted_in",
+          "timestamp": "2026-11-21T07:26:13.131Z",
+          "source": "manual",
+          "note": "Initial contact registration"
+        }
+      ],
+      "presence": "online",
+      "lastSeen": "2026-11-21T07:26:13.131Z"
+    },
+    {
+      "id": "contact-8c7d3ebe",
+      "name": "+919822334455",
+      "profileName": "+919822334455",
+      "phone": "+919822334455",
+      "avatarColor": "#00a884",
+      "about": "Hey there! I am using WhatsApp.",
+      "isBot": false,
+      "isBusiness": false,
+      "blocked": false,
+      "optInStatus": "opted_in",
+      "optInUpdatedAt": "2026-11-21T07:26:13.181Z",
+      "optInSource": "manual",
+      "optInHistory": [
+        {
+          "id": "opt-85f89f94",
+          "status": "opted_in",
+          "timestamp": "2026-11-21T07:26:13.181Z",
+          "source": "manual",
+          "note": "Initial contact registration"
+        }
+      ],
+      "presence": "online",
+      "lastSeen": "2026-11-21T07:26:13.181Z"
     }
   ],
   "chats": [
+    {
+      "id": "chat-90e70737",
+      "type": "direct",
+      "phoneNumberId": "wa-sim-phone-001",
+      "name": "+919822334455",
+      "avatarColor": "#00a884",
+      "contactId": "contact-8c7d3ebe",
+      "participantIds": [
+        "contact-8c7d3ebe"
+      ],
+      "unreadCount": 0,
+      "archived": false,
+      "pinned": false,
+      "muted": false,
+      "labelIds": [],
+      "lastMessageId": "wamid.1c731ebc6f484dae83",
+      "lastMessageAt": "2026-11-21T07:26:13.187Z",
+      "lastInboundAt": null,
+      "conversationCategory": "MARKETING"
+    },
+    {
+      "id": "chat-20aac5d4",
+      "type": "direct",
+      "phoneNumberId": "wa-sim-phone-001",
+      "name": "+919723456789",
+      "avatarColor": "#009de2",
+      "contactId": "contact-f960e249",
+      "participantIds": [
+        "contact-f960e249"
+      ],
+      "unreadCount": 0,
+      "archived": false,
+      "pinned": false,
+      "muted": false,
+      "labelIds": [],
+      "lastMessageId": "wamid.abc0e6f1e0094a6bbd",
+      "lastMessageAt": "2026-11-21T07:26:13.138Z",
+      "lastInboundAt": null,
+      "conversationCategory": "MARKETING"
+    },
+    {
+      "id": "chat-d66d7c9a",
+      "type": "direct",
+      "phoneNumberId": "wa-sim-phone-001",
+      "name": "+919819876543",
+      "avatarColor": "#ff7b29",
+      "contactId": "contact-643c0fb3",
+      "participantIds": [
+        "contact-643c0fb3"
+      ],
+      "unreadCount": 0,
+      "archived": false,
+      "pinned": false,
+      "muted": false,
+      "labelIds": [],
+      "lastMessageId": "wamid.f024b7b650e542108d",
+      "lastMessageAt": "2026-11-21T07:26:13.050Z",
+      "lastInboundAt": null,
+      "conversationCategory": "MARKETING"
+    },
+    {
+      "id": "chat-2d8e8a68",
+      "type": "direct",
+      "phoneNumberId": "wa-sim-phone-001",
+      "name": "+919833445566",
+      "avatarColor": "#e542a3",
+      "contactId": "contact-1ce13925",
+      "participantIds": [
+        "contact-1ce13925"
+      ],
+      "unreadCount": 0,
+      "archived": false,
+      "pinned": false,
+      "muted": false,
+      "labelIds": [],
+      "lastMessageId": "wamid.f9da20a1183b4c1eb1",
+      "lastMessageAt": "2026-11-21T07:26:13.104Z",
+      "lastInboundAt": null,
+      "conversationCategory": "MARKETING"
+    },
     {
       "id": "chat-wt-rajesh",
       "type": "direct",
@@ -401,8 +581,8 @@
       "labelIds": [
         "lbl-vip"
       ],
-      "lastMessageId": "wamid.bd4cf669c5ca436bbc",
-      "lastMessageAt": "2026-11-21T06:33:15.185Z",
+      "lastMessageId": "wamid.4a6fdb227ac543639e",
+      "lastMessageAt": "2026-11-21T07:36:09.855Z",
       "lastInboundAt": "2026-11-20T17:48:30.312Z",
       "conversationCategory": "SERVICE"
     },
@@ -423,8 +603,8 @@
       "labelIds": [
         "lbl-vip"
       ],
-      "lastMessageId": "wamid.57253a179356498e93",
-      "lastMessageAt": "2026-11-21T06:33:15.021Z",
+      "lastMessageId": "wamid.5d1b9a1f761d42ee92",
+      "lastMessageAt": "2026-11-21T07:36:09.765Z",
       "lastInboundAt": "2026-11-20T17:45:30.312Z",
       "conversationCategory": "SERVICE"
     },
@@ -481,9 +661,10 @@
       "pinned": false,
       "muted": false,
       "labelIds": [],
-      "lastMessageAt": "2026-11-20T16:00:30.312Z",
+      "lastMessageAt": "2026-11-21T07:26:13.230Z",
       "lastInboundAt": "2026-11-20T16:00:30.312Z",
-      "conversationCategory": "SERVICE"
+      "conversationCategory": "MARKETING",
+      "lastMessageId": "wamid.5f310c06472c44be9d"
     },
     {
       "id": "chat-wt-harish",
@@ -500,9 +681,10 @@
       "pinned": false,
       "muted": false,
       "labelIds": [],
-      "lastMessageAt": "2026-11-20T15:00:30.312Z",
+      "lastMessageAt": "2026-11-21T07:26:13.275Z",
       "lastInboundAt": "2026-11-20T15:00:30.312Z",
-      "conversationCategory": "SERVICE"
+      "conversationCategory": "MARKETING",
+      "lastMessageId": "wamid.403ebbab96214746be"
     },
     {
       "id": "chat-wt-deepak",
@@ -519,9 +701,10 @@
       "pinned": false,
       "muted": false,
       "labelIds": [],
-      "lastMessageAt": "2026-11-20T14:00:30.312Z",
+      "lastMessageAt": "2026-11-21T07:26:13.208Z",
       "lastInboundAt": "2026-11-20T14:00:30.312Z",
-      "conversationCategory": "SERVICE"
+      "conversationCategory": "MARKETING",
+      "lastMessageId": "wamid.1883dce3ae404e5699"
     },
     {
       "id": "chat-wt-amit",
@@ -557,9 +740,10 @@
       "pinned": false,
       "muted": false,
       "labelIds": [],
-      "lastMessageAt": "2026-11-20T12:00:30.312Z",
+      "lastMessageAt": "2026-11-21T07:26:13.159Z",
       "lastInboundAt": "2026-11-20T12:00:30.312Z",
-      "conversationCategory": "SERVICE"
+      "conversationCategory": "MARKETING",
+      "lastMessageId": "wamid.cb40db46a3cd4aec92"
     },
     {
       "id": "chat-wt-sunil",
@@ -576,9 +760,10 @@
       "pinned": false,
       "muted": false,
       "labelIds": [],
-      "lastMessageAt": "2026-11-20T11:00:30.312Z",
+      "lastMessageAt": "2026-11-21T07:26:13.322Z",
       "lastInboundAt": "2026-11-20T11:00:30.312Z",
-      "conversationCategory": "SERVICE"
+      "conversationCategory": "MARKETING",
+      "lastMessageId": "wamid.6e0bef2d0f764d19bd"
     },
     {
       "id": "chat-wt-vikramaditya",
@@ -1122,6 +1307,85 @@
           "cloudApiVersion": "v20.0",
           "phoneNumberId": "phone-sit-2001"
         }
+      },
+      {
+        "id": "wamid.cd1193d990444fc69c",
+        "chatId": "chat-wt-rajesh",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Happy Diwali Rajesh! Celebrate with special festive brokerage benefits on Equity Delivery & MTF. Valid until Sunday 23:59.",
+        "timestamp": "2026-11-21T07:36:07.332Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-diwali-2024",
+          "templateName": "wealth_trade_diwali_2024",
+          "language": "en_US",
+          "category": "MARKETING",
+          "headerText": "Diwali Mahurat Trading Exclusive",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_fest\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%232e1065\"/>\n          <stop offset=\"50%\" stop-color=\"%23581c87\"/>\n          <stop offset=\"100%\" stop-color=\"%2386198f\"/>\n        </linearGradient>\n        <radialGradient id=\"lamp_glow\" cx=\"50%\" cy=\"50%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef08a\" stop-opacity=\"0.9\"/>\n          <stop offset=\"50%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.4\"/>\n          <stop offset=\"100%\" stop-color=\"%2386198f\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_fest)\"/>\n      <circle cx=\"580\" cy=\"220\" r=\"180\" fill=\"url(%23lamp_glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fbcfe8\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fbcfe8\" letter-spacing=\"1\">FESTIVE BLESSINGS</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"36\" font-weight=\"800\" fill=\"%23ffffff\">Shubh Deepawali</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"34\" font-weight=\"800\" fill=\"%23fde047\">&amp; Muhurat Trading</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23f5d0fe\">May your wealth compound consistently</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"200\" height=\"46\" rx=\"23\" fill=\"%23a21caf\"/>\n          <text x=\"100\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">VIEW FESTIVE PICKS</text>\n        </g>\n      </g>\n      <!-- Traditional Diya / Lamp Graphic -->\n      <g transform=\"translate(580, 240)\">\n        <path d=\"M 0 -60 C 25 -30 20 -5 0 0 C -20 -5 -25 -30 0 -60 Z\" fill=\"%23fde047\"/>\n        <path d=\"M 0 -45 C 12 -25 10 -5 0 0 C -10 -5 -12 -25 0 -45 Z\" fill=\"%23f97316\"/>\n        <ellipse cx=\"0\" cy=\"20\" rx=\"70\" ry=\"25\" fill=\"%23b45309\" stroke=\"%23d97706\" stroke-width=\"4\"/>\n        <ellipse cx=\"0\" cy=\"15\" rx=\"55\" ry=\"16\" fill=\"%2378350f\"/>\n        <circle cx=\"0\" cy=\"12\" r=\"10\" fill=\"%23f59e0b\"/>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fbcfe8\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Happy Diwali Rajesh! Celebrate with special festive brokerage benefits on Equity Delivery & MTF. Valid until Sunday 23:59.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Rajesh",
+            "Equity Delivery & MTF",
+            "Sunday 23:59"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      },
+      {
+        "id": "wamid.e0653d5701ab480f86",
+        "chatId": "chat-wt-rajesh",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "text",
+        "body": "Latency test",
+        "timestamp": "2026-11-21T07:36:08.341Z",
+        "status": "read",
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      },
+      {
+        "id": "wamid.4a6fdb227ac543639e",
+        "chatId": "chat-wt-rajesh",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "text",
+        "body": "Dear Client,\n\nThank you for reaching out to Wealth Transformers India Pvt Ltd.\n\nTo ensure you receive accurate, compliant, and personalized assistance regarding your specific query, our authorized relationship management and compliance team will assist you directly:\n\n🏢 Wealth Transformers India Pvt Ltd\n📞 Support Desk: +91 22 6987 5400\n📱 Authority Hotline (WhatsApp): +91 98200 12345\n📧 Compliance & Client Care: support@wealthtransformers.in\n🌐 Official Client Portal: https://wealthtransformers.in/support\n\nOperating Hours: Monday – Friday, 9:00 AM – 6:00 PM IST.\nA senior officer has been notified of your inquiry.",
+        "timestamp": "2026-11-21T07:36:09.855Z",
+        "status": "read",
+        "linkPreview": {
+          "url": "https://wealthtransformers.in/support",
+          "domain": "wealthtransformers.in",
+          "title": "Support — wealthtransformers.in",
+          "description": "Preview for wealthtransformers.in/support"
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
       }
     ],
     "chat-wt-priya": [
@@ -1175,10 +1439,462 @@
           "cloudApiVersion": "v20.0",
           "phoneNumberId": "phone-sit-2002"
         }
+      },
+      {
+        "id": "wamid.57d750e9a7bb44faab",
+        "chatId": "chat-wt-priya",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Priya Patel, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+        "timestamp": "2026-11-21T07:26:13.299Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-market-alpha",
+          "templateName": "wealth_market_alpha_v1",
+          "language": "en",
+          "category": "MARKETING",
+          "headerText": "Wealth Transformers Alpha Brief",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_offer\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%233b1502\"/>\n          <stop offset=\"50%\" stop-color=\"%23853102\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\"/>\n        </linearGradient>\n        <radialGradient id=\"glow\" cx=\"65%\" cy=\"40%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef3c7\" stop-opacity=\"0.8\"/>\n          <stop offset=\"60%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.3\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_offer)\"/>\n      <circle cx=\"560\" cy=\"180\" r=\"200\" fill=\"url(%23glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fef3c7\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fde68a\" letter-spacing=\"1\">FESTIVE PROMO</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23ffffff\">Say YES to 0%</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23fde047\">Brokerage &amp; Bonus</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23fed7aa\">Exclusive festive portfolio advisory deal</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"180\" height=\"46\" rx=\"23\" fill=\"%23ea580c\"/>\n          <text x=\"90\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">CLAIM OFFER</text>\n        </g>\n      </g>\n      <!-- Coins & Wallet Graphic -->\n      <g transform=\"translate(540, 140)\">\n        <rect x=\"20\" y=\"60\" width=\"160\" height=\"130\" rx=\"24\" fill=\"%239a3412\" stroke=\"%23ea580c\" stroke-width=\"4\"/>\n        <path d=\"M 10 90 Q 100 60 190 90 L 190 180 Q 100 210 10 180 Z\" fill=\"%23c2410c\"/>\n        <circle cx=\"100\" cy=\"130\" r=\"16\" fill=\"%23fde047\"/>\n        <circle cx=\"60\" cy=\"30\" r=\"32\" fill=\"%23fbbf24\" stroke=\"%23f59e0b\" stroke-width=\"4\"/>\n        <text x=\"60\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"28\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"140\" cy=\"45\" r=\"26\" fill=\"%23fcd34d\" stroke=\"%23fbbf24\" stroke-width=\"3\"/>\n        <text x=\"140\" y=\"54\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"110\" cy=\"-10\" r=\"22\" fill=\"%23fef08a\" stroke=\"%23fde047\" stroke-width=\"3\"/>\n        <text x=\"110\" y=\"-2\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fef08a\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Dear Priya Patel, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Priya Patel"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      },
+      {
+        "id": "wamid.5d1b9a1f761d42ee92",
+        "chatId": "chat-wt-priya",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "text",
+        "body": "Tenant 2 isolated message",
+        "timestamp": "2026-11-21T07:36:09.765Z",
+        "status": "read",
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2002"
+        }
+      }
+    ],
+    "chat-2d8e8a68": [
+      {
+        "id": "wamid.8eecdf60bffd43c5b7",
+        "chatId": "chat-2d8e8a68",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Siddharth Roy Kapoor, Wealth Transformers wishes you a very Happy Birthday! May this year bring you immense success, good health, and compounding portfolio returns.",
+        "timestamp": "2026-11-21T07:24:28.350Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-bday-vip",
+          "templateName": "birthday_vip_wishes_v1",
+          "language": "en",
+          "category": "UTILITY",
+          "headerText": "Happy Birthday from Wealth Transformers!",
+          "renderedBody": "Dear Siddharth Roy Kapoor, Wealth Transformers wishes you a very Happy Birthday! May this year bring you immense success, good health, and compounding portfolio returns.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [],
+          "variables": [
+            "Siddharth Roy Kapoor"
+          ]
+        },
+        "conversationCategory": "UTILITY",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      },
+      {
+        "id": "wamid.f9da20a1183b4c1eb1",
+        "chatId": "chat-2d8e8a68",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Siddharth Roy Kapoor, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+        "timestamp": "2026-11-21T07:26:13.104Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-market-alpha",
+          "templateName": "wealth_market_alpha_v1",
+          "language": "en",
+          "category": "MARKETING",
+          "headerText": "Wealth Transformers Alpha Brief",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_offer\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%233b1502\"/>\n          <stop offset=\"50%\" stop-color=\"%23853102\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\"/>\n        </linearGradient>\n        <radialGradient id=\"glow\" cx=\"65%\" cy=\"40%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef3c7\" stop-opacity=\"0.8\"/>\n          <stop offset=\"60%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.3\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_offer)\"/>\n      <circle cx=\"560\" cy=\"180\" r=\"200\" fill=\"url(%23glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fef3c7\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fde68a\" letter-spacing=\"1\">FESTIVE PROMO</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23ffffff\">Say YES to 0%</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23fde047\">Brokerage &amp; Bonus</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23fed7aa\">Exclusive festive portfolio advisory deal</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"180\" height=\"46\" rx=\"23\" fill=\"%23ea580c\"/>\n          <text x=\"90\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">CLAIM OFFER</text>\n        </g>\n      </g>\n      <!-- Coins & Wallet Graphic -->\n      <g transform=\"translate(540, 140)\">\n        <rect x=\"20\" y=\"60\" width=\"160\" height=\"130\" rx=\"24\" fill=\"%239a3412\" stroke=\"%23ea580c\" stroke-width=\"4\"/>\n        <path d=\"M 10 90 Q 100 60 190 90 L 190 180 Q 100 210 10 180 Z\" fill=\"%23c2410c\"/>\n        <circle cx=\"100\" cy=\"130\" r=\"16\" fill=\"%23fde047\"/>\n        <circle cx=\"60\" cy=\"30\" r=\"32\" fill=\"%23fbbf24\" stroke=\"%23f59e0b\" stroke-width=\"4\"/>\n        <text x=\"60\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"28\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"140\" cy=\"45\" r=\"26\" fill=\"%23fcd34d\" stroke=\"%23fbbf24\" stroke-width=\"3\"/>\n        <text x=\"140\" y=\"54\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"110\" cy=\"-10\" r=\"22\" fill=\"%23fef08a\" stroke=\"%23fde047\" stroke-width=\"3\"/>\n        <text x=\"110\" y=\"-2\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fef08a\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Dear Siddharth Roy Kapoor, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Siddharth Roy Kapoor"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      }
+    ],
+    "chat-d66d7c9a": [
+      {
+        "id": "wamid.f024b7b650e542108d",
+        "chatId": "chat-d66d7c9a",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Ananya Deshmukh, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+        "timestamp": "2026-11-21T07:26:13.050Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-market-alpha",
+          "templateName": "wealth_market_alpha_v1",
+          "language": "en",
+          "category": "MARKETING",
+          "headerText": "Wealth Transformers Alpha Brief",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_offer\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%233b1502\"/>\n          <stop offset=\"50%\" stop-color=\"%23853102\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\"/>\n        </linearGradient>\n        <radialGradient id=\"glow\" cx=\"65%\" cy=\"40%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef3c7\" stop-opacity=\"0.8\"/>\n          <stop offset=\"60%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.3\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_offer)\"/>\n      <circle cx=\"560\" cy=\"180\" r=\"200\" fill=\"url(%23glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fef3c7\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fde68a\" letter-spacing=\"1\">FESTIVE PROMO</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23ffffff\">Say YES to 0%</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23fde047\">Brokerage &amp; Bonus</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23fed7aa\">Exclusive festive portfolio advisory deal</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"180\" height=\"46\" rx=\"23\" fill=\"%23ea580c\"/>\n          <text x=\"90\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">CLAIM OFFER</text>\n        </g>\n      </g>\n      <!-- Coins & Wallet Graphic -->\n      <g transform=\"translate(540, 140)\">\n        <rect x=\"20\" y=\"60\" width=\"160\" height=\"130\" rx=\"24\" fill=\"%239a3412\" stroke=\"%23ea580c\" stroke-width=\"4\"/>\n        <path d=\"M 10 90 Q 100 60 190 90 L 190 180 Q 100 210 10 180 Z\" fill=\"%23c2410c\"/>\n        <circle cx=\"100\" cy=\"130\" r=\"16\" fill=\"%23fde047\"/>\n        <circle cx=\"60\" cy=\"30\" r=\"32\" fill=\"%23fbbf24\" stroke=\"%23f59e0b\" stroke-width=\"4\"/>\n        <text x=\"60\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"28\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"140\" cy=\"45\" r=\"26\" fill=\"%23fcd34d\" stroke=\"%23fbbf24\" stroke-width=\"3\"/>\n        <text x=\"140\" y=\"54\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"110\" cy=\"-10\" r=\"22\" fill=\"%23fef08a\" stroke=\"%23fde047\" stroke-width=\"3\"/>\n        <text x=\"110\" y=\"-2\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fef08a\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Dear Ananya Deshmukh, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Ananya Deshmukh"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      }
+    ],
+    "chat-20aac5d4": [
+      {
+        "id": "wamid.abc0e6f1e0094a6bbd",
+        "chatId": "chat-20aac5d4",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Rajesh Kumar Patel, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+        "timestamp": "2026-11-21T07:26:13.138Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-market-alpha",
+          "templateName": "wealth_market_alpha_v1",
+          "language": "en",
+          "category": "MARKETING",
+          "headerText": "Wealth Transformers Alpha Brief",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_offer\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%233b1502\"/>\n          <stop offset=\"50%\" stop-color=\"%23853102\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\"/>\n        </linearGradient>\n        <radialGradient id=\"glow\" cx=\"65%\" cy=\"40%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef3c7\" stop-opacity=\"0.8\"/>\n          <stop offset=\"60%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.3\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_offer)\"/>\n      <circle cx=\"560\" cy=\"180\" r=\"200\" fill=\"url(%23glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fef3c7\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fde68a\" letter-spacing=\"1\">FESTIVE PROMO</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23ffffff\">Say YES to 0%</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23fde047\">Brokerage &amp; Bonus</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23fed7aa\">Exclusive festive portfolio advisory deal</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"180\" height=\"46\" rx=\"23\" fill=\"%23ea580c\"/>\n          <text x=\"90\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">CLAIM OFFER</text>\n        </g>\n      </g>\n      <!-- Coins & Wallet Graphic -->\n      <g transform=\"translate(540, 140)\">\n        <rect x=\"20\" y=\"60\" width=\"160\" height=\"130\" rx=\"24\" fill=\"%239a3412\" stroke=\"%23ea580c\" stroke-width=\"4\"/>\n        <path d=\"M 10 90 Q 100 60 190 90 L 190 180 Q 100 210 10 180 Z\" fill=\"%23c2410c\"/>\n        <circle cx=\"100\" cy=\"130\" r=\"16\" fill=\"%23fde047\"/>\n        <circle cx=\"60\" cy=\"30\" r=\"32\" fill=\"%23fbbf24\" stroke=\"%23f59e0b\" stroke-width=\"4\"/>\n        <text x=\"60\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"28\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"140\" cy=\"45\" r=\"26\" fill=\"%23fcd34d\" stroke=\"%23fbbf24\" stroke-width=\"3\"/>\n        <text x=\"140\" y=\"54\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"110\" cy=\"-10\" r=\"22\" fill=\"%23fef08a\" stroke=\"%23fde047\" stroke-width=\"3\"/>\n        <text x=\"110\" y=\"-2\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fef08a\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Dear Rajesh Kumar Patel, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Rajesh Kumar Patel"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      }
+    ],
+    "chat-wt-kavita": [
+      {
+        "id": "wamid.cb40db46a3cd4aec92",
+        "chatId": "chat-wt-kavita",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Kavita Reddy, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+        "timestamp": "2026-11-21T07:26:13.159Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-market-alpha",
+          "templateName": "wealth_market_alpha_v1",
+          "language": "en",
+          "category": "MARKETING",
+          "headerText": "Wealth Transformers Alpha Brief",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_offer\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%233b1502\"/>\n          <stop offset=\"50%\" stop-color=\"%23853102\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\"/>\n        </linearGradient>\n        <radialGradient id=\"glow\" cx=\"65%\" cy=\"40%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef3c7\" stop-opacity=\"0.8\"/>\n          <stop offset=\"60%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.3\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_offer)\"/>\n      <circle cx=\"560\" cy=\"180\" r=\"200\" fill=\"url(%23glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fef3c7\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fde68a\" letter-spacing=\"1\">FESTIVE PROMO</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23ffffff\">Say YES to 0%</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23fde047\">Brokerage &amp; Bonus</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23fed7aa\">Exclusive festive portfolio advisory deal</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"180\" height=\"46\" rx=\"23\" fill=\"%23ea580c\"/>\n          <text x=\"90\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">CLAIM OFFER</text>\n        </g>\n      </g>\n      <!-- Coins & Wallet Graphic -->\n      <g transform=\"translate(540, 140)\">\n        <rect x=\"20\" y=\"60\" width=\"160\" height=\"130\" rx=\"24\" fill=\"%239a3412\" stroke=\"%23ea580c\" stroke-width=\"4\"/>\n        <path d=\"M 10 90 Q 100 60 190 90 L 190 180 Q 100 210 10 180 Z\" fill=\"%23c2410c\"/>\n        <circle cx=\"100\" cy=\"130\" r=\"16\" fill=\"%23fde047\"/>\n        <circle cx=\"60\" cy=\"30\" r=\"32\" fill=\"%23fbbf24\" stroke=\"%23f59e0b\" stroke-width=\"4\"/>\n        <text x=\"60\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"28\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"140\" cy=\"45\" r=\"26\" fill=\"%23fcd34d\" stroke=\"%23fbbf24\" stroke-width=\"3\"/>\n        <text x=\"140\" y=\"54\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"110\" cy=\"-10\" r=\"22\" fill=\"%23fef08a\" stroke=\"%23fde047\" stroke-width=\"3\"/>\n        <text x=\"110\" y=\"-2\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fef08a\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Dear Kavita Reddy, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Kavita Reddy"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      }
+    ],
+    "chat-90e70737": [
+      {
+        "id": "wamid.1c731ebc6f484dae83",
+        "chatId": "chat-90e70737",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Pooja Bhattacharya, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+        "timestamp": "2026-11-21T07:26:13.187Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-market-alpha",
+          "templateName": "wealth_market_alpha_v1",
+          "language": "en",
+          "category": "MARKETING",
+          "headerText": "Wealth Transformers Alpha Brief",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_offer\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%233b1502\"/>\n          <stop offset=\"50%\" stop-color=\"%23853102\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\"/>\n        </linearGradient>\n        <radialGradient id=\"glow\" cx=\"65%\" cy=\"40%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef3c7\" stop-opacity=\"0.8\"/>\n          <stop offset=\"60%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.3\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_offer)\"/>\n      <circle cx=\"560\" cy=\"180\" r=\"200\" fill=\"url(%23glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fef3c7\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fde68a\" letter-spacing=\"1\">FESTIVE PROMO</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23ffffff\">Say YES to 0%</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23fde047\">Brokerage &amp; Bonus</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23fed7aa\">Exclusive festive portfolio advisory deal</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"180\" height=\"46\" rx=\"23\" fill=\"%23ea580c\"/>\n          <text x=\"90\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">CLAIM OFFER</text>\n        </g>\n      </g>\n      <!-- Coins & Wallet Graphic -->\n      <g transform=\"translate(540, 140)\">\n        <rect x=\"20\" y=\"60\" width=\"160\" height=\"130\" rx=\"24\" fill=\"%239a3412\" stroke=\"%23ea580c\" stroke-width=\"4\"/>\n        <path d=\"M 10 90 Q 100 60 190 90 L 190 180 Q 100 210 10 180 Z\" fill=\"%23c2410c\"/>\n        <circle cx=\"100\" cy=\"130\" r=\"16\" fill=\"%23fde047\"/>\n        <circle cx=\"60\" cy=\"30\" r=\"32\" fill=\"%23fbbf24\" stroke=\"%23f59e0b\" stroke-width=\"4\"/>\n        <text x=\"60\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"28\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"140\" cy=\"45\" r=\"26\" fill=\"%23fcd34d\" stroke=\"%23fbbf24\" stroke-width=\"3\"/>\n        <text x=\"140\" y=\"54\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"110\" cy=\"-10\" r=\"22\" fill=\"%23fef08a\" stroke=\"%23fde047\" stroke-width=\"3\"/>\n        <text x=\"110\" y=\"-2\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fef08a\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Dear Pooja Bhattacharya, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Pooja Bhattacharya"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      }
+    ],
+    "chat-wt-deepak": [
+      {
+        "id": "wamid.1883dce3ae404e5699",
+        "chatId": "chat-wt-deepak",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Deepak Mehta, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+        "timestamp": "2026-11-21T07:26:13.208Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-market-alpha",
+          "templateName": "wealth_market_alpha_v1",
+          "language": "en",
+          "category": "MARKETING",
+          "headerText": "Wealth Transformers Alpha Brief",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_offer\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%233b1502\"/>\n          <stop offset=\"50%\" stop-color=\"%23853102\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\"/>\n        </linearGradient>\n        <radialGradient id=\"glow\" cx=\"65%\" cy=\"40%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef3c7\" stop-opacity=\"0.8\"/>\n          <stop offset=\"60%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.3\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_offer)\"/>\n      <circle cx=\"560\" cy=\"180\" r=\"200\" fill=\"url(%23glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fef3c7\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fde68a\" letter-spacing=\"1\">FESTIVE PROMO</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23ffffff\">Say YES to 0%</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23fde047\">Brokerage &amp; Bonus</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23fed7aa\">Exclusive festive portfolio advisory deal</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"180\" height=\"46\" rx=\"23\" fill=\"%23ea580c\"/>\n          <text x=\"90\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">CLAIM OFFER</text>\n        </g>\n      </g>\n      <!-- Coins & Wallet Graphic -->\n      <g transform=\"translate(540, 140)\">\n        <rect x=\"20\" y=\"60\" width=\"160\" height=\"130\" rx=\"24\" fill=\"%239a3412\" stroke=\"%23ea580c\" stroke-width=\"4\"/>\n        <path d=\"M 10 90 Q 100 60 190 90 L 190 180 Q 100 210 10 180 Z\" fill=\"%23c2410c\"/>\n        <circle cx=\"100\" cy=\"130\" r=\"16\" fill=\"%23fde047\"/>\n        <circle cx=\"60\" cy=\"30\" r=\"32\" fill=\"%23fbbf24\" stroke=\"%23f59e0b\" stroke-width=\"4\"/>\n        <text x=\"60\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"28\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"140\" cy=\"45\" r=\"26\" fill=\"%23fcd34d\" stroke=\"%23fbbf24\" stroke-width=\"3\"/>\n        <text x=\"140\" y=\"54\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"110\" cy=\"-10\" r=\"22\" fill=\"%23fef08a\" stroke=\"%23fde047\" stroke-width=\"3\"/>\n        <text x=\"110\" y=\"-2\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fef08a\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Dear Deepak Mehta, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Deepak Mehta"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      }
+    ],
+    "chat-wt-nandini": [
+      {
+        "id": "wamid.5f310c06472c44be9d",
+        "chatId": "chat-wt-nandini",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Nandini Swaminathan, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+        "timestamp": "2026-11-21T07:26:13.230Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-market-alpha",
+          "templateName": "wealth_market_alpha_v1",
+          "language": "en",
+          "category": "MARKETING",
+          "headerText": "Wealth Transformers Alpha Brief",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_offer\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%233b1502\"/>\n          <stop offset=\"50%\" stop-color=\"%23853102\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\"/>\n        </linearGradient>\n        <radialGradient id=\"glow\" cx=\"65%\" cy=\"40%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef3c7\" stop-opacity=\"0.8\"/>\n          <stop offset=\"60%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.3\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_offer)\"/>\n      <circle cx=\"560\" cy=\"180\" r=\"200\" fill=\"url(%23glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fef3c7\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fde68a\" letter-spacing=\"1\">FESTIVE PROMO</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23ffffff\">Say YES to 0%</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23fde047\">Brokerage &amp; Bonus</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23fed7aa\">Exclusive festive portfolio advisory deal</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"180\" height=\"46\" rx=\"23\" fill=\"%23ea580c\"/>\n          <text x=\"90\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">CLAIM OFFER</text>\n        </g>\n      </g>\n      <!-- Coins & Wallet Graphic -->\n      <g transform=\"translate(540, 140)\">\n        <rect x=\"20\" y=\"60\" width=\"160\" height=\"130\" rx=\"24\" fill=\"%239a3412\" stroke=\"%23ea580c\" stroke-width=\"4\"/>\n        <path d=\"M 10 90 Q 100 60 190 90 L 190 180 Q 100 210 10 180 Z\" fill=\"%23c2410c\"/>\n        <circle cx=\"100\" cy=\"130\" r=\"16\" fill=\"%23fde047\"/>\n        <circle cx=\"60\" cy=\"30\" r=\"32\" fill=\"%23fbbf24\" stroke=\"%23f59e0b\" stroke-width=\"4\"/>\n        <text x=\"60\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"28\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"140\" cy=\"45\" r=\"26\" fill=\"%23fcd34d\" stroke=\"%23fbbf24\" stroke-width=\"3\"/>\n        <text x=\"140\" y=\"54\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"110\" cy=\"-10\" r=\"22\" fill=\"%23fef08a\" stroke=\"%23fde047\" stroke-width=\"3\"/>\n        <text x=\"110\" y=\"-2\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fef08a\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Dear Nandini Swaminathan, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Nandini Swaminathan"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      }
+    ],
+    "chat-wt-harish": [
+      {
+        "id": "wamid.403ebbab96214746be",
+        "chatId": "chat-wt-harish",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Harish Chandra Verma, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+        "timestamp": "2026-11-21T07:26:13.275Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-market-alpha",
+          "templateName": "wealth_market_alpha_v1",
+          "language": "en",
+          "category": "MARKETING",
+          "headerText": "Wealth Transformers Alpha Brief",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_offer\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%233b1502\"/>\n          <stop offset=\"50%\" stop-color=\"%23853102\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\"/>\n        </linearGradient>\n        <radialGradient id=\"glow\" cx=\"65%\" cy=\"40%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef3c7\" stop-opacity=\"0.8\"/>\n          <stop offset=\"60%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.3\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_offer)\"/>\n      <circle cx=\"560\" cy=\"180\" r=\"200\" fill=\"url(%23glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fef3c7\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fde68a\" letter-spacing=\"1\">FESTIVE PROMO</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23ffffff\">Say YES to 0%</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23fde047\">Brokerage &amp; Bonus</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23fed7aa\">Exclusive festive portfolio advisory deal</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"180\" height=\"46\" rx=\"23\" fill=\"%23ea580c\"/>\n          <text x=\"90\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">CLAIM OFFER</text>\n        </g>\n      </g>\n      <!-- Coins & Wallet Graphic -->\n      <g transform=\"translate(540, 140)\">\n        <rect x=\"20\" y=\"60\" width=\"160\" height=\"130\" rx=\"24\" fill=\"%239a3412\" stroke=\"%23ea580c\" stroke-width=\"4\"/>\n        <path d=\"M 10 90 Q 100 60 190 90 L 190 180 Q 100 210 10 180 Z\" fill=\"%23c2410c\"/>\n        <circle cx=\"100\" cy=\"130\" r=\"16\" fill=\"%23fde047\"/>\n        <circle cx=\"60\" cy=\"30\" r=\"32\" fill=\"%23fbbf24\" stroke=\"%23f59e0b\" stroke-width=\"4\"/>\n        <text x=\"60\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"28\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"140\" cy=\"45\" r=\"26\" fill=\"%23fcd34d\" stroke=\"%23fbbf24\" stroke-width=\"3\"/>\n        <text x=\"140\" y=\"54\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"110\" cy=\"-10\" r=\"22\" fill=\"%23fef08a\" stroke=\"%23fde047\" stroke-width=\"3\"/>\n        <text x=\"110\" y=\"-2\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fef08a\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Dear Harish Chandra Verma, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Harish Chandra Verma"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      }
+    ],
+    "chat-wt-sunil": [
+      {
+        "id": "wamid.6e0bef2d0f764d19bd",
+        "chatId": "chat-wt-sunil",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "QA Sandbox Account",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Sunil Bharti Mittal, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+        "timestamp": "2026-11-21T07:26:13.322Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-market-alpha",
+          "templateName": "wealth_market_alpha_v1",
+          "language": "en",
+          "category": "MARKETING",
+          "headerText": "Wealth Transformers Alpha Brief",
+          "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_offer\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%233b1502\"/>\n          <stop offset=\"50%\" stop-color=\"%23853102\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\"/>\n        </linearGradient>\n        <radialGradient id=\"glow\" cx=\"65%\" cy=\"40%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef3c7\" stop-opacity=\"0.8\"/>\n          <stop offset=\"60%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.3\"/>\n          <stop offset=\"100%\" stop-color=\"%23d97706\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_offer)\"/>\n      <circle cx=\"560\" cy=\"180\" r=\"200\" fill=\"url(%23glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fef3c7\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fde68a\" letter-spacing=\"1\">FESTIVE PROMO</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23ffffff\">Say YES to 0%</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"38\" font-weight=\"800\" fill=\"%23fde047\">Brokerage &amp; Bonus</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23fed7aa\">Exclusive festive portfolio advisory deal</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"180\" height=\"46\" rx=\"23\" fill=\"%23ea580c\"/>\n          <text x=\"90\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">CLAIM OFFER</text>\n        </g>\n      </g>\n      <!-- Coins & Wallet Graphic -->\n      <g transform=\"translate(540, 140)\">\n        <rect x=\"20\" y=\"60\" width=\"160\" height=\"130\" rx=\"24\" fill=\"%239a3412\" stroke=\"%23ea580c\" stroke-width=\"4\"/>\n        <path d=\"M 10 90 Q 100 60 190 90 L 190 180 Q 100 210 10 180 Z\" fill=\"%23c2410c\"/>\n        <circle cx=\"100\" cy=\"130\" r=\"16\" fill=\"%23fde047\"/>\n        <circle cx=\"60\" cy=\"30\" r=\"32\" fill=\"%23fbbf24\" stroke=\"%23f59e0b\" stroke-width=\"4\"/>\n        <text x=\"60\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"28\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"140\" cy=\"45\" r=\"26\" fill=\"%23fcd34d\" stroke=\"%23fbbf24\" stroke-width=\"3\"/>\n        <text x=\"140\" y=\"54\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n        <circle cx=\"110\" cy=\"-10\" r=\"22\" fill=\"%23fef08a\" stroke=\"%23fde047\" stroke-width=\"3\"/>\n        <text x=\"110\" y=\"-2\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"900\" fill=\"%2378350f\" text-anchor=\"middle\">₹</text>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fef08a\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+          "renderedBody": "Dear Sunil Bharti Mittal, here is your exclusive Market Alpha Brief: {{2}}. Nifty momentum indicates positive accumulation in {{3}}. Speak with your wealth advisor for tailored rebalancing.",
+          "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in"
+            }
+          ],
+          "variables": [
+            "Sunil Bharti Mittal"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
       }
     ]
   },
   "templates": [
+    {
+      "id": "tpl-b396f5b4",
+      "name": "diwali_wealth_dhamaka_v1",
+      "language": "en",
+      "category": "MARKETING",
+      "status": "APPROVED",
+      "headerText": "Diwali Wealth Dhamaka Offer! ??",
+      "headerImageUrl": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"450\" viewBox=\"0 0 800 450\">\n      <defs>\n        <linearGradient id=\"bg_fest\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n          <stop offset=\"0%\" stop-color=\"%232e1065\"/>\n          <stop offset=\"50%\" stop-color=\"%23581c87\"/>\n          <stop offset=\"100%\" stop-color=\"%2386198f\"/>\n        </linearGradient>\n        <radialGradient id=\"lamp_glow\" cx=\"50%\" cy=\"50%\" r=\"50%\">\n          <stop offset=\"0%\" stop-color=\"%23fef08a\" stop-opacity=\"0.9\"/>\n          <stop offset=\"50%\" stop-color=\"%23f59e0b\" stop-opacity=\"0.4\"/>\n          <stop offset=\"100%\" stop-color=\"%2386198f\" stop-opacity=\"0\"/>\n        </radialGradient>\n      </defs>\n      <rect width=\"800\" height=\"450\" fill=\"url(%23bg_fest)\"/>\n      <circle cx=\"580\" cy=\"220\" r=\"180\" fill=\"url(%23lamp_glow)\"/>\n      <g transform=\"translate(60, 80)\">\n        <rect x=\"0\" y=\"0\" width=\"220\" height=\"34\" rx=\"17\" fill=\"%23fbcfe8\" fill-opacity=\"0.2\"/>\n        <text x=\"20\" y=\"23\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"%23fbcfe8\" letter-spacing=\"1\">FESTIVE BLESSINGS</text>\n        <text x=\"0\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"36\" font-weight=\"800\" fill=\"%23ffffff\">Shubh Deepawali</text>\n        <text x=\"0\" y=\"135\" font-family=\"system-ui, sans-serif\" font-size=\"34\" font-weight=\"800\" fill=\"%23fde047\">&amp; Muhurat Trading</text>\n        <text x=\"0\" y=\"175\" font-family=\"system-ui, sans-serif\" font-size=\"18\" font-weight=\"500\" fill=\"%23f5d0fe\">May your wealth compound consistently</text>\n        <g transform=\"translate(0, 210)\">\n          <rect width=\"200\" height=\"46\" rx=\"23\" fill=\"%23a21caf\"/>\n          <text x=\"100\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"15\" font-weight=\"700\" fill=\"%23ffffff\" text-anchor=\"middle\">VIEW FESTIVE PICKS</text>\n        </g>\n      </g>\n      <!-- Traditional Diya / Lamp Graphic -->\n      <g transform=\"translate(580, 240)\">\n        <path d=\"M 0 -60 C 25 -30 20 -5 0 0 C -20 -5 -25 -30 0 -60 Z\" fill=\"%23fde047\"/>\n        <path d=\"M 0 -45 C 12 -25 10 -5 0 0 C -10 -5 -12 -25 0 -45 Z\" fill=\"%23f97316\"/>\n        <ellipse cx=\"0\" cy=\"20\" rx=\"70\" ry=\"25\" fill=\"%23b45309\" stroke=\"%23d97706\" stroke-width=\"4\"/>\n        <ellipse cx=\"0\" cy=\"15\" rx=\"55\" ry=\"16\" fill=\"%2378350f\"/>\n        <circle cx=\"0\" cy=\"12\" r=\"10\" fill=\"%23f59e0b\"/>\n      </g>\n      <text x=\"760\" y=\"420\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"%23fbcfe8\" text-anchor=\"end\" opacity=\"0.8\">WEALTH TRANSFORMERS INDIA</text>\n    </svg>",
+      "bodyText": "Dear {{1}}, get 0% brokerage on all equity deliveries this Diwali season! Contact your Wealth Transformers advisor.",
+      "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765",
+      "buttons": [
+        []
+      ],
+      "sampleValues": [],
+      "createdAt": "2026-11-21T07:29:00.885Z",
+      "updatedAt": "2026-11-21T07:29:00.885Z"
+    },
     {
       "id": "tpl-diwali-special",
       "name": "diwali_special_greeting_v1",
@@ -1498,6 +2214,127 @@
   "mediaIndex": {},
   "conversations": [
     {
+      "id": "conv_b6d84b68-2",
+      "chatId": "chat-wt-sunil",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "MARKETING",
+      "billable": true,
+      "estimatedCostUsd": 0.025,
+      "startedAt": "2026-11-21T07:26:13.322Z",
+      "expiresAt": "2026-11-22T07:26:13.322Z",
+      "messageId": "wamid.6e0bef2d0f764d19bd"
+    },
+    {
+      "id": "conv_7072fc07-0",
+      "chatId": "chat-wt-priya",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "MARKETING",
+      "billable": true,
+      "estimatedCostUsd": 0.025,
+      "startedAt": "2026-11-21T07:26:13.299Z",
+      "expiresAt": "2026-11-22T07:26:13.299Z",
+      "messageId": "wamid.57d750e9a7bb44faab"
+    },
+    {
+      "id": "conv_ae9a0df4-9",
+      "chatId": "chat-wt-harish",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "MARKETING",
+      "billable": true,
+      "estimatedCostUsd": 0.025,
+      "startedAt": "2026-11-21T07:26:13.276Z",
+      "expiresAt": "2026-11-22T07:26:13.276Z",
+      "messageId": "wamid.403ebbab96214746be"
+    },
+    {
+      "id": "conv_e3a79123-f",
+      "chatId": "chat-wt-nandini",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "MARKETING",
+      "billable": true,
+      "estimatedCostUsd": 0.025,
+      "startedAt": "2026-11-21T07:26:13.230Z",
+      "expiresAt": "2026-11-22T07:26:13.230Z",
+      "messageId": "wamid.5f310c06472c44be9d"
+    },
+    {
+      "id": "conv_fd7d7f22-e",
+      "chatId": "chat-wt-deepak",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "MARKETING",
+      "billable": true,
+      "estimatedCostUsd": 0.025,
+      "startedAt": "2026-11-21T07:26:13.209Z",
+      "expiresAt": "2026-11-22T07:26:13.209Z",
+      "messageId": "wamid.1883dce3ae404e5699"
+    },
+    {
+      "id": "conv_88594695-3",
+      "chatId": "chat-90e70737",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "MARKETING",
+      "billable": true,
+      "estimatedCostUsd": 0.025,
+      "startedAt": "2026-11-21T07:26:13.187Z",
+      "expiresAt": "2026-11-22T07:26:13.187Z",
+      "messageId": "wamid.1c731ebc6f484dae83"
+    },
+    {
+      "id": "conv_355dd9cd-2",
+      "chatId": "chat-wt-kavita",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "MARKETING",
+      "billable": true,
+      "estimatedCostUsd": 0.025,
+      "startedAt": "2026-11-21T07:26:13.159Z",
+      "expiresAt": "2026-11-22T07:26:13.159Z",
+      "messageId": "wamid.cb40db46a3cd4aec92"
+    },
+    {
+      "id": "conv_d037d905-e",
+      "chatId": "chat-20aac5d4",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "MARKETING",
+      "billable": true,
+      "estimatedCostUsd": 0.025,
+      "startedAt": "2026-11-21T07:26:13.138Z",
+      "expiresAt": "2026-11-22T07:26:13.138Z",
+      "messageId": "wamid.abc0e6f1e0094a6bbd"
+    },
+    {
+      "id": "conv_77d0d72c-b",
+      "chatId": "chat-2d8e8a68",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "MARKETING",
+      "billable": true,
+      "estimatedCostUsd": 0.025,
+      "startedAt": "2026-11-21T07:26:13.104Z",
+      "expiresAt": "2026-11-22T07:26:13.104Z",
+      "messageId": "wamid.f9da20a1183b4c1eb1"
+    },
+    {
+      "id": "conv_07001ffb-f",
+      "chatId": "chat-d66d7c9a",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "MARKETING",
+      "billable": true,
+      "estimatedCostUsd": 0.025,
+      "startedAt": "2026-11-21T07:26:13.050Z",
+      "expiresAt": "2026-11-22T07:26:13.050Z",
+      "messageId": "wamid.f024b7b650e542108d"
+    },
+    {
+      "id": "conv_0789c3c4-2",
+      "chatId": "chat-2d8e8a68",
+      "phoneNumberId": "wa-sim-phone-001",
+      "category": "UTILITY",
+      "billable": true,
+      "estimatedCostUsd": 0.015,
+      "startedAt": "2026-11-21T07:24:28.350Z",
+      "expiresAt": "2026-11-22T07:24:28.350Z",
+      "messageId": "wamid.8eecdf60bffd43c5b7"
+    },
+    {
       "id": "conv_841c838e-c",
       "chatId": "chat-wt-rajesh",
       "phoneNumberId": "wa-sim-phone-001",
@@ -1565,6 +2402,3176 @@
     }
   ],
   "webhookLogs": [
+    {
+      "id": "wh_308dcd3f-962",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:11.110Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 32,
+      "signatureHeader": "sha256=ea5dade6cfbea416bd1618950cf306ae62447e4b6f4052c9f6b4740b9b9c10dd",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.4a6fdb227ac543639e",
+                      "status": "read",
+                      "timestamp": "1795246571",
+                      "chat_id": "chat-wt-rajesh",
+                      "conversation": {
+                        "id": "conv_chat-wt-rajesh",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.4a6fdb227ac543639e",
+          "status": "read",
+          "timestamp": "1795246571",
+          "chat_id": "chat-wt-rajesh",
+          "conversation": {
+            "id": "conv_chat-wt-rajesh",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_d1802fae-881",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:11.007Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 13,
+      "signatureHeader": "sha256=0d0849302a444902857e56424c065931d251be683af16dbee483ca5cb3b973b5",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.5d1b9a1f761d42ee92",
+                      "status": "read",
+                      "timestamp": "1795246571",
+                      "chat_id": "chat-wt-priya",
+                      "conversation": {
+                        "id": "conv_chat-wt-priya",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.5d1b9a1f761d42ee92",
+          "status": "read",
+          "timestamp": "1795246571",
+          "chat_id": "chat-wt-priya",
+          "conversation": {
+            "id": "conv_chat-wt-priya",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_41dce88b-a37",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:10.293Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 14,
+      "signatureHeader": "sha256=227e304b46cec4e3a76c03c3c2a7a4abe53f35c2f0b893ebac8a7edb9bba0ef9",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.4a6fdb227ac543639e",
+                      "status": "delivered",
+                      "timestamp": "1795246570",
+                      "chat_id": "chat-wt-rajesh",
+                      "conversation": {
+                        "id": "conv_chat-wt-rajesh",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.4a6fdb227ac543639e",
+          "status": "delivered",
+          "timestamp": "1795246570",
+          "chat_id": "chat-wt-rajesh",
+          "conversation": {
+            "id": "conv_chat-wt-rajesh",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_949bdddf-e3c",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:10.219Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 13,
+      "signatureHeader": "sha256=e8aa9e88d0e6135473bd7e29ff38644a0e610c8275a668fcd91d53b0d922c26f",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.5d1b9a1f761d42ee92",
+                      "status": "delivered",
+                      "timestamp": "1795246570",
+                      "chat_id": "chat-wt-priya",
+                      "conversation": {
+                        "id": "conv_chat-wt-priya",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.5d1b9a1f761d42ee92",
+          "status": "delivered",
+          "timestamp": "1795246570",
+          "chat_id": "chat-wt-priya",
+          "conversation": {
+            "id": "conv_chat-wt-priya",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_4633ec92-0bc",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:09.873Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 41,
+      "signatureHeader": "sha256=75524d10788d8946a1e8151cbc5c1bf63357a6b5fc64f8548626e6ab23c64d8b",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.4a6fdb227ac543639e",
+                      "status": "sent",
+                      "timestamp": "1795246569",
+                      "chat_id": "chat-wt-rajesh",
+                      "conversation": {
+                        "id": "conv_chat-wt-rajesh",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.4a6fdb227ac543639e",
+          "status": "sent",
+          "timestamp": "1795246569",
+          "chat_id": "chat-wt-rajesh",
+          "conversation": {
+            "id": "conv_chat-wt-rajesh",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_e4fc82a6-ee7",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:09.798Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 36,
+      "signatureHeader": "sha256=7ab742c54bc8c65fef1efcf8453e38b94b2ed4b7957a7588eb5c09a9cb5d38b1",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.5d1b9a1f761d42ee92",
+                      "status": "sent",
+                      "timestamp": "1795246569",
+                      "chat_id": "chat-wt-priya",
+                      "conversation": {
+                        "id": "conv_chat-wt-priya",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.5d1b9a1f761d42ee92",
+          "status": "sent",
+          "timestamp": "1795246569",
+          "chat_id": "chat-wt-priya",
+          "conversation": {
+            "id": "conv_chat-wt-priya",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_5fa1f0b8-99f",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:09.587Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 9,
+      "signatureHeader": "sha256=7f0ce7f1f2bdcc6c4b63b633bf8da3e7a9fd0bc7daacfc331df7e02dc5829610",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.e0653d5701ab480f86",
+                      "status": "read",
+                      "timestamp": "1795246569",
+                      "chat_id": "chat-wt-rajesh",
+                      "conversation": {
+                        "id": "conv_chat-wt-rajesh",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.e0653d5701ab480f86",
+          "status": "read",
+          "timestamp": "1795246569",
+          "chat_id": "chat-wt-rajesh",
+          "conversation": {
+            "id": "conv_chat-wt-rajesh",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_d1d25319-7f1",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:08.780Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 10,
+      "signatureHeader": "sha256=b55b7aa68d4cbeac861e89d43fb654ad1ea6a73dde916e79bb0b56b25223645a",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.e0653d5701ab480f86",
+                      "status": "delivered",
+                      "timestamp": "1795246568",
+                      "chat_id": "chat-wt-rajesh",
+                      "conversation": {
+                        "id": "conv_chat-wt-rajesh",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.e0653d5701ab480f86",
+          "status": "delivered",
+          "timestamp": "1795246568",
+          "chat_id": "chat-wt-rajesh",
+          "conversation": {
+            "id": "conv_chat-wt-rajesh",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_70aef73f-96f",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:08.575Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 8,
+      "signatureHeader": "sha256=e6fbdcc31ea9d9b0cfc84fdf0b3360b100d4217ac628334767b05f365342ab59",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.cd1193d990444fc69c",
+                      "status": "read",
+                      "timestamp": "1795246568",
+                      "chat_id": "chat-wt-rajesh",
+                      "conversation": {
+                        "id": "conv_chat-wt-rajesh",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.cd1193d990444fc69c",
+          "status": "read",
+          "timestamp": "1795246568",
+          "chat_id": "chat-wt-rajesh",
+          "conversation": {
+            "id": "conv_chat-wt-rajesh",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_2c012728-e22",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:08.357Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 16,
+      "signatureHeader": "sha256=fb775d6c803cbcc77fcfbc13f683603c4d7649a231eed52f457826a53e6fe2e7",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.e0653d5701ab480f86",
+                      "status": "sent",
+                      "timestamp": "1795246568",
+                      "chat_id": "chat-wt-rajesh",
+                      "conversation": {
+                        "id": "conv_chat-wt-rajesh",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.e0653d5701ab480f86",
+          "status": "sent",
+          "timestamp": "1795246568",
+          "chat_id": "chat-wt-rajesh",
+          "conversation": {
+            "id": "conv_chat-wt-rajesh",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_4effafab-3ac",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:07.785Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 9,
+      "signatureHeader": "sha256=7a180e67613483323682ab2407982cd590e3ea3ece07ea0b54030020932a0283",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.cd1193d990444fc69c",
+                      "status": "delivered",
+                      "timestamp": "1795246567",
+                      "chat_id": "chat-wt-rajesh",
+                      "conversation": {
+                        "id": "conv_chat-wt-rajesh",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.cd1193d990444fc69c",
+          "status": "delivered",
+          "timestamp": "1795246567",
+          "chat_id": "chat-wt-rajesh",
+          "conversation": {
+            "id": "conv_chat-wt-rajesh",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_fa4de972-308",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:36:07.358Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 47,
+      "signatureHeader": "sha256=a80bf3865357d7097399fad245042b36f2c176b3f7179c98a33668b08d0902ac",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.cd1193d990444fc69c",
+                      "status": "sent",
+                      "timestamp": "1795246567",
+                      "chat_id": "chat-wt-rajesh",
+                      "conversation": {
+                        "id": "conv_chat-wt-rajesh",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.cd1193d990444fc69c",
+          "status": "sent",
+          "timestamp": "1795246567",
+          "chat_id": "chat-wt-rajesh",
+          "conversation": {
+            "id": "conv_chat-wt-rajesh",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_f719273a-186",
+      "event": "template.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:29:00.891Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 14,
+      "signatureHeader": "sha256=db5186adaa38eacc5b8b3ede68590b2c353046d9c795f88f4634e7f95bae998d",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "time": 1795246140,
+            "changes": [
+              {
+                "field": "message_template_status_update",
+                "value": {
+                  "event": "APPROVED",
+                  "message_template_id": "tpl-b396f5b4",
+                  "message_template_name": "diwali_wealth_dhamaka_v1",
+                  "message_template_language": "en",
+                  "category": "MARKETING",
+                  "reason": "NONE"
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "message_template_status_update",
+        "data": {
+          "event": "APPROVED",
+          "message_template_id": "tpl-b396f5b4",
+          "message_template_name": "diwali_wealth_dhamaka_v1",
+          "message_template_language": "en",
+          "category": "MARKETING",
+          "reason": "NONE"
+        }
+      }
+    },
+    {
+      "id": "wh_6a2af037-b23",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:27:17.102Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 21,
+      "signatureHeader": "sha256=2812ddae98d64bc15191bd90369100d64ffd0bdf0b7285887ec3dc000042a373",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.1c731ebc6f484dae83",
+                      "status": "read",
+                      "timestamp": "1795246037",
+                      "chat_id": "chat-90e70737",
+                      "conversation": {
+                        "id": "conv_chat-90e70737",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.1c731ebc6f484dae83",
+          "status": "read",
+          "timestamp": "1795246037",
+          "chat_id": "chat-90e70737",
+          "conversation": {
+            "id": "conv_chat-90e70737",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_acd956c0-19f",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:14.572Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 22,
+      "signatureHeader": "sha256=3c92480113a74cd98806cd8efda852c201b941e387c15ffae438d3cb6432c982",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.6e0bef2d0f764d19bd",
+                      "status": "read",
+                      "timestamp": "1795245974",
+                      "chat_id": "chat-wt-sunil",
+                      "conversation": {
+                        "id": "conv_chat-wt-sunil",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.6e0bef2d0f764d19bd",
+          "status": "read",
+          "timestamp": "1795245974",
+          "chat_id": "chat-wt-sunil",
+          "conversation": {
+            "id": "conv_chat-wt-sunil",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_79f6b625-6d2",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:14.541Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 34,
+      "signatureHeader": "sha256=8242551a15c601bdf79685c5b3418b4cf460d0190bbbc34500ea0378c3fa8263",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.57d750e9a7bb44faab",
+                      "status": "read",
+                      "timestamp": "1795245974",
+                      "chat_id": "chat-wt-priya",
+                      "conversation": {
+                        "id": "conv_chat-wt-priya",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.57d750e9a7bb44faab",
+          "status": "read",
+          "timestamp": "1795245974",
+          "chat_id": "chat-wt-priya",
+          "conversation": {
+            "id": "conv_chat-wt-priya",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_137d1ab9-fbd",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:14.504Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 41,
+      "signatureHeader": "sha256=535a9ea8b3d58a2d3679a8d5850b4d503f65b12fd0bc8c7352c003e22970b6c1",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.403ebbab96214746be",
+                      "status": "read",
+                      "timestamp": "1795245974",
+                      "chat_id": "chat-wt-harish",
+                      "conversation": {
+                        "id": "conv_chat-wt-harish",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.403ebbab96214746be",
+          "status": "read",
+          "timestamp": "1795245974",
+          "chat_id": "chat-wt-harish",
+          "conversation": {
+            "id": "conv_chat-wt-harish",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_02fd2bd6-746",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:14.470Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 39,
+      "signatureHeader": "sha256=08c654e4a03225dd8c0bf273447486134e7bf77dc9630153be16888eee46bfd7",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.5f310c06472c44be9d",
+                      "status": "read",
+                      "timestamp": "1795245974",
+                      "chat_id": "chat-wt-nandini",
+                      "conversation": {
+                        "id": "conv_chat-wt-nandini",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.5f310c06472c44be9d",
+          "status": "read",
+          "timestamp": "1795245974",
+          "chat_id": "chat-wt-nandini",
+          "conversation": {
+            "id": "conv_chat-wt-nandini",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_59d720ca-303",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:14.462Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 28,
+      "signatureHeader": "sha256=a09067cb264ce13954e9a277d3cc48bcb36261acbbf97e04636bbed58488519c",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.1883dce3ae404e5699",
+                      "status": "read",
+                      "timestamp": "1795245974",
+                      "chat_id": "chat-wt-deepak",
+                      "conversation": {
+                        "id": "conv_chat-wt-deepak",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.1883dce3ae404e5699",
+          "status": "read",
+          "timestamp": "1795245974",
+          "chat_id": "chat-wt-deepak",
+          "conversation": {
+            "id": "conv_chat-wt-deepak",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_6ed2df1b-e2b",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:14.433Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 40,
+      "signatureHeader": "sha256=d91398519a72a20f37829eaaf8d218b994af2ad2c263c80904e5d3502f3c55b5",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.1c731ebc6f484dae83",
+                      "status": "read",
+                      "timestamp": "1795245974",
+                      "chat_id": "chat-90e70737",
+                      "conversation": {
+                        "id": "conv_chat-90e70737",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.1c731ebc6f484dae83",
+          "status": "read",
+          "timestamp": "1795245974",
+          "chat_id": "chat-90e70737",
+          "conversation": {
+            "id": "conv_chat-90e70737",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_61395317-fa7",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:14.398Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 39,
+      "signatureHeader": "sha256=24a1e278772eec49f861068a2cd16d60bd40314f7c02a65de87900efe4645e65",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.cb40db46a3cd4aec92",
+                      "status": "read",
+                      "timestamp": "1795245974",
+                      "chat_id": "chat-wt-kavita",
+                      "conversation": {
+                        "id": "conv_chat-wt-kavita",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.cb40db46a3cd4aec92",
+          "status": "read",
+          "timestamp": "1795245974",
+          "chat_id": "chat-wt-kavita",
+          "conversation": {
+            "id": "conv_chat-wt-kavita",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_31f9e284-3a7",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:14.365Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 37,
+      "signatureHeader": "sha256=892085cdbadde22090e43a0ba56fe4e332e18f20942d653cb7bb11d426ee17bf",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.abc0e6f1e0094a6bbd",
+                      "status": "read",
+                      "timestamp": "1795245974",
+                      "chat_id": "chat-20aac5d4",
+                      "conversation": {
+                        "id": "conv_chat-20aac5d4",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.abc0e6f1e0094a6bbd",
+          "status": "read",
+          "timestamp": "1795245974",
+          "chat_id": "chat-20aac5d4",
+          "conversation": {
+            "id": "conv_chat-20aac5d4",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_52e0bd42-a4a",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:14.339Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 33,
+      "signatureHeader": "sha256=a0c82d0fe8235c89a969cb9f9e7040b5174b76bba22dbb80411e217b0e56f27e",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.f9da20a1183b4c1eb1",
+                      "status": "read",
+                      "timestamp": "1795245974",
+                      "chat_id": "chat-2d8e8a68",
+                      "conversation": {
+                        "id": "conv_chat-2d8e8a68",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.f9da20a1183b4c1eb1",
+          "status": "read",
+          "timestamp": "1795245974",
+          "chat_id": "chat-2d8e8a68",
+          "conversation": {
+            "id": "conv_chat-2d8e8a68",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_d67c1c52-501",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:14.318Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 29,
+      "signatureHeader": "sha256=a191c9751d9281fd44e0d57e206bdb45bdbac3106c5067750ba53b495b0e7e85",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.f024b7b650e542108d",
+                      "status": "read",
+                      "timestamp": "1795245974",
+                      "chat_id": "chat-d66d7c9a",
+                      "conversation": {
+                        "id": "conv_chat-d66d7c9a",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.f024b7b650e542108d",
+          "status": "read",
+          "timestamp": "1795245974",
+          "chat_id": "chat-d66d7c9a",
+          "conversation": {
+            "id": "conv_chat-d66d7c9a",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_b6ae8137-dea",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.551Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 323,
+      "signatureHeader": "sha256=b923bceb8c9ce1609b93f3cb906385b26d646184da3c8d9e8d26bd62635e9ce1",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.f9da20a1183b4c1eb1",
+                      "status": "delivered",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-2d8e8a68",
+                      "conversation": {
+                        "id": "conv_chat-2d8e8a68",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.f9da20a1183b4c1eb1",
+          "status": "delivered",
+          "timestamp": "1795245973",
+          "chat_id": "chat-2d8e8a68",
+          "conversation": {
+            "id": "conv_chat-2d8e8a68",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_1a0181cb-c73",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.545Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 320,
+      "signatureHeader": "sha256=f0a5716017322b2f71e87f1996feae472618579edeafb55248696a3279afa4b5",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.f024b7b650e542108d",
+                      "status": "delivered",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-d66d7c9a",
+                      "conversation": {
+                        "id": "conv_chat-d66d7c9a",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.f024b7b650e542108d",
+          "status": "delivered",
+          "timestamp": "1795245973",
+          "chat_id": "chat-d66d7c9a",
+          "conversation": {
+            "id": "conv_chat-d66d7c9a",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_1c098400-e52",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.790Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 68,
+      "signatureHeader": "sha256=f3d8c06fa7da5698a71f1a95a473923adcb4989377397b2e7f6bdf2bdc5aeb76",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.6e0bef2d0f764d19bd",
+                      "status": "delivered",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-sunil",
+                      "conversation": {
+                        "id": "conv_chat-wt-sunil",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.6e0bef2d0f764d19bd",
+          "status": "delivered",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-sunil",
+          "conversation": {
+            "id": "conv_chat-wt-sunil",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_d892b9b4-7e0",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.781Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 67,
+      "signatureHeader": "sha256=59c2fc9390445cce9cbb8728d1703b934e04b1316b54f63119d71c20271f04ea",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.57d750e9a7bb44faab",
+                      "status": "delivered",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-priya",
+                      "conversation": {
+                        "id": "conv_chat-wt-priya",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.57d750e9a7bb44faab",
+          "status": "delivered",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-priya",
+          "conversation": {
+            "id": "conv_chat-wt-priya",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_4b10bfca-a22",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.774Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 67,
+      "signatureHeader": "sha256=8b60f97d598130a721edf0de82e9aef09027ce02b6d7e810d2bca5b22c9c9d2f",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.403ebbab96214746be",
+                      "status": "delivered",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-harish",
+                      "conversation": {
+                        "id": "conv_chat-wt-harish",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.403ebbab96214746be",
+          "status": "delivered",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-harish",
+          "conversation": {
+            "id": "conv_chat-wt-harish",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_0f72868f-912",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.766Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 68,
+      "signatureHeader": "sha256=c6f2039bf85cf7973ac0e74fad12b8d28a65e7e31a8513ac2a72d44b7b18e65d",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.5f310c06472c44be9d",
+                      "status": "delivered",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-nandini",
+                      "conversation": {
+                        "id": "conv_chat-wt-nandini",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.5f310c06472c44be9d",
+          "status": "delivered",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-nandini",
+          "conversation": {
+            "id": "conv_chat-wt-nandini",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_c65af277-9ce",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.342Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 460,
+      "signatureHeader": "sha256=490bc843bbe890b837f350e3abc8bb2d2d7e3a23c7f3aa95e68f914172fea3a1",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.6e0bef2d0f764d19bd",
+                      "status": "sent",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-sunil",
+                      "conversation": {
+                        "id": "conv_chat-wt-sunil",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.6e0bef2d0f764d19bd",
+          "status": "sent",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-sunil",
+          "conversation": {
+            "id": "conv_chat-wt-sunil",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_35ce242f-c7f",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.670Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 126,
+      "signatureHeader": "sha256=27c810af977c4f092b3e60e597dd9a8f2b0aee1f127ed379545b156a10ca997d",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.1883dce3ae404e5699",
+                      "status": "delivered",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-deepak",
+                      "conversation": {
+                        "id": "conv_chat-wt-deepak",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.1883dce3ae404e5699",
+          "status": "delivered",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-deepak",
+          "conversation": {
+            "id": "conv_chat-wt-deepak",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_5c519c7a-241",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.659Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 96,
+      "signatureHeader": "sha256=e9f58dd28014cc8e30b7233468b68c78406bc7cc1a3bbbfd93d6e20413a84aee",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.1c731ebc6f484dae83",
+                      "status": "delivered",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-90e70737",
+                      "conversation": {
+                        "id": "conv_chat-90e70737",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.1c731ebc6f484dae83",
+          "status": "delivered",
+          "timestamp": "1795245973",
+          "chat_id": "chat-90e70737",
+          "conversation": {
+            "id": "conv_chat-90e70737",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_c13a15b9-77b",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.652Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 97,
+      "signatureHeader": "sha256=c64459e9902885ee7d38f97baae21fa594156d70d954ed35d9504ab9e2c49f04",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.cb40db46a3cd4aec92",
+                      "status": "delivered",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-kavita",
+                      "conversation": {
+                        "id": "conv_chat-wt-kavita",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.cb40db46a3cd4aec92",
+          "status": "delivered",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-kavita",
+          "conversation": {
+            "id": "conv_chat-wt-kavita",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_70d244cf-652",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.642Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 100,
+      "signatureHeader": "sha256=d3be2b83e6f5c75891f3e9fd4c06aa692d70087e0a4c17de86416c215554f613",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.abc0e6f1e0094a6bbd",
+                      "status": "delivered",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-20aac5d4",
+                      "conversation": {
+                        "id": "conv_chat-20aac5d4",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.abc0e6f1e0094a6bbd",
+          "status": "delivered",
+          "timestamp": "1795245973",
+          "chat_id": "chat-20aac5d4",
+          "conversation": {
+            "id": "conv_chat-20aac5d4",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_b46035ad-ee7",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.315Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 373,
+      "signatureHeader": "sha256=cf400a906cb5d9176b70cdd2e7135ac2625cbe618ea36ab128090a40ab89fd0e",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.57d750e9a7bb44faab",
+                      "status": "sent",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-priya",
+                      "conversation": {
+                        "id": "conv_chat-wt-priya",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.57d750e9a7bb44faab",
+          "status": "sent",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-priya",
+          "conversation": {
+            "id": "conv_chat-wt-priya",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_4f80908a-359",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.295Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 382,
+      "signatureHeader": "sha256=4a7ef164c2b4f1a1dfbc6160ebd7279de52321bf0bc888273add48ec714f8ac5",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.403ebbab96214746be",
+                      "status": "sent",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-harish",
+                      "conversation": {
+                        "id": "conv_chat-wt-harish",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.403ebbab96214746be",
+          "status": "sent",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-harish",
+          "conversation": {
+            "id": "conv_chat-wt-harish",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_cca0ff0d-047",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.247Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 377,
+      "signatureHeader": "sha256=0998a05f2667915e63fa36841509941f0952b72d7185c73426a24f6d13ed4f0a",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.5f310c06472c44be9d",
+                      "status": "sent",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-nandini",
+                      "conversation": {
+                        "id": "conv_chat-wt-nandini",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.5f310c06472c44be9d",
+          "status": "sent",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-nandini",
+          "conversation": {
+            "id": "conv_chat-wt-nandini",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_f9a2cc04-49f",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.226Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 390,
+      "signatureHeader": "sha256=d0460a07ad0492c230f3070b812c296a18d8ec0eb1c09989746c8a062a75681b",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.1883dce3ae404e5699",
+                      "status": "sent",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-deepak",
+                      "conversation": {
+                        "id": "conv_chat-wt-deepak",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.1883dce3ae404e5699",
+          "status": "sent",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-deepak",
+          "conversation": {
+            "id": "conv_chat-wt-deepak",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_e921805a-f90",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.204Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 404,
+      "signatureHeader": "sha256=2c3de4cd6c90b12a52b8d2cd45888a10c1ca3d2ecdf20a11910cc435879b52b8",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.1c731ebc6f484dae83",
+                      "status": "sent",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-90e70737",
+                      "conversation": {
+                        "id": "conv_chat-90e70737",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.1c731ebc6f484dae83",
+          "status": "sent",
+          "timestamp": "1795245973",
+          "chat_id": "chat-90e70737",
+          "conversation": {
+            "id": "conv_chat-90e70737",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_2bd3fa11-0f2",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.177Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 424,
+      "signatureHeader": "sha256=83d4684198ff6d4f415cf517fcac71921fc95b00b380d82ed2c3394d46b5488f",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.cb40db46a3cd4aec92",
+                      "status": "sent",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-wt-kavita",
+                      "conversation": {
+                        "id": "conv_chat-wt-kavita",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.cb40db46a3cd4aec92",
+          "status": "sent",
+          "timestamp": "1795245973",
+          "chat_id": "chat-wt-kavita",
+          "conversation": {
+            "id": "conv_chat-wt-kavita",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_900d66be-6ac",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.154Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 438,
+      "signatureHeader": "sha256=c49bf19e8ef0c42503397151682686179e35df74402de53b54adb56ef76e5415",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.abc0e6f1e0094a6bbd",
+                      "status": "sent",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-20aac5d4",
+                      "conversation": {
+                        "id": "conv_chat-20aac5d4",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.abc0e6f1e0094a6bbd",
+          "status": "sent",
+          "timestamp": "1795245973",
+          "chat_id": "chat-20aac5d4",
+          "conversation": {
+            "id": "conv_chat-20aac5d4",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_b2ac8202-471",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.127Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 456,
+      "signatureHeader": "sha256=3e3abcc09e51576b6091615a3026af73565651f22058ceb21e4bce3e8e485d4a",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.f9da20a1183b4c1eb1",
+                      "status": "sent",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-2d8e8a68",
+                      "conversation": {
+                        "id": "conv_chat-2d8e8a68",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.f9da20a1183b4c1eb1",
+          "status": "sent",
+          "timestamp": "1795245973",
+          "chat_id": "chat-2d8e8a68",
+          "conversation": {
+            "id": "conv_chat-2d8e8a68",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_685c07ca-33e",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:26:13.068Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 502,
+      "signatureHeader": "sha256=0da01da95a61ef4276aaa07ee5f6ba83091a7a0ba7049392a4bd59804826a14d",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.f024b7b650e542108d",
+                      "status": "sent",
+                      "timestamp": "1795245973",
+                      "chat_id": "chat-d66d7c9a",
+                      "conversation": {
+                        "id": "conv_chat-d66d7c9a",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.f024b7b650e542108d",
+          "status": "sent",
+          "timestamp": "1795245973",
+          "chat_id": "chat-d66d7c9a",
+          "conversation": {
+            "id": "conv_chat-d66d7c9a",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_52285460-ec0",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:24:29.598Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 10,
+      "signatureHeader": "sha256=91cc379846fea80d20bd410fc7d9a466619df95ce713bc025c4aec1f6b947ed6",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.8eecdf60bffd43c5b7",
+                      "status": "read",
+                      "timestamp": "1795245869",
+                      "chat_id": "chat-2d8e8a68",
+                      "conversation": {
+                        "id": "conv_chat-2d8e8a68",
+                        "origin": {
+                          "type": "utility"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "utility"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.8eecdf60bffd43c5b7",
+          "status": "read",
+          "timestamp": "1795245869",
+          "chat_id": "chat-2d8e8a68",
+          "conversation": {
+            "id": "conv_chat-2d8e8a68",
+            "origin": {
+              "type": "utility"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "utility"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_4e05ff89-1fd",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:24:28.783Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 9,
+      "signatureHeader": "sha256=4f5165e1679ad0290d61930231badc6adaddc19ed0fe9bc5b67f877aba0f55e4",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.8eecdf60bffd43c5b7",
+                      "status": "delivered",
+                      "timestamp": "1795245868",
+                      "chat_id": "chat-2d8e8a68",
+                      "conversation": {
+                        "id": "conv_chat-2d8e8a68",
+                        "origin": {
+                          "type": "utility"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "utility"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.8eecdf60bffd43c5b7",
+          "status": "delivered",
+          "timestamp": "1795245868",
+          "chat_id": "chat-2d8e8a68",
+          "conversation": {
+            "id": "conv_chat-2d8e8a68",
+            "origin": {
+              "type": "utility"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "utility"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_99e728b8-288",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T07:24:28.369Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 55,
+      "signatureHeader": "sha256=740225e9d7f476987abd41a9834d4d98af129b194bdab555fd16bd823ecd759e",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "wa-sim-waba-001",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+14155550100",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.8eecdf60bffd43c5b7",
+                      "status": "sent",
+                      "timestamp": "1795245868",
+                      "chat_id": "chat-2d8e8a68",
+                      "conversation": {
+                        "id": "conv_chat-2d8e8a68",
+                        "origin": {
+                          "type": "utility"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "utility"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.8eecdf60bffd43c5b7",
+          "status": "sent",
+          "timestamp": "1795245868",
+          "chat_id": "chat-2d8e8a68",
+          "conversation": {
+            "id": "conv_chat-2d8e8a68",
+            "origin": {
+              "type": "utility"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "utility"
+          }
+        }
+      }
+    },
     {
       "id": "wh_01f705bd-fe2",
       "event": "message.status",
@@ -3770,550 +7777,6 @@
             "billable": false,
             "pricing_model": "CBP",
             "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_f1b5e182-d3f",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-20T18:00:49.043Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 24,
-      "signatureHeader": "sha256=06653e793dd42eb0baffc4b07518ccf10fcd28fe3f842cff8fb7ba1cf8351b4c",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "wa-sim-waba-001",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+14155550100",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.7e906913f4a442afa2",
-                      "status": "sent",
-                      "timestamp": "1795197649",
-                      "chat_id": "chat-wt-rajesh",
-                      "conversation": {
-                        "id": "conv_chat-wt-rajesh",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.7e906913f4a442afa2",
-          "status": "sent",
-          "timestamp": "1795197649",
-          "chat_id": "chat-wt-rajesh",
-          "conversation": {
-            "id": "conv_chat-wt-rajesh",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_9f6aeaa6-a81",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-20T18:00:49.034Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 19,
-      "signatureHeader": "sha256=cd2ee6c76d552fa4c3f9973a8f3877d48b51f0f294f0d06976ffa4545c7bf794",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "wa-sim-waba-001",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+14155550100",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.d4178081c7f14bcf83",
-                      "status": "sent",
-                      "timestamp": "1795197649",
-                      "chat_id": "chat-wt-priya",
-                      "conversation": {
-                        "id": "conv_chat-wt-priya",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.d4178081c7f14bcf83",
-          "status": "sent",
-          "timestamp": "1795197649",
-          "chat_id": "chat-wt-priya",
-          "conversation": {
-            "id": "conv_chat-wt-priya",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_09b82081-30b",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-20T18:00:48.934Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 7,
-      "signatureHeader": "sha256=9e003f4b4ffb1dda919eaf84eb8c6c71d4663b590cf9c9cd843a65a3f31b894f",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "wa-sim-waba-001",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+14155550100",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.d51beb64ee56423987",
-                      "status": "read",
-                      "timestamp": "1795197648",
-                      "chat_id": "chat-wt-rajesh",
-                      "conversation": {
-                        "id": "conv_chat-wt-rajesh",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.d51beb64ee56423987",
-          "status": "read",
-          "timestamp": "1795197648",
-          "chat_id": "chat-wt-rajesh",
-          "conversation": {
-            "id": "conv_chat-wt-rajesh",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_10c76df7-2a4",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-20T18:00:48.138Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 6,
-      "signatureHeader": "sha256=195e0cecb2e0eec5598340cd5e857c2430afaeeacfddd445de2c79685d5165c3",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "wa-sim-waba-001",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+14155550100",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.d51beb64ee56423987",
-                      "status": "delivered",
-                      "timestamp": "1795197648",
-                      "chat_id": "chat-wt-rajesh",
-                      "conversation": {
-                        "id": "conv_chat-wt-rajesh",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.d51beb64ee56423987",
-          "status": "delivered",
-          "timestamp": "1795197648",
-          "chat_id": "chat-wt-rajesh",
-          "conversation": {
-            "id": "conv_chat-wt-rajesh",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_05a6400f-532",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-20T18:00:48.014Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 7,
-      "signatureHeader": "sha256=978d0c7e23cdb62a605a6f4ccf7eb8102f7ea9a5e0b3c6a727b3675b826ba6ac",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "wa-sim-waba-001",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+14155550100",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.a43cdff2e1d04d6e89",
-                      "status": "read",
-                      "timestamp": "1795197648",
-                      "chat_id": "chat-wt-rajesh",
-                      "conversation": {
-                        "id": "conv_chat-wt-rajesh",
-                        "origin": {
-                          "type": "marketing"
-                        }
-                      },
-                      "pricing": {
-                        "billable": true,
-                        "pricing_model": "CBP",
-                        "category": "marketing"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.a43cdff2e1d04d6e89",
-          "status": "read",
-          "timestamp": "1795197648",
-          "chat_id": "chat-wt-rajesh",
-          "conversation": {
-            "id": "conv_chat-wt-rajesh",
-            "origin": {
-              "type": "marketing"
-            }
-          },
-          "pricing": {
-            "billable": true,
-            "pricing_model": "CBP",
-            "category": "marketing"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_756c1122-6d2",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-20T18:00:47.724Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 15,
-      "signatureHeader": "sha256=bd966c3322398e16c612469f4b357a3a223cb08ba250e64e2d99554628fe6787",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "wa-sim-waba-001",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+14155550100",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.d51beb64ee56423987",
-                      "status": "sent",
-                      "timestamp": "1795197647",
-                      "chat_id": "chat-wt-rajesh",
-                      "conversation": {
-                        "id": "conv_chat-wt-rajesh",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.d51beb64ee56423987",
-          "status": "sent",
-          "timestamp": "1795197647",
-          "chat_id": "chat-wt-rajesh",
-          "conversation": {
-            "id": "conv_chat-wt-rajesh",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_f741c57d-af9",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-20T18:00:47.205Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 10,
-      "signatureHeader": "sha256=d177fb3b50c9099060b66fe6d2a637210200a86263ea83eab6eff56ddd11f169",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "wa-sim-waba-001",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+14155550100",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.a43cdff2e1d04d6e89",
-                      "status": "delivered",
-                      "timestamp": "1795197647",
-                      "chat_id": "chat-wt-rajesh",
-                      "conversation": {
-                        "id": "conv_chat-wt-rajesh",
-                        "origin": {
-                          "type": "marketing"
-                        }
-                      },
-                      "pricing": {
-                        "billable": true,
-                        "pricing_model": "CBP",
-                        "category": "marketing"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.a43cdff2e1d04d6e89",
-          "status": "delivered",
-          "timestamp": "1795197647",
-          "chat_id": "chat-wt-rajesh",
-          "conversation": {
-            "id": "conv_chat-wt-rajesh",
-            "origin": {
-              "type": "marketing"
-            }
-          },
-          "pricing": {
-            "billable": true,
-            "pricing_model": "CBP",
-            "category": "marketing"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_3badfdf0-4fb",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-20T18:00:46.786Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 59,
-      "signatureHeader": "sha256=de385c8bb462aae0d48c77e3c368a74518f06a1de5f5b75c111000b9ee8c3db8",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "wa-sim-waba-001",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+14155550100",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.a43cdff2e1d04d6e89",
-                      "status": "sent",
-                      "timestamp": "1795197646",
-                      "chat_id": "chat-wt-rajesh",
-                      "conversation": {
-                        "id": "conv_chat-wt-rajesh",
-                        "origin": {
-                          "type": "marketing"
-                        }
-                      },
-                      "pricing": {
-                        "billable": true,
-                        "pricing_model": "CBP",
-                        "category": "marketing"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.a43cdff2e1d04d6e89",
-          "status": "sent",
-          "timestamp": "1795197646",
-          "chat_id": "chat-wt-rajesh",
-          "conversation": {
-            "id": "conv_chat-wt-rajesh",
-            "origin": {
-              "type": "marketing"
-            }
-          },
-          "pricing": {
-            "billable": true,
-            "pricing_model": "CBP",
-            "category": "marketing"
           }
         }
       }

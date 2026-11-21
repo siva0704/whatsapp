@@ -49,6 +49,16 @@ import {
 } from './config';
 import type { StateStore } from './storage';
 import { buildCloudWebhookEnvelope, dispatchWebhook } from './webhooks';
+import { TEMPLATE_BANNER_PRESETS } from '../src/assets/template-banners';
+
+export function resolveBannerUrl(tplName: string, category: string, currentUrl?: string): string {
+  if (currentUrl && currentUrl.startsWith('data:image')) return currentUrl;
+  const lower = (tplName || '').toLowerCase();
+  if (lower.includes('birthday')) return TEMPLATE_BANNER_PRESETS.BIRTHDAY_WISHES.dataUrl;
+  if (lower.includes('festival') || lower.includes('diwali') || lower.includes('muhurat')) return TEMPLATE_BANNER_PRESETS.FESTIVAL_WISHES.dataUrl;
+  if (lower.includes('offer') || lower.includes('promo') || category === 'MARKETING') return TEMPLATE_BANNER_PRESETS.SPECIAL_OFFERS.dataUrl;
+  return TEMPLATE_BANNER_PRESETS.BROADCAST.dataUrl;
+}
 
 export type EngineListener = (event: ServerWsEvent) => void;
 
@@ -2251,15 +2261,26 @@ export class EmulatorEngine {
           ? params.templateVariables
           : tpl.sampleValues;
       const renderedBody = renderTemplateBody(tpl.bodyText, vars);
+      const resolvedBanner = resolveBannerUrl(tpl.name, tpl.category, tpl.headerImageUrl);
       templatePayload = {
         templateId: tpl.id,
         templateName: tpl.name,
         language: tpl.language,
         category: tpl.category,
         headerText: tpl.headerText,
+        headerImageUrl: resolvedBanner,
         renderedBody,
         footerText: tpl.footerText,
-        buttons: Array.isArray(tpl.buttons) ? tpl.buttons : [],
+        buttons:
+          Array.isArray(tpl.buttons) && tpl.buttons.length > 0
+            ? tpl.buttons
+            : [
+                {
+                  type: 'URL',
+                  text: tpl.category === 'MARKETING' ? 'Claim Offer' : 'View Details',
+                  url: 'https://wealthtrade.in',
+                },
+              ],
         variables: vars,
         otpCode: params.templateOtpCode || (tpl.category === 'AUTHENTICATION' ? vars[0] : undefined),
       };
@@ -2880,6 +2901,7 @@ export class EmulatorEngine {
           category: input.category || existing.category,
           status: input.status || existing.status,
           headerText: input.headerText,
+          headerImageUrl: input.headerImageUrl || existing.headerImageUrl || resolveBannerUrl(cleanName, input.category || existing.category),
           bodyText: input.bodyText,
           footerText: input.footerText,
           buttons: input.buttons || existing.buttons,
@@ -2902,6 +2924,7 @@ export class EmulatorEngine {
       category: input.category,
       status: input.status || 'PENDING',
       headerText: input.headerText?.trim() || undefined,
+      headerImageUrl: input.headerImageUrl || resolveBannerUrl(cleanName, input.category),
       bodyText: input.bodyText.trim(),
       footerText: input.footerText?.trim() || undefined,
       buttons: input.buttons || [],

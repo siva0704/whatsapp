@@ -858,24 +858,38 @@ export function ChatView({
 
                     {/* Template Message Card */}
                     {msg.type === 'template' && msg.template && (
-                      <div className="mb-1 space-y-1.5">
-                        <div className="flex items-center justify-between text-[10.5px] font-mono text-[#008069] dark:text-[#25d366]">
-                          <span>TEMPLATE · {msg.template.category}</span>
-                          <span>{msg.template.templateName}</span>
-                        </div>
-                        {msg.template.headerText && (
-                          <div className="text-[14px] font-bold leading-snug">
-                            {msg.template.headerText}
+                      <div className="mb-1 space-y-1.5 -mx-1 -mt-1">
+                        {/* 1. Top Header Banner Image */}
+                        {Boolean(msg.template.headerImageUrl || msg.media?.url) && (
+                          <div className="relative aspect-[16/9] w-full rounded-t-xl overflow-hidden bg-slate-900 mb-2 shadow-xs">
+                            <img
+                              src={msg.template.headerImageUrl || msg.media?.url}
+                              alt="Template Header Banner"
+                              className="w-full h-full object-cover"
+                            />
                           </div>
                         )}
-                        <p className="text-[14px] leading-[1.42] whitespace-pre-wrap break-words">
-                          {msg.template.renderedBody}
-                        </p>
-                        {msg.template.footerText && (
-                          <p className="text-[12px] text-[#667781] dark:text-[#aebac1]">
-                            {msg.template.footerText}
+
+                        <div className="px-1 space-y-1.5">
+                          <div className="flex items-center justify-between text-[10.5px] font-mono text-[#008069] dark:text-[#25d366]">
+                            <span>TEMPLATE · {msg.template.category}</span>
+                            <span>{msg.template.templateName}</span>
+                          </div>
+                          {msg.template.headerText && (
+                            <div className="text-[15px] font-bold leading-snug text-slate-900 dark:text-white">
+                              {msg.template.headerText}
+                            </div>
+                          )}
+                          <p className="text-[14px] leading-[1.42] whitespace-pre-wrap break-words text-slate-800 dark:text-slate-100">
+                            {msg.template.renderedBody}
                           </p>
-                        )}
+                          {msg.template.footerText && (
+                            <p className="text-[11.5px] text-[#667781] dark:text-[#aebac1] border-t border-black/10 dark:border-white/10 pt-1">
+                              {msg.template.footerText}
+                            </p>
+                          )}
+                        </div>
+
                         {Boolean(msg.template.buttons && msg.template.buttons.length > 0) && (
                           <div className="pt-1.5 mt-1.5 border-t border-black/10 dark:border-white/15 divide-y divide-black/10 dark:divide-white/15">
                             {msg.template.buttons?.map((btn, bi) => {
