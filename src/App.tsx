@@ -49,6 +49,14 @@ export default function App() {
     }
   });
 
+  const [perspective, setPerspective] = useState<'client' | 'business'>(() => {
+    try {
+      const saved = localStorage.getItem('wa_sim_perspective');
+      if (saved === 'client' || saved === 'business') return saved;
+    } catch {}
+    return 'client';
+  });
+
   // Sync `.dark` class on <html>
   useEffect(() => {
     const root = document.documentElement;
@@ -185,12 +193,6 @@ export default function App() {
     const ct = state.contacts.find((c) => c.id === contactId);
     if (ct) handleSelectExistingContact(ct);
   };
-
-  const [perspective, setPerspective] = useState<'client' | 'business'>(() => {
-    const saved = typeof window !== 'undefined' ? localStorage.getItem('wa_sim_perspective') : null;
-    if (saved === 'client' || saved === 'business') return saved;
-    return 'client';
-  });
 
   const handleTogglePerspective = () => {
     setPerspective((prev) => {
