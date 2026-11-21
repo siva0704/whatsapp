@@ -41,6 +41,38 @@ export const META_ERRORS = {
     message: '(#131026) Recipient is blocked and cannot exchange messages',
     errorData: { details },
   }),
+  DISABLED_NUMBER: (
+    details = 'Recipient WhatsApp account is disabled or unreachable.'
+  ): MessageError => ({
+    code: 131026,
+    title: 'Message undeliverable (disabled number)',
+    message: '(#131026) Recipient phone number is disabled or not active on WhatsApp',
+    errorData: { details },
+  }),
+  INVALID_RECIPIENT: (
+    details = 'Recipient phone number is not registered on WhatsApp or not in allowed list.'
+  ): MessageError => ({
+    code: 131030,
+    title: 'Recipient phone number not in allowed list',
+    message: '(#131030) Recipient phone number is invalid or not a valid WhatsApp account',
+    errorData: { details },
+  }),
+  PAIR_RATE_LIMIT: (
+    details = 'Too many messages sent to the same recipient from this business number in a short window.'
+  ): MessageError => ({
+    code: 131056,
+    title: 'Pair rate limit hit',
+    message: '(#131056) Pair rate limit hit — wait before sending another message to this recipient',
+    errorData: { details },
+  }),
+  THROUGHPUT_RATE_LIMIT: (
+    details = 'Messaging throughput or aggregate daily template limit exceeded. Back off and retry.'
+  ): MessageError => ({
+    code: 130429,
+    title: 'Rate limit hit',
+    message: '(#130429) Cloud API throughput or daily messaging limit exceeded (HTTP 429)',
+    errorData: { details },
+  }),
 };
 
 const E164_REGEX = /^\+[1-9]\d{6,14}$/;

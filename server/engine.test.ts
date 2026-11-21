@@ -28,8 +28,8 @@ function makeTestEnv(overrides?: Partial<EmulatorEnvConfig>): EmulatorEnvConfig 
     webhookSecret: 'test-secret',
     dataFile: './data/test.json',
     mediaDir: './data/media',
-    selfName: 'QA Test Runner',
-    selfPhone: '+14155550100',
+    selfName: 'WhatsApp Business',
+    selfPhone: '',
     lifecycleDeliveredMs: 25,
     lifecycleReadMs: 60,
     enforce24hWindow: true,
@@ -47,8 +47,36 @@ function makeTestEnv(overrides?: Partial<EmulatorEnvConfig>): EmulatorEnvConfig 
   };
 }
 
+test('default initial state is completely empty with zero mock data or mock WhatsApp numbers', () => {
+  const engine = new EmulatorEngine(new MemoryStateStore(), makeTestEnv({ variant: 'business' }));
+  const state = engine.getState();
+
+  assert.equal(state.self.phone, '');
+  assert.equal(state.phoneNumbers.length, 0);
+  assert.equal(state.contacts.length, 0);
+  assert.equal(state.chats.length, 0);
+  assert.equal(Object.keys(state.messages).length, 0);
+  assert.equal(state.templates.length, 0);
+  assert.equal(state.catalog.length, 0);
+  assert.equal(state.quickReplies.length, 0);
+  assert.equal(state.labels.length, 0);
+  assert.equal(state.autoReplyRules.length, 0);
+  assert.equal(state.conversations.length, 0);
+  assert.equal(state.webhookLogs.length, 0);
+  assert.equal(state.statusUpdates.length, 0);
+  assert.equal(state.callLogs.length, 0);
+  assert.equal(state.broadcasts.length, 0);
+  assert.equal(state.settings.activePhoneNumberId, '');
+  assert.equal(state.settings.businessAutomation.greetingEnabled, false);
+  assert.equal(state.settings.businessAutomation.awayEnabled, false);
+});
+
 test('outbound message transitions through queued -> sent -> delivered -> read', async () => {
   const engine = new EmulatorEngine(new MemoryStateStore(), makeTestEnv());
+  const { chat } = engine.createContact({
+    name: 'Test Peer',
+    phone: '+12025550101',
+  });
   const statuses: string[] = [];
 
   engine.subscribe((ev) => {
@@ -61,7 +89,7 @@ test('outbound message transitions through queued -> sent -> delivered -> read',
   });
 
   const sent = engine.sendMessage({
-    chatId: 'chat-alex',
+    chatId: chat.id,
     body: 'Checking lifecycle transitions',
   });
   assert.equal(sent.ok, true);
@@ -75,15 +103,19 @@ test('outbound message transitions through queued -> sent -> delivered -> read',
 });
 
 test('E.164 phone validation and contact block/unblock reject inbound and outbound', () => {
-  assert.equal(isValidE164('+14155550142'), true);
-  assert.equal(isValidE164('415-555-0142'), false);
+  assert.equal(isValidE164('+12025550102'), true);
+  assert.equal(isValidE164('202-555-0102'), false);
   assert.equal(isValidE164('+0123456'), false);
 
   const engine = new EmulatorEngine(new MemoryStateStore(), makeTestEnv({ variant: 'business' }));
-  engine.updateContact('contact-alex', { blocked: true });
+  const { contact, chat } = engine.createContact({
+    name: 'Blocked Peer',
+    phone: '+12025550102',
+  });
+  engine.updateContact(contact.id, { blocked: true });
 
   const outBlocked = engine.sendMessage({
-    chatId: 'chat-alex',
+    chatId: chat.id,
     body: 'Hello blocked user',
     skipLifecycleTimers: true,
   });
@@ -92,7 +124,7 @@ test('E.164 phone validation and contact block/unblock reject inbound and outbou
   assert.equal(outBlocked.message?.status, 'failed');
 
   const inBlocked = engine.receiveMessage({
-    fromPhone: '+14155550142',
+    fromPhone: contact.phone,
     body: 'Blocked inbound attempt',
   });
   assert.equal(inBlocked.ok, false);
@@ -117,25 +149,37 @@ test('internationalized opt-in and opt-out keyword detection respects word bound
 
 test('opt-out blocks business-initiated template sends (131049) while session replies remain allowed', () => {
   const engine = new EmulatorEngine(new MemoryStateStore(), makeTestEnv({ variant: 'business' }));
+  const { contact, chat } = engine.createContact({
+    name: 'Compliance Peer',
+    phone: '+12025550103',
+    optInStatus: 'opted_in',
+  });
+  const tpl = engine.upsertTemplate({
+    name: 'promo_alert',
+    category: 'MARKETING',
+    status: 'APPROVED',
+    bodyText: 'Hi {{1}}, use code {{2}} today.',
+    sampleValues: ['Peer', 'SAVE10'],
+  });
 
   // Customer texts STOP -> flips optInStatus to opted_out and records history
   const stopInbound = engine.receiveMessage({
-    fromPhone: '+14155550142',
+    fromPhone: contact.phone,
     body: 'STOP',
   });
   assert.equal(stopInbound.ok, true);
   assert.equal(stopInbound.optInChanged?.status, 'opted_out');
 
-  const alex = engine.getState().contacts.find((c) => c.id === 'contact-alex')!;
-  assert.equal(alex.optInStatus, 'opted_out');
-  assert.equal(alex.optInHistory[0].keyword, 'STOP');
+  const updated = engine.getState().contacts.find((c) => c.id === contact.id)!;
+  assert.equal(updated.optInStatus, 'opted_out');
+  assert.equal(updated.optInHistory[0].keyword, 'STOP');
 
   // Business-initiated template is blocked with Meta error 131049
   const blockedTpl = engine.sendMessage({
-    chatId: 'chat-alex',
+    chatId: chat.id,
     type: 'template',
-    templateName: 'seasonal_roast_launch',
-    templateVariables: ['Alex', 'ROAST15'],
+    templateName: tpl.name,
+    templateVariables: ['Peer', 'SAVE10'],
     skipLifecycleTimers: true,
   });
   assert.equal(blockedTpl.ok, false);
@@ -144,7 +188,7 @@ test('opt-out blocks business-initiated template sends (131049) while session re
 
   // Inbound-triggered session reply inside open 24h window still succeeds
   const sessionReply = engine.sendMessage({
-    chatId: 'chat-alex',
+    chatId: chat.id,
     body: 'You have been unsubscribed from promotional alerts.',
     skipLifecycleTimers: true,
   });
@@ -152,16 +196,16 @@ test('opt-out blocks business-initiated template sends (131049) while session re
 
   // Customer replies START -> re-opts in -> template now succeeds
   const startInbound = engine.receiveMessage({
-    fromPhone: '+14155550142',
+    fromPhone: contact.phone,
     body: 'START',
   });
   assert.equal(startInbound.optInChanged?.status, 'opted_in');
 
   const allowedTpl = engine.sendMessage({
-    chatId: 'chat-alex',
+    chatId: chat.id,
     type: 'template',
-    templateName: 'seasonal_roast_launch',
-    templateVariables: ['Alex', 'ROAST15'],
+    templateName: tpl.name,
+    templateVariables: ['Peer', 'SAVE10'],
     skipLifecycleTimers: true,
   });
   assert.equal(allowedTpl.ok, true);
@@ -170,14 +214,25 @@ test('opt-out blocks business-initiated template sends (131049) while session re
 
 test('24-hour customer service window rejects free-form outside window (131047) and re-opens on new inbound', () => {
   const engine = new EmulatorEngine(new MemoryStateStore(), makeTestEnv({ variant: 'business' }));
+  const { chat } = engine.createContact({
+    name: 'Window Peer',
+    phone: '+12025550104',
+    optInStatus: 'opted_in',
+  });
+  const tpl = engine.upsertTemplate({
+    name: 'order_update',
+    category: 'UTILITY',
+    status: 'APPROVED',
+    bodyText: 'Hi {{1}}, your order {{2}} arrives {{3}}.',
+    sampleValues: ['Peer', '#1001', 'Friday'],
+  });
 
-  // chat-elena is seeded with lastInboundAt = 27h ago
-  const elenaChat = engine.getState().chats.find((c) => c.id === 'chat-elena')!;
-  assert.equal(getCustomerServiceWindowStatus(elenaChat.lastInboundAt).open, false);
+  // New contact has no inbound yet => 24h window is closed
+  assert.equal(getCustomerServiceWindowStatus(chat.lastInboundAt).open, false);
 
   // Free-form text rejected with Meta code 131047
   const rejected = engine.sendMessage({
-    chatId: 'chat-elena',
+    chatId: chat.id,
     body: 'Checking in with free-form message',
     skipLifecycleTimers: true,
   });
@@ -186,18 +241,18 @@ test('24-hour customer service window rejects free-form outside window (131047) 
 
   // Approved template succeeds outside 24h window
   const tplOk = engine.sendMessage({
-    chatId: 'chat-elena',
+    chatId: chat.id,
     type: 'template',
-    templateName: 'order_shipment_update',
-    templateVariables: ['Elena', '#ORD-9012', 'Friday'],
+    templateName: tpl.name,
+    templateVariables: ['Peer', '#1001', 'Friday'],
     skipLifecycleTimers: true,
   });
   assert.equal(tplOk.ok, true);
-  assert.match(tplOk.message!.body, /Hi Elena, your order #ORD-9012/);
+  assert.match(tplOk.message!.body, /Hi Peer, your order #1001/);
 
-  // New inbound from Elena re-opens the 24h window
+  // New inbound re-opens the 24h window
   const inbound = engine.receiveMessage({
-    chatId: 'chat-elena',
+    chatId: chat.id,
     body: 'Thanks, can I change the delivery time?',
   });
   assert.equal(inbound.ok, true);
@@ -205,7 +260,7 @@ test('24-hour customer service window rejects free-form outside window (131047) 
 
   // Free-form session reply now succeeds!
   const freeFormNowOk = engine.sendMessage({
-    chatId: 'chat-elena',
+    chatId: chat.id,
     body: 'Sure! What time window works best?',
     skipLifecycleTimers: true,
   });
@@ -219,23 +274,36 @@ test('template variable filling, approval status checks, and pricing simulation'
   );
 
   const engine = new EmulatorEngine(new MemoryStateStore(), makeTestEnv({ variant: 'business' }));
+  const { chat } = engine.createContact({
+    name: 'Template Peer',
+    phone: '+12025550105',
+    optInStatus: 'opted_in',
+  });
+  const pendingTpl = engine.upsertTemplate({
+    name: 'vip_early_access',
+    category: 'MARKETING',
+    status: 'PENDING',
+    bodyText: 'Hi {{1}}, early access opens at {{2}}.',
+    sampleValues: ['Peer', '18:00 UTC'],
+  });
+
   // Attempting to send PENDING template fails with 132001
   const pendingSend = engine.sendMessage({
-    chatId: 'chat-alex',
+    chatId: chat.id,
     type: 'template',
-    templateName: 'vip_early_access',
+    templateName: pendingTpl.name,
     skipLifecycleTimers: true,
   });
   assert.equal(pendingSend.ok, false);
   assert.equal(pendingSend.error?.code, 132001);
 
   // Approving it makes it sendable and logs a billable MARKETING conversation
-  engine.setTemplateStatus('tpl-pending-review', 'APPROVED');
+  engine.setTemplateStatus(pendingTpl.id, 'APPROVED');
   const approvedSend = engine.sendMessage({
-    chatId: 'chat-alex',
+    chatId: chat.id,
     type: 'template',
-    templateName: 'vip_early_access',
-    templateVariables: ['Alex', '18:00 PT'],
+    templateName: pendingTpl.name,
+    templateVariables: ['Peer', '18:00 UTC'],
     skipLifecycleTimers: true,
   });
   assert.equal(approvedSend.ok, true);
@@ -247,7 +315,7 @@ test('template variable filling, approval status checks, and pricing simulation'
 
 test('Cloud API payload normalization covers interactive, location, template, and media IDs', () => {
   const interactive = normalizeCloudApiSendPayload({
-    to: '+14155550142',
+    to: '+12025550106',
     type: 'interactive',
     interactive: {
       type: 'button',
@@ -264,7 +332,7 @@ test('Cloud API payload normalization covers interactive, location, template, an
   assert.equal(interactive?.interactive?.buttons?.length, 2);
 
   const mediaById = normalizeCloudApiSendPayload({
-    to: '+14155550142',
+    to: '+12025550106',
     type: 'image',
     image: { id: 'media_abc123', caption: 'Invoice photo' },
   });
@@ -274,8 +342,8 @@ test('Cloud API payload normalization covers interactive, location, template, an
 test('Meta Cloud API webhook envelopes and X-Hub-Signature-256 HMAC validation', () => {
   const envelope = buildCloudWebhookEnvelope(
     'message_template_status_update',
-    { id: 'wa-sim-phone-001', wabaId: 'wa-sim-waba-001', phoneNumber: '+14155550100' },
-    { event: 'APPROVED', message_template_name: 'order_shipment_update' }
+    { id: 'wa-sim-phone-001', wabaId: 'wa-sim-waba-001', phoneNumber: '+12025550100' },
+    { event: 'APPROVED', message_template_name: 'order_update' }
   );
   assert.equal(envelope.object, 'whatsapp_business_account');
   const raw = JSON.stringify(envelope);
@@ -300,7 +368,12 @@ test('auto-reply rules match contains, exact, and regex patterns and Business gr
   assert.equal(matchAutoReplyRule(rules, 'ping')?.id, 'r1');
 
   const engine = new EmulatorEngine(new MemoryStateStore(), makeTestEnv({ variant: 'business' }));
-  const res = engine.receiveMessage({ fromPhone: '+14155550188', body: 'Hello store!' });
+  engine.updateBusinessAutomation({
+    greetingEnabled: true,
+    greetingMessage: 'Welcome! How can we help today?',
+  });
+
+  const res = engine.receiveMessage({ fromPhone: '+12025550108', body: 'Hello store!' });
   assert.equal(res.ok, true);
 
   await new Promise((r) => setTimeout(r, 1400));

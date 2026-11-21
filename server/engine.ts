@@ -1,18 +1,25 @@
 import crypto from 'crypto';
 import type {
   AutoReplyRule,
+  BroadcastCreateRequest,
+  BroadcastJob,
+  BroadcastRecipientRecord,
+  BulkSeedRequest,
   BusinessAutomation,
   BusinessLabel,
   BusinessProfile,
   CallLogItem,
   CatalogItemRef,
   Chat,
+  ClientPersonality,
+  ClientResponseSimulationRequest,
   Contact,
   ContactCardPayload,
   ConversationBillingRecord,
   ConversationCategory,
   EmulatorSettings,
   EmulatorState,
+  FailureInjectionConfig,
   InteractivePayload,
   LocationPayload,
   MediaAttachment,
@@ -27,11 +34,21 @@ import type {
   PhoneNumberConfig,
   QuickReply,
   QuotedMessageRef,
+  RateLimitConfig,
   ServerWsEvent,
   StatusUpdateItem,
   TemplateApprovalStatus,
   WebhookLogEntry,
 } from '../shared/types';
+import {
+  DEFAULT_FAILURE_INJECTION,
+  DEFAULT_RATE_LIMITS,
+  RateLimiter,
+  createBroadcastRollGenerator,
+  evaluateFailureInjection,
+  resolveRecipientTemplateVariables,
+  selectBroadcastRecipients,
+} from './broadcast';
 import {
   META_ERRORS,
   TWENTY_FOUR_HOURS_MS,
@@ -47,6 +64,12 @@ import {
   toContactFromSeed,
   toRuleFromSeed,
 } from './config';
+import {
+  buildContactFromClientSeed,
+  computeClientAutoResponse,
+  generateSeededClients,
+  loadClientSeedFile,
+} from './seeder';
 import type { StateStore } from './storage';
 import { buildCloudWebhookEnvelope, dispatchWebhook } from './webhooks';
 
@@ -73,6 +96,9 @@ export interface SendMessageParams {
   replyToMessageId?: string;
   skipLifecycleTimers?: boolean;
   simulateErrorCode?: number;
+  broadcastId?: string;
+  failureRollPercent?: number;
+  deferPersist?: boolean;
   metadata?: Record<string, unknown>;
 }
 
@@ -347,55 +373,41 @@ export function matchAutoReplyRule(
 export function createSeedState(env: EmulatorEnvConfig): EmulatorState {
   const now = Date.now();
   const minsAgo = (m: number) => new Date(now - m * 60_000).toISOString();
-  const hoursAgo = (h: number) => new Date(now - h * 3_600_000).toISOString();
 
   const defaultBusinessProfile: BusinessProfile = {
-    name: 'Meridian Coffee Roasters',
-    category: 'Specialty Coffee & Equipment',
-    description:
-      'Direct-trade roastery and brewing hardware storefront. Automated WhatsApp Business Platform sandbox profile.',
-    address: '420 Brannan St, San Francisco, CA 94107',
-    hours: 'Mon–Fri · 08:00 – 18:00 PT',
-    email: 'orders@meridian-sandbox.example',
-    website: 'https://meridian-sandbox.example',
-    verified: true,
-    avatarUrl: '/src/assets/images/avatar_store_logo_1795189141688.jpg',
+    name: env.selfName || 'WhatsApp Business',
+    category: '',
+    description: '',
+    address: '',
+    hours: '',
+    email: '',
+    website: '',
+    verified: false,
   };
 
-  const phoneNumbers: PhoneNumberConfig[] = [
-    {
-      id: 'wa-sim-phone-001',
-      wabaId: 'wa-sim-waba-001',
-      phoneNumber: env.selfPhone,
-      displayName: 'Meridian Orders (Primary)',
-      verifiedName: 'Meridian Coffee Roasters',
+  // Strictly empty unless explicitly configured via .env
+  const phoneNumbers: PhoneNumberConfig[] = [];
+
+  if (env.selfPhone && isValidE164(normalizeE164(env.selfPhone))) {
+    phoneNumbers.push({
+      id: 'phone-primary',
+      wabaId: 'waba-primary',
+      phoneNumber: normalizeE164(env.selfPhone),
+      displayName: env.selfName || 'Primary Number',
+      verifiedName: env.selfName || 'WhatsApp Business',
       qualityRating: 'GREEN',
       webhookUrl: '',
       businessProfile: { ...defaultBusinessProfile },
-    },
-    {
-      id: 'wa-sim-phone-002',
-      wabaId: 'wa-sim-waba-001',
-      phoneNumber: '+14155550109',
-      displayName: 'Meridian Support Desk',
-      verifiedName: 'Meridian Support',
-      qualityRating: 'GREEN',
-      webhookUrl: '',
-      businessProfile: {
-        ...defaultBusinessProfile,
-        name: 'Meridian Support Desk',
-        category: 'Customer Support',
-        description: 'Dedicated support line for returns, shipping claims, and account assistance.',
-      },
-    },
-  ];
+    });
+  }
 
   env.phoneNumbers.forEach((seed) => {
-    if (!phoneNumbers.some((p) => p.id === seed.id)) {
+    const normalized = normalizeE164(seed.phoneNumber);
+    if (normalized && isValidE164(normalized) && !phoneNumbers.some((p) => p.id === seed.id)) {
       phoneNumbers.push({
         id: seed.id,
-        wabaId: seed.wabaId || 'wa-sim-waba-001',
-        phoneNumber: normalizeE164(seed.phoneNumber),
+        wabaId: seed.wabaId || 'waba-primary',
+        phoneNumber: normalized,
         displayName: seed.displayName,
         verifiedName: seed.verifiedName || seed.displayName,
         qualityRating: 'GREEN',
@@ -408,136 +420,9 @@ export function createSeedState(env: EmulatorEnvConfig): EmulatorState {
     }
   });
 
-  const contacts: Contact[] = [
-    {
-      id: 'contact-alex',
-      name: 'Alex Rivera',
-      profileName: 'Alex R.',
-      phone: '+14155550142',
-      avatarUrl: '/src/assets/images/avatar_alex_dev_1795189142888.jpg',
-      avatarColor: '#00a884',
-      about: 'Staff QA Engineer · Webhook Pipeline',
-      blocked: false,
-      optInStatus: 'opted_in',
-      optInUpdatedAt: hoursAgo(4),
-      optInSource: 'web_checkout',
-      optInHistory: [
-        {
-          id: 'opt-alex-1',
-          status: 'opted_in',
-          timestamp: hoursAgo(4),
-          source: 'web_checkout',
-          note: 'Opted in to order updates at checkout',
-        },
-      ],
-      presence: 'online',
-      lastSeen: minsAgo(0),
-    },
-    {
-      id: 'contact-priya',
-      name: 'Priya Patel',
-      profileName: 'Priya P.',
-      phone: '+14155550188',
-      avatarUrl: '/src/assets/images/avatar_priya_ops_1795189209154.jpg',
-      avatarColor: '#53bdeb',
-      about: 'Operations Lead · Order Verification',
-      isBusiness: true,
-      blocked: false,
-      optInStatus: 'opted_in',
-      optInUpdatedAt: hoursAgo(12),
-      optInSource: 'inbound_keyword',
-      optInHistory: [
-        {
-          id: 'opt-priya-1',
-          status: 'opted_in',
-          timestamp: hoursAgo(12),
-          source: 'inbound_keyword',
-          keyword: 'START',
-          note: 'Replied START to onboarding message',
-        },
-      ],
-      presence: 'online',
-      lastSeen: minsAgo(2),
-    },
-    {
-      id: 'contact-orderbot',
-      name: 'Fulfillment Test Bot',
-      profileName: 'Fulfillment Bot',
-      phone: '+14155550199',
-      avatarColor: '#7f66ff',
-      about: 'Automated responder for order, status, refund, and ping flows',
-      isBot: true,
-      blocked: false,
-      optInStatus: 'opted_in',
-      optInUpdatedAt: hoursAgo(6),
-      optInSource: 'api',
-      optInHistory: [
-        {
-          id: 'opt-bot-1',
-          status: 'opted_in',
-          timestamp: hoursAgo(6),
-          source: 'api',
-          note: 'Pre-authorized QA test bot',
-        },
-      ],
-      presence: 'online',
-      lastSeen: minsAgo(0),
-    },
-    {
-      id: 'contact-elena',
-      name: 'Elena Rostova',
-      profileName: 'Elena',
-      phone: '+14155550164',
-      avatarColor: '#e542a3',
-      about: '24h window expired test peer · Template re-engagement',
-      blocked: false,
-      optInStatus: 'opted_in',
-      optInUpdatedAt: hoursAgo(40),
-      optInSource: 'web_form',
-      optInHistory: [
-        {
-          id: 'opt-elena-1',
-          status: 'opted_in',
-          timestamp: hoursAgo(40),
-          source: 'web_form',
-          note: 'Subscribed via support portal',
-        },
-      ],
-      presence: 'offline',
-      lastSeen: hoursAgo(27),
-    },
-    {
-      id: 'contact-marcus',
-      name: 'Marcus Chen',
-      profileName: 'Marcus C.',
-      phone: '+14155550127',
-      avatarColor: '#ff7b29',
-      about: 'Archived Staging Client',
-      blocked: false,
-      optInStatus: 'opted_out',
-      optInUpdatedAt: hoursAgo(8),
-      optInSource: 'inbound_keyword',
-      optInHistory: [
-        {
-          id: 'opt-marcus-1',
-          status: 'opted_in',
-          timestamp: hoursAgo(72),
-          source: 'web_checkout',
-        },
-        {
-          id: 'opt-marcus-2',
-          status: 'opted_out',
-          timestamp: hoursAgo(8),
-          source: 'inbound_keyword',
-          keyword: 'STOP',
-          note: 'User replied STOP',
-        },
-      ],
-      presence: 'offline',
-      lastSeen: hoursAgo(8),
-    },
-  ];
+  const activePhoneNumberId = phoneNumbers[0]?.id || '';
 
+  const contacts: Contact[] = [];
   env.preloadedContacts.forEach((seed, idx) => {
     const norm = normalizeE164(seed.phone);
     if (norm && !contacts.some((c) => c.phone === norm)) {
@@ -545,307 +430,14 @@ export function createSeedState(env: EmulatorEnvConfig): EmulatorState {
     }
   });
 
-  const templates: MessageTemplate[] = [
-    {
-      id: 'tpl-order-update',
-      name: 'order_shipment_update',
-      language: 'en_US',
-      category: 'UTILITY',
-      status: 'APPROVED',
-      headerText: 'Order Update · Meridian Coffee',
-      bodyText: 'Hi {{1}}, your order {{2}} is packed and scheduled for delivery on {{3}}.',
-      footerText: 'Reply STOP to opt out of notifications',
-      buttons: [
-        { type: 'URL', text: 'Track Shipment', url: 'https://meridian-sandbox.example/track/{{2}}' },
-        { type: 'QUICK_REPLY', text: 'Confirm Delivery' },
-      ],
-      sampleValues: ['Alex', '#ORD-4821', 'Tomorrow by 16:00'],
-      createdAt: hoursAgo(48),
-      updatedAt: hoursAgo(48),
-    },
-    {
-      id: 'tpl-auth-otp',
-      name: 'login_verification_code',
-      language: 'en_US',
-      category: 'AUTHENTICATION',
-      status: 'APPROVED',
-      bodyText: '{{1}} is your Meridian verification code. For your security, do not share this code. Expires in 10 minutes.',
-      footerText: 'One-time security passcode',
-      buttons: [{ type: 'OTP', text: 'Copy code', exampleCode: '482910' }],
-      sampleValues: ['482910'],
-      createdAt: hoursAgo(36),
-      updatedAt: hoursAgo(36),
-    },
-    {
-      id: 'tpl-promo-roast',
-      name: 'seasonal_roast_launch',
-      language: 'en_US',
-      category: 'MARKETING',
-      status: 'APPROVED',
-      headerText: 'Fresh Harvest Drop',
-      bodyText: 'Hey {{1}}! Our Ethiopia Yirgacheffe micro-lot is live. Use code {{2}} for 15% off today.',
-      footerText: 'Reply STOP to unsubscribe',
-      buttons: [
-        { type: 'COPY_CODE', text: 'Copy offer code', exampleCode: 'ROAST15' },
-        { type: 'URL', text: 'Shop Harvest', url: 'https://meridian-sandbox.example/shop' },
-      ],
-      sampleValues: ['Priya', 'ROAST15'],
-      createdAt: hoursAgo(24),
-      updatedAt: hoursAgo(24),
-    },
-    {
-      id: 'tpl-pending-review',
-      name: 'vip_early_access',
-      language: 'en_US',
-      category: 'MARKETING',
-      status: 'PENDING',
-      headerText: 'VIP Tasting Preview',
-      bodyText: 'Hi {{1}}, reserve your seat for Friday cupping at {{2}}.',
-      footerText: 'Meridian Roastery Events',
-      buttons: [{ type: 'PHONE_NUMBER', text: 'Call Roastery', phoneNumber: '+14155550100' }],
-      sampleValues: ['Elena', '17:00 PT'],
-      createdAt: hoursAgo(3),
-      updatedAt: hoursAgo(3),
-    },
-  ];
-
-  const catalog: CatalogItemRef[] = [
-    {
-      id: 'cat-pour-over',
-      name: 'Matte Pour-Over Brew Kit',
-      price: '84.00',
-      currency: 'USD',
-      description: 'Gooseneck 900ml kettle with ceramic V60 dripper and borosilicate carafe.',
-      sku: 'BRW-PO-900',
-      imageUrl: '/src/assets/images/catalog_espresso_kit_1795189175804.jpg',
-      inStock: true,
-    },
-    {
-      id: 'cat-single-origin',
-      name: 'Ethiopia Yirgacheffe 340g',
-      price: '22.50',
-      currency: 'USD',
-      description: 'Washed heirloom roast with bergamot, jasmine, and white peach tasting notes.',
-      sku: 'COF-ETH-340',
-      inStock: true,
-    },
-    {
-      id: 'cat-filter-pack',
-      name: 'Unbleached Paper Filters (100ct)',
-      price: '9.00',
-      currency: 'USD',
-      description: 'Precision cone filters compatible with size 02 ceramic drippers.',
-      sku: 'ACC-FLT-100',
-      inStock: true,
-    },
-  ];
-
-  const labels: BusinessLabel[] = [
-    { id: 'lbl-new', name: 'New Customer', color: '#00a884' },
-    { id: 'lbl-pending', name: 'Pending Payment', color: '#f59e0b' },
-    { id: 'lbl-vip', name: 'VIP Account', color: '#8b5cf6' },
-    { id: 'lbl-complete', name: 'Order Complete', color: '#3b82f6' },
-  ];
-
-  const quickReplies: QuickReply[] = [
-    {
-      id: 'qr-thanks',
-      shortcut: 'thanks',
-      message: 'Thanks for reaching out to Meridian Coffee Roasters! How can we help with your order today?',
-      keywords: ['welcome', 'greeting'],
-    },
-    {
-      id: 'qr-hours',
-      shortcut: 'hours',
-      message: 'Our support desk is open Monday–Friday, 08:00–18:00 PT. Orders ship same-day before 14:00 PT.',
-      keywords: ['schedule', 'open'],
-    },
-    {
-      id: 'qr-tracking',
-      shortcut: 'tracking',
-      message: 'Your shipment is confirmed! Reply with your order ID (e.g. #ORD-4821) and we will pull the live carrier link.',
-      keywords: ['shipping', 'order'],
-    },
-    {
-      id: 'qr-refund',
-      shortcut: 'refund',
-      message: 'We have initiated your refund request. Please allow 2–3 business days for the credit to appear on your statement.',
-      keywords: ['return', 'billing'],
-    },
-  ];
-
-  const defaultRules: AutoReplyRule[] = [
-    {
-      id: 'rule-status',
-      name: 'Order Status Lookup',
-      enabled: true,
-      matchType: 'contains',
-      pattern: 'status',
-      reply: 'Order #ORD-4821 is packed and out for courier pickup. Estimated arrival: tomorrow by 16:00.',
-      delayMs: 750,
-      simulateTypingMs: 600,
-      respectOptOut: true,
-    },
-    {
-      id: 'rule-ping',
-      name: 'Health Ping / Echo',
-      enabled: true,
-      matchType: 'regex',
-      pattern: '^(ping|health|test)$',
-      reply: 'pong — WA-Sim responder active (200 OK).',
-      delayMs: 500,
-      simulateTypingMs: 400,
-      respectOptOut: false,
-    },
-    {
-      id: 'rule-help',
-      name: 'Help Menu',
-      enabled: true,
-      matchType: 'contains',
-      pattern: 'help',
-      reply: 'Simulated Bot Commands: send "status" for order lookup, "ping" for health echo, or "refund" for return workflow.',
-      delayMs: 650,
-      simulateTypingMs: 500,
-      respectOptOut: true,
-    },
-    {
-      id: 'rule-refund',
-      name: 'Refund Workflow',
-      enabled: true,
-      matchType: 'contains',
-      pattern: 'refund',
-      reply: 'Return authorization #RMA-904 created. Please confirm your order email to finalize.',
-      delayMs: 850,
-      simulateTypingMs: 650,
-      respectOptOut: true,
-    },
-  ];
-
-  const autoReplyRules = [
-    ...defaultRules,
-    ...env.autoReplyRules.map((seed, idx) => toRuleFromSeed(seed, idx)),
-  ];
-
-  const chats: Chat[] = [
-    {
-      id: 'chat-alex',
-      type: 'direct',
-      phoneNumberId: 'wa-sim-phone-001',
-      name: 'Alex Rivera',
-      avatarUrl: '/src/assets/images/avatar_alex_dev_1795189142888.jpg',
-      avatarColor: '#00a884',
-      contactId: 'contact-alex',
-      participantIds: ['contact-alex'],
-      unreadCount: 0,
-      archived: false,
-      pinned: true,
-      muted: false,
-      labelIds: ['lbl-vip'],
-      lastMessageId: 'msg-alex-4',
-      lastMessageAt: minsAgo(4),
-      lastInboundAt: minsAgo(12),
-      conversationCategory: 'SERVICE',
-    },
-    {
-      id: 'chat-orderbot',
-      type: 'direct',
-      phoneNumberId: 'wa-sim-phone-001',
-      name: 'Fulfillment Test Bot',
-      avatarColor: '#7f66ff',
-      contactId: 'contact-orderbot',
-      participantIds: ['contact-orderbot'],
-      unreadCount: 1,
-      archived: false,
-      pinned: false,
-      muted: false,
-      labelIds: ['lbl-new'],
-      lastMessageId: 'msg-bot-2',
-      lastMessageAt: minsAgo(9),
-      lastInboundAt: minsAgo(9),
-      conversationCategory: 'UTILITY',
-    },
-    {
-      id: 'chat-priya',
-      type: 'direct',
-      phoneNumberId: 'wa-sim-phone-001',
-      name: 'Priya Patel',
-      avatarUrl: '/src/assets/images/avatar_priya_ops_1795189209154.jpg',
-      avatarColor: '#53bdeb',
-      contactId: 'contact-priya',
-      participantIds: ['contact-priya'],
-      unreadCount: 2,
-      archived: false,
-      pinned: false,
-      muted: false,
-      labelIds: ['lbl-pending'],
-      lastMessageId: 'msg-priya-3',
-      lastMessageAt: minsAgo(22),
-      lastInboundAt: minsAgo(22),
-      conversationCategory: 'SERVICE',
-    },
-    {
-      id: 'chat-elena',
-      type: 'direct',
-      phoneNumberId: 'wa-sim-phone-001',
-      name: 'Elena Rostova',
-      avatarColor: '#e542a3',
-      contactId: 'contact-elena',
-      participantIds: ['contact-elena'],
-      unreadCount: 0,
-      archived: false,
-      pinned: false,
-      muted: false,
-      labelIds: ['lbl-new'],
-      lastMessageId: 'msg-elena-1',
-      lastMessageAt: hoursAgo(27),
-      lastInboundAt: hoursAgo(27), // Expired >24h customer service window for immediate testing!
-      conversationCategory: 'MARKETING',
-    },
-    {
-      id: 'chat-qa-group',
-      type: 'group',
-      phoneNumberId: 'wa-sim-phone-001',
-      name: 'Release QA · Webhook Sync',
-      avatarColor: '#008069',
-      description: 'Automated integration group for multi-participant message routing and delivery receipt verification.',
-      participantIds: ['contact-alex', 'contact-priya', 'contact-elena'],
-      unreadCount: 0,
-      archived: false,
-      pinned: false,
-      muted: false,
-      labelIds: ['lbl-complete'],
-      lastMessageId: 'msg-grp-3',
-      lastMessageAt: minsAgo(41),
-      lastInboundAt: minsAgo(48),
-      conversationCategory: 'SERVICE',
-    },
-    {
-      id: 'chat-marcus',
-      type: 'direct',
-      phoneNumberId: 'wa-sim-phone-002',
-      name: 'Marcus Chen',
-      avatarColor: '#ff7b29',
-      contactId: 'contact-marcus',
-      participantIds: ['contact-marcus'],
-      unreadCount: 0,
-      archived: true,
-      pinned: false,
-      muted: true,
-      labelIds: [],
-      lastMessageId: 'msg-marcus-1',
-      lastMessageAt: hoursAgo(8),
-      lastInboundAt: hoursAgo(8),
-      conversationCategory: 'SERVICE',
-    },
-  ];
-
+  const chats: Chat[] = [];
   env.preloadedContacts.forEach((seed, idx) => {
     const contactId = `contact-env-${idx + 1}`;
-    if (!chats.some((c) => c.contactId === contactId)) {
+    if (contacts.some((c) => c.id === contactId) && !chats.some((c) => c.contactId === contactId)) {
       chats.push({
         id: `chat-env-${idx + 1}`,
         type: 'direct',
-        phoneNumberId: 'wa-sim-phone-001',
+        phoneNumberId: activePhoneNumberId,
         name: seed.name,
         avatarColor: '#00a884',
         contactId,
@@ -856,308 +448,27 @@ export function createSeedState(env: EmulatorEnvConfig): EmulatorState {
         muted: false,
         labelIds: [],
         lastMessageId: null,
-        lastMessageAt: minsAgo(120 + idx),
-        lastInboundAt: minsAgo(120 + idx),
+        lastMessageAt: minsAgo(idx),
+        lastInboundAt: null,
         conversationCategory: 'SERVICE',
       });
     }
   });
 
-  const messages: Record<string, Message[]> = {
-    'chat-alex': [
-      {
-        id: 'msg-alex-1',
-        chatId: 'chat-alex',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'contact-alex',
-        senderName: 'Alex Rivera',
-        direction: 'inbound',
-        type: 'text',
-        body: 'Hey! Pointed the staging webhook runner at https://meridian-sandbox.example/webhooks. Ready to verify outbound delivery ticks.',
-        linkPreview: extractLinkPreview('https://meridian-sandbox.example/webhooks'),
-        timestamp: minsAgo(28),
-        status: 'read',
-      },
-      {
-        id: 'msg-alex-2',
-        chatId: 'chat-alex',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'me',
-        senderName: env.selfName,
-        direction: 'outbound',
-        type: 'text',
-        body: 'Confirmed — receipts transition from sent to delivered to read automatically, or via POST /api/messages/:id/receipt.',
-        timestamp: minsAgo(25),
-        status: 'read',
-      },
-      {
-        id: 'msg-alex-3',
-        chatId: 'chat-alex',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'contact-alex',
-        senderName: 'Alex Rivera',
-        direction: 'inbound',
-        type: 'voice',
-        body: 'Voice message (0:14)',
-        timestamp: minsAgo(12),
-        status: 'read',
-        media: {
-          id: 'seed-voice-1',
-          url: '',
-          mimeType: 'audio/ogg',
-          durationSec: 14,
-          waveform: [16, 28, 52, 74, 61, 38, 82, 95, 70, 48, 63, 88, 76, 54, 41, 66, 44, 26, 35, 22, 18, 25],
-        },
-      },
-      {
-        id: 'msg-alex-4',
-        chatId: 'chat-alex',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'me',
-        senderName: env.selfName,
-        direction: 'outbound',
-        type: 'image',
-        body: 'Latest pour-over kit asset uploaded for Business catalog verification.',
-        timestamp: minsAgo(4),
-        status: 'delivered',
-        media: {
-          id: 'seed-img-1',
-          url: '/src/assets/images/catalog_espresso_kit_1795189175804.jpg',
-          mimeType: 'image/jpeg',
-          filename: 'pour-over-kit.jpg',
-          caption: 'Latest pour-over kit asset uploaded for Business catalog verification.',
-        },
-      },
-    ],
-    'chat-orderbot': [
-      {
-        id: 'msg-bot-1',
-        chatId: 'chat-orderbot',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'me',
-        senderName: env.selfName,
-        direction: 'outbound',
-        type: 'text',
-        body: 'help',
-        timestamp: minsAgo(10),
-        status: 'read',
-      },
-      {
-        id: 'msg-bot-2',
-        chatId: 'chat-orderbot',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'contact-orderbot',
-        senderName: 'Fulfillment Test Bot',
-        direction: 'inbound',
-        type: 'text',
-        body: 'Simulated Bot Commands: send "status" for order lookup, "ping" for health echo, or "refund" for return workflow.',
-        timestamp: minsAgo(9),
-        status: 'delivered',
-      },
-    ],
-    'chat-priya': [
-      {
-        id: 'msg-priya-1',
-        chatId: 'chat-priya',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'contact-priya',
-        senderName: 'Priya Patel',
-        direction: 'inbound',
-        type: 'text',
-        body: 'Could you send over the Pour-Over Brew Kit catalog card so I can test the Business webhook parser?',
-        timestamp: minsAgo(30),
-        status: 'read',
-      },
-      {
-        id: 'msg-priya-2',
-        chatId: 'chat-priya',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'contact-priya',
-        senderName: 'Priya Patel',
-        direction: 'inbound',
-        type: 'document',
-        body: 'webhook-schema-v19.pdf',
-        timestamp: minsAgo(24),
-        status: 'delivered',
-        media: {
-          id: 'seed-doc-1',
-          url: '#',
-          mimeType: 'application/pdf',
-          filename: 'webhook-schema-v19.pdf',
-          sizeBytes: 248320,
-        },
-      },
-      {
-        id: 'msg-priya-3',
-        chatId: 'chat-priya',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'contact-priya',
-        senderName: 'Priya Patel',
-        direction: 'inbound',
-        type: 'text',
-        body: 'Also checking if interactive buttons and template messages work in Business mode.',
-        timestamp: minsAgo(22),
-        status: 'delivered',
-      },
-    ],
-    'chat-elena': [
-      {
-        id: 'msg-elena-1',
-        chatId: 'chat-elena',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'contact-elena',
-        senderName: 'Elena Rostova',
-        direction: 'inbound',
-        type: 'text',
-        body: 'Thanks! Let me know next week when the seasonal harvest ships.',
-        timestamp: hoursAgo(27),
-        status: 'read',
-      },
-    ],
-    'chat-qa-group': [
-      {
-        id: 'msg-grp-1',
-        chatId: 'chat-qa-group',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'contact-elena',
-        senderName: 'Elena Rostova',
-        direction: 'inbound',
-        type: 'text',
-        body: 'Group fanout check: verifying sender metadata and quoted reply references.',
-        timestamp: minsAgo(55),
-        status: 'read',
-      },
-      {
-        id: 'msg-grp-2',
-        chatId: 'chat-qa-group',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'contact-alex',
-        senderName: 'Alex Rivera',
-        direction: 'inbound',
-        type: 'text',
-        body: 'Looks clean on the WebSocket stream — zero duplicate message IDs after reconnect.',
-        timestamp: minsAgo(48),
-        status: 'read',
-        replyTo: {
-          messageId: 'msg-grp-1',
-          senderName: 'Elena Rostova',
-          body: 'Group fanout check: verifying sender metadata and quoted reply references.',
-          type: 'text',
-        },
-      },
-      {
-        id: 'msg-grp-3',
-        chatId: 'chat-qa-group',
-        phoneNumberId: 'wa-sim-phone-001',
-        senderId: 'me',
-        senderName: env.selfName,
-        direction: 'outbound',
-        type: 'text',
-        body: 'CI smoke suite passed 14/14 assertions against the local emulator.',
-        timestamp: minsAgo(41),
-        status: 'read',
-      },
-    ],
-    'chat-marcus': [
-      {
-        id: 'msg-marcus-1',
-        chatId: 'chat-marcus',
-        phoneNumberId: 'wa-sim-phone-002',
-        senderId: 'contact-marcus',
-        senderName: 'Marcus Chen',
-        direction: 'inbound',
-        type: 'text',
-        body: 'STOP',
-        timestamp: hoursAgo(8),
-        status: 'read',
-      },
-    ],
-  };
-
-  const conversations: ConversationBillingRecord[] = [
-    {
-      id: 'conv-seed-1',
-      chatId: 'chat-alex',
-      phoneNumberId: 'wa-sim-phone-001',
-      category: 'SERVICE',
-      billable: false,
-      estimatedCostUsd: 0,
-      startedAt: minsAgo(28),
-      expiresAt: new Date(now + 23.5 * 3_600_000).toISOString(),
-      messageId: 'msg-alex-1',
-    },
-    {
-      id: 'conv-seed-2',
-      chatId: 'chat-orderbot',
-      phoneNumberId: 'wa-sim-phone-001',
-      category: 'UTILITY',
-      billable: true,
-      estimatedCostUsd: env.pricingRatesUsd.UTILITY,
-      startedAt: minsAgo(10),
-      expiresAt: new Date(now + 23.8 * 3_600_000).toISOString(),
-      messageId: 'msg-bot-1',
-    },
-  ];
-
-  const statusUpdates: StatusUpdateItem[] = [
-    {
-      id: 'upd-1',
-      contactId: 'contact-alex',
-      contactName: 'Alex Rivera',
-      avatarUrl: '/src/assets/images/avatar_alex_dev_1795189142888.jpg',
-      avatarColor: '#00a884',
-      caption: 'Staging webhook suite green — 100% HMAC-SHA256 verified.',
-      mediaUrl: '/src/assets/images/catalog_espresso_kit_1795189175804.jpg',
-      timestamp: minsAgo(18),
-      viewed: false,
-    },
-    {
-      id: 'upd-2',
-      contactId: 'contact-priya',
-      contactName: 'Priya Patel',
-      avatarUrl: '/src/assets/images/avatar_priya_ops_1795189209154.jpg',
-      avatarColor: '#53bdeb',
-      caption: 'New Q4 catalog items ready for Business API testing.',
-      timestamp: hoursAgo(2),
-      viewed: true,
-    },
-  ];
-
-  const callLogs: CallLogItem[] = [
-    {
-      id: 'call-1',
-      contactId: 'contact-alex',
-      contactName: 'Alex Rivera',
-      avatarUrl: '/src/assets/images/avatar_alex_dev_1795189142888.jpg',
-      avatarColor: '#00a884',
-      direction: 'incoming',
-      kind: 'voice',
-      durationSec: 214,
-      timestamp: minsAgo(52),
-    },
-    {
-      id: 'call-2',
-      contactId: 'contact-priya',
-      contactName: 'Priya Patel',
-      avatarUrl: '/src/assets/images/avatar_priya_ops_1795189209154.jpg',
-      avatarColor: '#53bdeb',
-      direction: 'missed',
-      kind: 'video',
-      timestamp: hoursAgo(3),
-    },
-  ];
+  const autoReplyRules: AutoReplyRule[] = env.autoReplyRules.map((seed, idx) =>
+    toRuleFromSeed(seed, idx)
+  );
 
   return {
     self: {
       id: 'me',
-      name: env.selfName,
-      phone: env.selfPhone,
-      about: 'Available · Local Integration Sandbox',
-      avatarUrl: '/src/assets/images/avatar_store_logo_1795189141688.jpg',
+      name: env.selfName || 'WhatsApp Business',
+      phone: env.selfPhone ? normalizeE164(env.selfPhone) : '',
+      about: '',
     },
     settings: {
       variant: env.variant,
-      activePhoneNumberId: 'wa-sim-phone-001',
+      activePhoneNumberId,
       webhookUrl: env.webhookUrl,
       webhookSecret: env.webhookSecret,
       apiKeyConfigured: Boolean(env.apiKey),
@@ -1169,29 +480,44 @@ export function createSeedState(env: EmulatorEnvConfig): EmulatorState {
       pricingRatesUsd: env.pricingRatesUsd,
       businessProfile: defaultBusinessProfile,
       businessAutomation: {
-        greetingEnabled: true,
-        greetingMessage:
-          'Welcome to Meridian Coffee Roasters! Reply with your order ID or browse our catalog.',
+        greetingEnabled: false,
+        greetingMessage: '',
         awayEnabled: false,
-        awayMessage:
-          'We are currently outside business hours (Mon–Fri 08:00–18:00 PT). Leave your order number and we will respond promptly.',
+        awayMessage: '',
         awaySchedule: 'outside_hours',
       },
     },
     phoneNumbers,
     contacts,
     chats,
-    messages,
-    templates,
-    catalog,
-    quickReplies,
-    labels,
+    messages: {},
+    templates: [],
+    catalog: [],
+    quickReplies: [],
+    labels: [],
     autoReplyRules,
     mediaIndex: {},
-    conversations,
+    conversations: [],
     webhookLogs: [],
-    statusUpdates,
-    callLogs,
+    statusUpdates: [],
+    callLogs: [],
+    broadcasts: [],
+    failureInjection: { ...DEFAULT_FAILURE_INJECTION },
+    rateLimits: {
+      ...DEFAULT_RATE_LIMITS,
+      messagesPerSecond: env.rateLimitPerSecond ?? DEFAULT_RATE_LIMITS.messagesPerSecond,
+      messagesPerMinute: env.rateLimitPerMinute ?? DEFAULT_RATE_LIMITS.messagesPerMinute,
+      pairMessagesPerMinute:
+        env.pairRateLimitPerMinute ?? DEFAULT_RATE_LIMITS.pairMessagesPerMinute,
+      dailyTemplateLimit: env.dailyTemplateLimit ?? DEFAULT_RATE_LIMITS.dailyTemplateLimit,
+    },
+    rateLimitUsage: {
+      windowSecondCounts: {},
+      windowMinuteCounts: {},
+      dailyTemplatesSent: 0,
+      dailyResetAt: new Date(Date.now() + TWENTY_FOUR_HOURS_MS).toISOString(),
+      totalThrottled: 0,
+    },
   };
 }
 
@@ -1202,6 +528,14 @@ export class EmulatorEngine {
   private readonly listeners = new Set<EngineListener>();
   private readonly pendingTimers = new Set<ReturnType<typeof setTimeout>>();
   private readonly greetedChatIds = new Set<string>();
+  private readonly rateLimiter = new RateLimiter();
+  private readonly broadcastMessageIndex = new Map<
+    string,
+    { broadcastId: string; contactId: string }
+  >();
+  private readonly broadcastPayloads = new Map<string, BroadcastCreateRequest>();
+  private persistTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly broadcastEmitTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
   constructor(store: StateStore, env: EmulatorEnvConfig) {
     this.store = store;
@@ -1210,10 +544,38 @@ export class EmulatorEngine {
     if (loaded && loaded.phoneNumbers && loaded.templates) {
       this.state = loaded;
       this.state.settings.apiKeyConfigured = Boolean(env.apiKey);
+      // Seamlessly upgrade Phase 2 persisted files to Phase 3 schema
+      if (!Array.isArray(this.state.broadcasts)) this.state.broadcasts = [];
+      if (!this.state.failureInjection) {
+        this.state.failureInjection = { ...DEFAULT_FAILURE_INJECTION };
+      }
+      if (!this.state.rateLimits) {
+        this.state.rateLimits = {
+          ...DEFAULT_RATE_LIMITS,
+          messagesPerSecond: env.rateLimitPerSecond ?? DEFAULT_RATE_LIMITS.messagesPerSecond,
+          messagesPerMinute: env.rateLimitPerMinute ?? DEFAULT_RATE_LIMITS.messagesPerMinute,
+          pairMessagesPerMinute:
+            env.pairRateLimitPerMinute ?? DEFAULT_RATE_LIMITS.pairMessagesPerMinute,
+          dailyTemplateLimit: env.dailyTemplateLimit ?? DEFAULT_RATE_LIMITS.dailyTemplateLimit,
+        };
+      }
+      this.state.rateLimitUsage = this.rateLimiter.getSnapshot();
     } else {
-      // Upgrade seamlessly if persisted file is from Phase 1 schema
       this.state = createSeedState(env);
+      this.applyEnvClientSeeds();
       this.persist();
+    }
+  }
+
+  private applyEnvClientSeeds(): void {
+    if (this.env.clientSeedFile) {
+      const fileClients = loadClientSeedFile(this.env.clientSeedFile);
+      if (fileClients.length > 0) {
+        this.bulkSeedClients({ clients: fileClients }, true);
+      }
+    }
+    if (this.env.clientSeedCount && this.env.clientSeedCount > 0) {
+      this.bulkSeedClients({ count: this.env.clientSeedCount, seed: 202604 }, true);
     }
   }
 
@@ -1229,19 +591,33 @@ export class EmulatorEngine {
   }
 
   private persist(): void {
+    if (this.persistTimer) {
+      clearTimeout(this.persistTimer);
+      this.persistTimer = null;
+    }
     this.store.save(this.state);
   }
 
-  private scheduleTimer(fn: () => void, ms: number): void {
+  private persistDeferred(): void {
+    if (this.persistTimer) return;
+    this.persistTimer = setTimeout(() => {
+      this.persistTimer = null;
+      this.store.save(this.state);
+    }, 180);
+    this.pendingTimers.add(this.persistTimer);
+  }
+
+  private scheduleTimer(fn: () => void, ms: number): ReturnType<typeof setTimeout> | null {
     if (ms <= 0) {
       fn();
-      return;
+      return null;
     }
     const t = setTimeout(() => {
       this.pendingTimers.delete(t);
       fn();
     }, ms);
     this.pendingTimers.add(t);
+    return t;
   }
 
   clearTimers(): void {
@@ -1249,9 +625,18 @@ export class EmulatorEngine {
       clearTimeout(t);
     }
     this.pendingTimers.clear();
+    if (this.persistTimer) {
+      clearTimeout(this.persistTimer);
+      this.persistTimer = null;
+    }
+    for (const t of this.broadcastEmitTimers.values()) {
+      clearTimeout(t);
+    }
+    this.broadcastEmitTimers.clear();
   }
 
   getState(): EmulatorState {
+    this.state.rateLimitUsage = this.rateLimiter.getSnapshot();
     return this.state;
   }
 
@@ -1259,17 +644,30 @@ export class EmulatorEngine {
     const id = phoneNumberId || this.state.settings.activePhoneNumberId;
     return (
       this.state.phoneNumbers.find((p) => p.id === id) ||
-      this.state.phoneNumbers[0]
+      this.state.phoneNumbers[0] || {
+        id: id || 'default',
+        wabaId: 'waba-primary',
+        phoneNumber: this.state.self.phone || '',
+        displayName: this.state.self.name || 'WhatsApp Business',
+        verifiedName: this.state.self.name || 'WhatsApp Business',
+        qualityRating: 'GREEN',
+        webhookUrl: this.state.settings.webhookUrl || '',
+        businessProfile: this.state.settings.businessProfile,
+      }
     );
   }
 
   reset(variantOverride?: 'personal' | 'business'): EmulatorState {
     this.clearTimers();
     this.greetedChatIds.clear();
+    this.rateLimiter.reset();
+    this.broadcastMessageIndex.clear();
+    this.broadcastPayloads.clear();
     const effectiveEnv = variantOverride
       ? { ...this.env, variant: variantOverride }
       : this.env;
     this.state = createSeedState(effectiveEnv);
+    this.applyEnvClientSeeds();
     this.persist();
     this.emit({ type: 'state:sync', payload: this.state });
     return this.state;
@@ -1379,8 +777,8 @@ export class EmulatorEngine {
     }
 
     const created: PhoneNumberConfig = {
-      id: input.id?.trim() || `wa-sim-phone-${crypto.randomUUID().slice(0, 6)}`,
-      wabaId: input.wabaId?.trim() || 'wa-sim-waba-001',
+      id: input.id?.trim() || `phone-${crypto.randomUUID().slice(0, 8)}`,
+      wabaId: input.wabaId?.trim() || 'waba-primary',
       phoneNumber: normalized,
       displayName: input.displayName.trim() || normalized,
       verifiedName: input.verifiedName?.trim() || input.displayName.trim() || normalized,
@@ -1392,6 +790,12 @@ export class EmulatorEngine {
       },
     };
     this.state.phoneNumbers.push(created);
+    if (!this.state.settings.activePhoneNumberId) {
+      this.state.settings.activePhoneNumberId = created.id;
+    }
+    if (!this.state.self.phone) {
+      this.state.self.phone = created.phoneNumber;
+    }
     this.persist();
     this.emitConfigUpdate();
     return { ok: true, phoneNumber: created };
@@ -1462,7 +866,24 @@ export class EmulatorEngine {
   updateContact(
     id: string,
     patch: Partial<
-      Pick<Contact, 'name' | 'profileName' | 'phone' | 'about' | 'presence' | 'isBot' | 'isBusiness' | 'blocked'>
+      Pick<
+        Contact,
+        | 'name'
+        | 'profileName'
+        | 'phone'
+        | 'about'
+        | 'presence'
+        | 'isBot'
+        | 'isBusiness'
+        | 'blocked'
+        | 'disabled'
+        | 'invalidNumber'
+        | 'country'
+        | 'tags'
+        | 'timezone'
+        | 'personality'
+        | 'customReplyText'
+      >
     >
   ): Contact | null {
     const contact = this.state.contacts.find((c) => c.id === id);
@@ -1750,13 +1171,85 @@ export class EmulatorEngine {
     const phoneCfg = this.getPhoneConfig(params.phoneNumberId || chat.phoneNumberId);
     const isBusiness = this.state.settings.variant === 'business';
     const isTemplate = params.type === 'template' || Boolean(params.templateId || params.templateName);
+    const recipientPhone = directContact?.phone || params.toPhone || chat.id;
+
+    // 0a. Rate-limit check (per-number throughput, per-pair 131056, aggregate daily template 130429)
+    const rateRes = this.rateLimiter.checkAndConsume(
+      this.state.rateLimits,
+      phoneCfg.id,
+      recipientPhone,
+      isTemplate
+    );
+    this.state.rateLimitUsage = this.rateLimiter.getSnapshot();
+    if (!rateRes.ok) {
+      return this.recordFailedOutbound(
+        chat,
+        phoneCfg,
+        params.body || (isTemplate ? `[Template: ${params.templateName || params.templateId}]` : '[Rate limited]'),
+        isTemplate ? 'template' : params.type || 'text',
+        rateRes.error,
+        rateRes.httpStatus,
+        params.deferPersist
+      );
+    }
+
+    // 0b. Failure-injection check (configurable QA failure simulation)
+    if (this.state.failureInjection.enabled) {
+      const roll =
+        typeof params.failureRollPercent === 'number'
+          ? params.failureRollPercent
+          : Math.random() * 100;
+      const injected = evaluateFailureInjection(this.state.failureInjection, roll, recipientPhone);
+      if (injected) {
+        return this.recordFailedOutbound(
+          chat,
+          phoneCfg,
+          params.body || (isTemplate ? `[Template: ${params.templateName || params.templateId}]` : '[Injected failure]'),
+          isTemplate ? 'template' : params.type || 'text',
+          injected.error,
+          injected.httpStatus,
+          params.deferPersist
+        );
+      }
+    }
+
+    // 0c. Invalid or disabled client number check (seeded personal WhatsApp numbers)
+    if (directContact?.invalidNumber) {
+      const err = META_ERRORS.INVALID_RECIPIENT(
+        `Recipient ${directContact.phone} is not a valid WhatsApp account.`
+      );
+      return this.recordFailedOutbound(
+        chat,
+        phoneCfg,
+        params.body || (isTemplate ? `[Template: ${params.templateName || params.templateId}]` : '[Invalid recipient]'),
+        isTemplate ? 'template' : params.type || 'text',
+        err,
+        400,
+        params.deferPersist
+      );
+    }
+
+    if (directContact?.disabled) {
+      const err = META_ERRORS.DISABLED_NUMBER(
+        `Recipient ${directContact.phone} is disabled or unreachable.`
+      );
+      return this.recordFailedOutbound(
+        chat,
+        phoneCfg,
+        params.body || (isTemplate ? `[Template: ${params.templateName || params.templateId}]` : '[Disabled number]'),
+        isTemplate ? 'template' : params.type || 'text',
+        err,
+        400,
+        params.deferPersist
+      );
+    }
 
     // 1. Blocked contact check (rejects outbound per Meta behavior)
     if (directContact?.blocked) {
       const err = META_ERRORS.CONTACT_BLOCKED(
         `Cannot send to ${directContact.phone}: contact is blocked.`
       );
-      return this.recordFailedOutbound(chat, phoneCfg, params.body || '[Blocked send]', params.type || 'text', err, 403);
+      return this.recordFailedOutbound(chat, phoneCfg, params.body || '[Blocked send]', params.type || 'text', err, 403, params.deferPersist);
     }
 
     // 2. Opt-out enforcement: business-initiated template messages are blocked when contact is opted out.
@@ -1766,7 +1259,7 @@ export class EmulatorEngine {
         const err = META_ERRORS.RECIPIENT_OPTED_OUT(
           `Contact ${directContact.phone} opted out (${directContact.optInSource}). Business-initiated templates are blocked until re-opt-in (e.g. START).`
         );
-        return this.recordFailedOutbound(chat, phoneCfg, params.body || `[Template: ${params.templateName || params.templateId}]`, 'template', err, 403);
+        return this.recordFailedOutbound(chat, phoneCfg, params.body || `[Template: ${params.templateName || params.templateId}]`, 'template', err, 403, params.deferPersist);
       }
     }
 
@@ -1782,7 +1275,7 @@ export class EmulatorEngine {
         const err = META_ERRORS.RE_ENGAGEMENT_REQUIRED(
           `24-hour customer service window closed for ${chat.name}. Send an APPROVED template message or wait for a new inbound customer message.`
         );
-        return this.recordFailedOutbound(chat, phoneCfg, params.body || '[Session message blocked]', params.type || 'text', err, 400);
+        return this.recordFailedOutbound(chat, phoneCfg, params.body || '[Session message blocked]', params.type || 'text', err, 400, params.deferPersist);
       }
     }
 
@@ -1914,32 +1407,56 @@ export class EmulatorEngine {
     if (chat.archived) chat.archived = false;
 
     this.trackConversationBilling(chat, resolvedCategory, message.id);
-    this.persist();
+    if (params.deferPersist) {
+      this.persistDeferred();
+    } else {
+      this.persist();
+    }
     this.emit({ type: 'message:created', payload: { chatId: chat.id, message, chat } });
 
+    if (params.broadcastId && directContact) {
+      this.broadcastMessageIndex.set(message.id, {
+        broadcastId: params.broadcastId,
+        contactId: directContact.id,
+      });
+    }
+
     // Immediate transition: queued -> sent
-    this.updateMessageReceipt(message.id, 'sent');
+    this.updateMessageReceipt(message.id, 'sent', undefined, params.deferPersist);
 
     if (!params.skipLifecycleTimers) {
-      const deliveredMs = this.state.settings.lifecycleDeliveredMs;
-      const readMs = this.state.settings.lifecycleReadMs;
+      const timing = directContact?.receiptTiming;
+      const deliveredMs = timing
+        ? timing.deliveredMinMs +
+          Math.floor(Math.random() * Math.max(1, timing.deliveredMaxMs - timing.deliveredMinMs))
+        : this.state.settings.lifecycleDeliveredMs;
+      const readMs = timing
+        ? timing.readMinMs +
+          Math.floor(Math.random() * Math.max(1, timing.readMaxMs - timing.readMinMs))
+        : this.state.settings.lifecycleReadMs;
+      const shouldRead = timing ? Math.random() <= timing.readProbability : true;
 
       this.scheduleTimer(() => {
         const current = this.findMessage(message.id);
         if (current && current.status === 'sent') {
-          this.updateMessageReceipt(message.id, 'delivered');
+          this.updateMessageReceipt(message.id, 'delivered', undefined, params.deferPersist);
         }
       }, deliveredMs);
 
-      this.scheduleTimer(() => {
-        const current = this.findMessage(message.id);
-        if (current && (current.status === 'delivered' || current.status === 'sent')) {
-          this.updateMessageReceipt(message.id, 'read');
-        }
-      }, Math.max(readMs, deliveredMs + 150));
+      if (shouldRead) {
+        this.scheduleTimer(() => {
+          const current = this.findMessage(message.id);
+          if (current && (current.status === 'delivered' || current.status === 'sent')) {
+            this.updateMessageReceipt(message.id, 'read', undefined, params.deferPersist);
+          }
+        }, Math.max(readMs, deliveredMs + 80));
+      }
 
       if (!params.metadata?.businessAutomation) {
         this.triggerAutoReplyIfMatched(chat, message);
+        if (directContact?.seeded) {
+          this.triggerSeededClientResponse(chat, directContact, message, params.broadcastId);
+        }
       }
     }
 
@@ -1952,7 +1469,8 @@ export class EmulatorEngine {
     body: string,
     type: MessageType,
     error: MessageError,
-    httpStatus: number
+    httpStatus: number,
+    deferPersist = false
   ): SendMessageResult {
     const now = new Date().toISOString();
     const failedMsg: Message = {
@@ -1973,7 +1491,11 @@ export class EmulatorEngine {
     this.state.messages[chat.id].push(failedMsg);
     chat.lastMessageId = failedMsg.id;
     chat.lastMessageAt = now;
-    this.persist();
+    if (deferPersist) {
+      this.persistDeferred();
+    } else {
+      this.persist();
+    }
     this.emit({ type: 'message:created', payload: { chatId: chat.id, message: failedMsg, chat } });
 
     this.recordWebhook(
@@ -2281,7 +1803,8 @@ export class EmulatorEngine {
   updateMessageReceipt(
     messageId: string,
     status: MessageStatus,
-    errorCode?: number
+    errorCode?: number,
+    deferPersist = false
   ): Message | null {
     for (const [chatId, list] of Object.entries(this.state.messages)) {
       const msg = list.find((m) => m.id === messageId);
@@ -2293,9 +1816,15 @@ export class EmulatorEngine {
               ? META_ERRORS.RE_ENGAGEMENT_REQUIRED()
               : errorCode === 131049
                 ? META_ERRORS.RECIPIENT_OPTED_OUT()
-                : META_ERRORS.MESSAGE_UNDELIVERABLE(
-                    `Failed receipt set with Meta error code ${errorCode || 131026}`
-                  );
+                : errorCode === 131030
+                  ? META_ERRORS.INVALID_RECIPIENT()
+                  : errorCode === 131056
+                    ? META_ERRORS.PAIR_RATE_LIMIT()
+                    : errorCode === 130429
+                      ? META_ERRORS.THROUGHPUT_RATE_LIMIT()
+                      : META_ERRORS.MESSAGE_UNDELIVERABLE(
+                          `Failed receipt set with Meta error code ${errorCode || 131026}`
+                        );
         } else {
           msg.error = undefined;
         }
@@ -2304,7 +1833,13 @@ export class EmulatorEngine {
         const category = msg.conversationCategory || 'SERVICE';
         const rate = this.state.settings.pricingRatesUsd[category] ?? 0;
 
-        this.persist();
+        this.syncBroadcastRecipientStatus(msg.id, status, msg.error);
+
+        if (deferPersist) {
+          this.persistDeferred();
+        } else {
+          this.persist();
+        }
         this.emit({ type: 'message:updated', payload: { chatId, message: msg } });
         this.recordWebhook(
           'message.status',
@@ -2800,5 +2335,668 @@ export class EmulatorEngine {
     this.state.webhookLogs = [];
     this.persist();
     this.emit({ type: 'state:sync', payload: this.state });
+  }
+
+  // =========================================================================
+  // Phase 3: Seeded Client Numbers, Broadcast Engine, Rate Limits & Faults
+  // =========================================================================
+
+  bulkSeedClients(
+    request: BulkSeedRequest,
+    silent = false
+  ): { seededCount: number; contacts: Contact[]; chats: Chat[] } {
+    if (request.clearPreviousSeeded) {
+      const removedIds = new Set(
+        this.state.contacts.filter((c) => c.seeded).map((c) => c.id)
+      );
+      this.state.contacts = this.state.contacts.filter((c) => !c.seeded);
+      const keptChats: Chat[] = [];
+      for (const ch of this.state.chats) {
+        if (ch.contactId && removedIds.has(ch.contactId)) {
+          delete this.state.messages[ch.id];
+        } else {
+          keptChats.push(ch);
+        }
+      }
+      this.state.chats = keptChats;
+    }
+
+    const existingPhones = new Set(this.state.contacts.map((c) => normalizeE164(c.phone)));
+    const specs = generateSeededClients(request, existingPhones);
+    const createdContacts: Contact[] = [];
+    const createdChats: Chat[] = [];
+    const now = Date.now();
+
+    specs.forEach((spec, idx) => {
+      const contact = buildContactFromClientSeed(
+        spec,
+        this.state.contacts.length + idx,
+        request.clients ? 'seed_file' : 'bulk_seed'
+      );
+      this.state.contacts.push(contact);
+      createdContacts.push(contact);
+
+      const chat: Chat = {
+        id: `chat-${contact.id}`,
+        type: 'direct',
+        phoneNumberId: this.state.settings.activePhoneNumberId,
+        name: contact.name,
+        avatarUrl: contact.avatarUrl,
+        avatarColor: contact.avatarColor,
+        contactId: contact.id,
+        participantIds: [contact.id],
+        unreadCount: 0,
+        archived: false,
+        pinned: false,
+        muted: false,
+        labelIds: [],
+        lastMessageId: null,
+        lastMessageAt: new Date(now - (idx + 60) * 60_000).toISOString(),
+        lastInboundAt: spec.windowOpen
+          ? new Date(now - Math.min(180, 15 + idx) * 60_000).toISOString()
+          : new Date(now - 30 * 3_600_000).toISOString(),
+        conversationCategory: 'MARKETING',
+      };
+      this.state.chats.push(chat);
+      this.state.messages[chat.id] = [];
+      createdChats.push(chat);
+    });
+
+    if (!silent) {
+      this.persist();
+      if (request.clearPreviousSeeded) {
+        this.emit({ type: 'state:sync', payload: this.state });
+      } else {
+        this.emit({
+          type: 'clients:seeded',
+          payload: { contacts: createdContacts, chats: createdChats },
+        });
+      }
+    }
+
+    return {
+      seededCount: createdContacts.length,
+      contacts: createdContacts,
+      chats: createdChats,
+    };
+  }
+
+  listClients(filter?: {
+    segment?: string;
+    optInStatus?: OptInStatus;
+    personality?: ClientPersonality;
+    country?: string;
+    search?: string;
+  }): Contact[] {
+    return this.state.contacts.filter((c) => {
+      if (c.isBot) return false;
+      if (filter?.segment) {
+        const seg = filter.segment.trim().toLowerCase();
+        if (!(c.tags || []).some((t) => t.toLowerCase() === seg)) return false;
+      }
+      if (filter?.optInStatus && c.optInStatus !== filter.optInStatus) return false;
+      if (filter?.personality && c.personality !== filter.personality) return false;
+      if (filter?.country && c.country?.toUpperCase() !== filter.country.toUpperCase()) return false;
+      if (filter?.search) {
+        const q = filter.search.trim().toLowerCase();
+        const hay = `${c.name} ${c.phone} ${(c.tags || []).join(' ')} ${c.country || ''}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+  }
+
+  simulateClientResponse(req: ClientResponseSimulationRequest): {
+    ok: boolean;
+    affected: number;
+    results: Array<{ contactId: string; phone: string; action: string; ok: boolean; note?: string }>;
+  } {
+    const targets: Contact[] = [];
+    const seen = new Set<string>();
+
+    if (Array.isArray(req.contactIds)) {
+      for (const id of req.contactIds) {
+        const c = this.state.contacts.find((x) => x.id === id);
+        if (c && !seen.has(c.id)) {
+          seen.add(c.id);
+          targets.push(c);
+        }
+      }
+    }
+    if (Array.isArray(req.phones)) {
+      for (const raw of req.phones) {
+        const norm = normalizeE164(raw);
+        const c = this.state.contacts.find((x) => normalizeE164(x.phone) === norm);
+        if (c && !seen.has(c.id)) {
+          seen.add(c.id);
+          targets.push(c);
+        }
+      }
+    }
+
+    const delayMs = typeof req.delayMs === 'number' && req.delayMs >= 0 ? req.delayMs : 0;
+    const results: Array<{ contactId: string; phone: string; action: string; ok: boolean; note?: string }> = [];
+
+    for (const contact of targets) {
+      if (req.action === 'silence') {
+        this.updateContact(contact.id, { personality: 'silent' });
+        results.push({
+          contactId: contact.id,
+          phone: contact.phone,
+          action: 'silence',
+          ok: true,
+          note: 'Personality set to silent',
+        });
+        continue;
+      }
+
+      const execute = () => {
+        if (req.action === 'opt_out') {
+          this.receiveMessage({
+            fromPhone: contact.phone,
+            body: req.text?.trim() || 'STOP',
+            type: 'text',
+            metadata: { simulatedClientResponse: 'opt_out' },
+          });
+        } else if (req.action === 'opt_in') {
+          this.receiveMessage({
+            fromPhone: contact.phone,
+            body: req.text?.trim() || 'START',
+            type: 'text',
+            metadata: { simulatedClientResponse: 'opt_in' },
+          });
+        } else if (req.action === 'button_click') {
+          const title = req.buttonTitle?.trim() || req.text?.trim() || 'Confirm Delivery';
+          const id = req.buttonId?.trim() || 'sim_btn_1';
+          this.receiveMessage({
+            fromPhone: contact.phone,
+            body: title,
+            type: 'interactive',
+            interactive: {
+              kind: 'button_reply',
+              bodyText: title,
+              selectedId: id,
+              selectedTitle: title,
+            },
+            metadata: { simulatedClientResponse: 'button_click' },
+          });
+        } else if (req.action === 'catalog_view') {
+          this.receiveMessage({
+            fromPhone: contact.phone,
+            body:
+              req.text?.trim() ||
+              'Viewed catalog — interested in Matte Pour-Over Brew Kit.',
+            type: 'text',
+            metadata: { simulatedClientResponse: 'catalog_view' },
+          });
+        } else {
+          this.receiveMessage({
+            fromPhone: contact.phone,
+            body: req.text?.trim() || 'Thanks! Got your message.',
+            type: 'text',
+            metadata: { simulatedClientResponse: 'reply' },
+          });
+        }
+      };
+
+      if (delayMs > 0) {
+        this.scheduleTimer(execute, delayMs);
+      } else {
+        execute();
+      }
+
+      results.push({
+        contactId: contact.id,
+        phone: contact.phone,
+        action: req.action,
+        ok: true,
+        note: delayMs > 0 ? `Scheduled in ${delayMs}ms` : 'Dispatched immediately',
+      });
+    }
+
+    return { ok: true, affected: results.length, results };
+  }
+
+  private triggerSeededClientResponse(
+    chat: Chat,
+    contact: Contact,
+    outboundMessage: Message,
+    broadcastId?: string
+  ): void {
+    const computed = computeClientAutoResponse(contact, outboundMessage);
+    if (!computed) return;
+
+    this.scheduleTimer(() => {
+      // Skip if contact became blocked/disabled or turned silent before timer fired
+      const fresh = this.state.contacts.find((c) => c.id === contact.id);
+      if (!fresh || fresh.blocked || fresh.disabled || fresh.personality === 'silent') return;
+
+      const res = this.receiveMessage({
+        chatId: chat.id,
+        senderId: fresh.id,
+        body: computed.body,
+        type: computed.type,
+        interactive: computed.interactive,
+        metadata: {
+          seededClientPersonality: fresh.personality,
+          triggeredByMessageId: outboundMessage.id,
+          broadcastId,
+          reason: computed.reason,
+        },
+      });
+
+      if (res.ok && broadcastId) {
+        this.recordBroadcastRecipientReply(broadcastId, fresh.id, computed.body);
+      }
+    }, computed.delayMs);
+  }
+
+  private recordBroadcastRecipientReply(
+    broadcastId: string,
+    contactId: string,
+    replyPreview: string
+  ): void {
+    const job = this.state.broadcasts.find((b) => b.id === broadcastId);
+    if (!job) return;
+    const rec = job.recipients.find((r) => r.contactId === contactId);
+    if (!rec) return;
+    if (!rec.repliedAt) {
+      job.counts.replied += 1;
+    }
+    rec.repliedAt = new Date().toISOString();
+    rec.replyPreview = replyPreview.slice(0, 120);
+    this.emitBroadcastUpdateThrottled(job);
+  }
+
+  private recomputeBroadcastCounts(job: BroadcastJob): void {
+    let queued = 0;
+    let sent = 0;
+    let delivered = 0;
+    let read = 0;
+    let failed = 0;
+    let replied = 0;
+    for (const r of job.recipients) {
+      if (r.status === 'queued') queued++;
+      else if (r.status === 'sent') sent++;
+      else if (r.status === 'delivered') delivered++;
+      else if (r.status === 'read') read++;
+      else if (r.status === 'failed') failed++;
+      if (r.repliedAt) replied++;
+    }
+    job.counts = { queued, sent, delivered, read, failed, replied };
+  }
+
+  private emitBroadcastUpdateThrottled(job: BroadcastJob, immediate = false): void {
+    const existing = this.broadcastEmitTimers.get(job.id);
+    if (immediate) {
+      if (existing) {
+        clearTimeout(existing);
+        this.broadcastEmitTimers.delete(job.id);
+      }
+      this.emit({ type: 'broadcast:updated', payload: job });
+      this.persistDeferred();
+      return;
+    }
+    if (existing) return;
+    const t = setTimeout(() => {
+      this.broadcastEmitTimers.delete(job.id);
+      this.emit({ type: 'broadcast:updated', payload: job });
+      this.persistDeferred();
+    }, 90);
+    this.broadcastEmitTimers.set(job.id, t);
+    this.pendingTimers.add(t);
+  }
+
+  private syncBroadcastRecipientStatus(
+    messageId: string,
+    status: MessageStatus,
+    error?: MessageError
+  ): void {
+    const link = this.broadcastMessageIndex.get(messageId);
+    if (!link) return;
+    const job = this.state.broadcasts.find((b) => b.id === link.broadcastId);
+    if (!job) return;
+    const rec = job.recipients.find((r) => r.contactId === link.contactId);
+    if (!rec) return;
+
+    const now = new Date().toISOString();
+    rec.status = status;
+    if (status === 'sent' && !rec.sentAt) rec.sentAt = now;
+    if (status === 'delivered' && !rec.deliveredAt) rec.deliveredAt = now;
+    if (status === 'read' && !rec.readAt) rec.readAt = now;
+    if (status === 'failed') {
+      rec.failedAt = now;
+      if (error) {
+        rec.errorCode = error.code;
+        rec.errorTitle = error.title;
+        rec.errorDetails = error.errorData?.details || error.message;
+      }
+    }
+    this.recomputeBroadcastCounts(job);
+    this.emitBroadcastUpdateThrottled(job);
+  }
+
+  listBroadcasts(): BroadcastJob[] {
+    return this.state.broadcasts;
+  }
+
+  getBroadcast(id: string): BroadcastJob | null {
+    return this.state.broadcasts.find((b) => b.id === id) || null;
+  }
+
+  createBroadcast(request: BroadcastCreateRequest): {
+    ok: boolean;
+    broadcast?: BroadcastJob;
+    error?: MessageError;
+    httpStatus?: number;
+  } {
+    const phoneCfg = this.getPhoneConfig(request.phoneNumberId);
+    const payloadType =
+      request.type ||
+      (request.templateId || request.templateName
+        ? 'template'
+        : request.interactive
+          ? 'interactive'
+          : 'text');
+
+    let tpl: MessageTemplate | undefined;
+    if (payloadType === 'template') {
+      tpl = this.state.templates.find(
+        (t) =>
+          (request.templateId && t.id === request.templateId) ||
+          (request.templateName && t.name === request.templateName)
+      );
+      if (!tpl || tpl.status !== 'APPROVED') {
+        return {
+          ok: false,
+          httpStatus: 400,
+          error: META_ERRORS.TEMPLATE_NOT_APPROVED(
+            tpl
+              ? `Template "${tpl.name}" is ${tpl.status} (must be APPROVED for broadcast).`
+              : `Template "${request.templateName || request.templateId || 'unknown'}" not found.`
+          ),
+        };
+      }
+    }
+
+    const recipients = selectBroadcastRecipients(this.state.contacts, request.selector);
+    if (recipients.length === 0) {
+      return {
+        ok: false,
+        httpStatus: 400,
+        error: {
+          code: 100,
+          title: 'No matching recipients',
+          message: 'Recipient selector matched 0 client numbers. Seed clients or adjust selector.',
+        },
+      };
+    }
+
+    const nowMs = Date.now();
+    let scheduledMs: number | null = null;
+    if (typeof request.delaySeconds === 'number' && request.delaySeconds > 0) {
+      scheduledMs = nowMs + request.delaySeconds * 1000;
+    } else if (request.scheduledFor) {
+      const parsed = new Date(request.scheduledFor).getTime();
+      if (!Number.isNaN(parsed) && parsed > nowMs + 250) {
+        scheduledMs = parsed;
+      }
+    }
+
+    const throughputPerSec = Math.max(
+      1,
+      Math.min(
+        500,
+        request.throughputPerSec ?? this.env.broadcastThroughputPerSec ?? 25
+      )
+    );
+    const concurrency = Math.max(
+      1,
+      Math.min(50, request.concurrency ?? this.env.broadcastConcurrency ?? 8)
+    );
+
+    const bodyPreview =
+      payloadType === 'template' && tpl
+        ? renderTemplateBody(
+            tpl.bodyText,
+            request.templateVariables && request.templateVariables.length > 0
+              ? request.templateVariables
+              : tpl.sampleValues
+          )
+        : request.interactive?.bodyText || request.body || '[Broadcast message]';
+
+    const recipientRecords: BroadcastRecipientRecord[] = recipients.map((c) => ({
+      contactId: c.id,
+      name: c.name,
+      phone: c.phone,
+      tags: c.tags || [],
+      status: 'queued',
+    }));
+
+    const job: BroadcastJob = {
+      id: `bcast-${crypto.randomUUID().slice(0, 8)}`,
+      name:
+        request.name?.trim() ||
+        (tpl ? `Broadcast · ${tpl.name}` : `Broadcast · ${request.selector.mode}`),
+      phoneNumberId: phoneCfg.id,
+      status: scheduledMs ? 'scheduled' : 'running',
+      createdAt: new Date(nowMs).toISOString(),
+      scheduledFor: scheduledMs ? new Date(scheduledMs).toISOString() : null,
+      startedAt: scheduledMs ? null : new Date(nowMs).toISOString(),
+      completedAt: null,
+      selector: request.selector,
+      payloadType,
+      templateId: tpl?.id,
+      templateName: tpl?.name,
+      templateCategory: tpl?.category,
+      templateVariables: request.templateVariables || tpl?.sampleValues || [],
+      bodyPreview,
+      throughputPerSec,
+      concurrency,
+      totalRecipients: recipientRecords.length,
+      counts: {
+        queued: recipientRecords.length,
+        sent: 0,
+        delivered: 0,
+        read: 0,
+        failed: 0,
+        replied: 0,
+      },
+      recipients: recipientRecords,
+    };
+
+    this.state.broadcasts = [job, ...this.state.broadcasts].slice(0, 40);
+    this.broadcastPayloads.set(job.id, request);
+    this.persist();
+    this.emit({ type: 'broadcast:updated', payload: job });
+
+    if (scheduledMs) {
+      const waitMs = Math.max(50, scheduledMs - nowMs);
+      this.scheduleTimer(() => {
+        if (job.status === 'scheduled') {
+          this.executeBroadcastJob(job);
+        }
+      }, waitMs);
+    } else {
+      this.executeBroadcastJob(job);
+    }
+
+    return { ok: true, broadcast: job, httpStatus: scheduledMs ? 202 : 201 };
+  }
+
+  dispatchBroadcastNow(broadcastId: string): { ok: boolean; broadcast?: BroadcastJob; error?: string } {
+    const job = this.state.broadcasts.find((b) => b.id === broadcastId);
+    if (!job) return { ok: false, error: 'Broadcast job not found' };
+    if (job.status !== 'scheduled') {
+      return { ok: true, broadcast: job };
+    }
+    this.executeBroadcastJob(job);
+    return { ok: true, broadcast: job };
+  }
+
+  private executeBroadcastJob(job: BroadcastJob): void {
+    const request = this.broadcastPayloads.get(job.id);
+    if (!request) return;
+
+    job.status = 'running';
+    job.startedAt = new Date().toISOString();
+    this.emitBroadcastUpdateThrottled(job, true);
+
+    const nextRoll = createBroadcastRollGenerator(this.state.failureInjection.seed);
+    const intervalMs = Math.max(5, Math.floor((1000 / job.throughputPerSec) * job.concurrency));
+    let cursor = 0;
+
+    const processBatch = () => {
+      if (job.status !== 'running') return;
+      const batchEnd = Math.min(cursor + job.concurrency, job.recipients.length);
+
+      for (let i = cursor; i < batchEnd; i++) {
+        const rec = job.recipients[i];
+        const contact = this.state.contacts.find((c) => c.id === rec.contactId);
+        if (!contact) {
+          rec.status = 'failed';
+          rec.failedAt = new Date().toISOString();
+          rec.errorCode = 131030;
+          rec.errorTitle = 'Recipient missing';
+          rec.errorDetails = 'Contact was removed before broadcast send.';
+          continue;
+        }
+
+        const overrideVars =
+          request.perRecipientVariables?.[contact.phone] ||
+          request.perRecipientVariables?.[contact.id];
+        const resolvedVars = resolveRecipientTemplateVariables(
+          job.templateVariables || [],
+          contact,
+          overrideVars
+        );
+
+        const sendRes = this.sendMessage({
+          toPhone: contact.phone,
+          phoneNumberId: job.phoneNumberId,
+          type: job.payloadType,
+          templateId: job.templateId,
+          templateName: job.templateName,
+          templateVariables: resolvedVars,
+          body: request.body,
+          interactive: request.interactive,
+          broadcastId: job.id,
+          failureRollPercent: nextRoll(),
+          deferPersist: true,
+          metadata: { broadcastId: job.id, broadcastName: job.name },
+        });
+
+        rec.chatId = sendRes.chat?.id;
+        rec.messageId = sendRes.message?.id;
+
+        if (!sendRes.ok) {
+          rec.status = 'failed';
+          rec.failedAt = new Date().toISOString();
+          rec.errorCode = sendRes.error?.code;
+          rec.errorTitle = sendRes.error?.title;
+          rec.errorDetails = sendRes.error?.errorData?.details || sendRes.error?.message;
+        } else {
+          rec.status = 'sent';
+          rec.sentAt = new Date().toISOString();
+        }
+      }
+
+      cursor = batchEnd;
+      this.recomputeBroadcastCounts(job);
+      this.emitBroadcastUpdateThrottled(job);
+
+      if (cursor < job.recipients.length) {
+        this.scheduleTimer(processBatch, intervalMs);
+      } else {
+        job.status = 'completed';
+        job.completedAt = new Date().toISOString();
+        this.recomputeBroadcastCounts(job);
+        this.emitBroadcastUpdateThrottled(job, true);
+        this.emitTestingUpdate();
+
+        const phoneCfg = this.getPhoneConfig(job.phoneNumberId);
+        this.recordWebhook(
+          'broadcast.completed',
+          buildCloudWebhookEnvelope('broadcast_status', phoneCfg, {
+            broadcast_id: job.id,
+            name: job.name,
+            total_recipients: job.totalRecipients,
+            counts: job.counts,
+            completed_at: job.completedAt,
+          }),
+          phoneCfg.id
+        );
+      }
+    };
+
+    processBatch();
+  }
+
+  private emitTestingUpdate(): void {
+    this.state.rateLimitUsage = this.rateLimiter.getSnapshot();
+    this.emit({
+      type: 'testing:updated',
+      payload: {
+        failureInjection: this.state.failureInjection,
+        rateLimits: this.state.rateLimits,
+        rateLimitUsage: this.state.rateLimitUsage,
+      },
+    });
+  }
+
+  updateFailureInjection(patch: Partial<FailureInjectionConfig>): FailureInjectionConfig {
+    const clampPct = (v: unknown, fallback: number) =>
+      typeof v === 'number' && Number.isFinite(v) ? Math.max(0, Math.min(100, v)) : fallback;
+
+    this.state.failureInjection = {
+      enabled:
+        typeof patch.enabled === 'boolean' ? patch.enabled : this.state.failureInjection.enabled,
+      invalidNumberPct: clampPct(
+        patch.invalidNumberPct,
+        this.state.failureInjection.invalidNumberPct
+      ),
+      optOutPct: clampPct(patch.optOutPct, this.state.failureInjection.optOutPct),
+      outOfWindowPct: clampPct(patch.outOfWindowPct, this.state.failureInjection.outOfWindowPct),
+      disabledPct: clampPct(patch.disabledPct, this.state.failureInjection.disabledPct),
+      seed: typeof patch.seed === 'number' ? patch.seed : this.state.failureInjection.seed,
+    };
+    this.persist();
+    this.emitTestingUpdate();
+    return this.state.failureInjection;
+  }
+
+  updateRateLimits(patch: Partial<RateLimitConfig>): RateLimitConfig {
+    const clampNum = (v: unknown, fallback: number) =>
+      typeof v === 'number' && Number.isFinite(v) && v >= 0 ? Math.floor(v) : fallback;
+
+    this.state.rateLimits = {
+      enabled: typeof patch.enabled === 'boolean' ? patch.enabled : this.state.rateLimits.enabled,
+      messagesPerSecond: clampNum(
+        patch.messagesPerSecond,
+        this.state.rateLimits.messagesPerSecond
+      ),
+      messagesPerMinute: clampNum(
+        patch.messagesPerMinute,
+        this.state.rateLimits.messagesPerMinute
+      ),
+      pairMessagesPerMinute: clampNum(
+        patch.pairMessagesPerMinute,
+        this.state.rateLimits.pairMessagesPerMinute
+      ),
+      dailyTemplateLimit: clampNum(
+        patch.dailyTemplateLimit,
+        this.state.rateLimits.dailyTemplateLimit
+      ),
+    };
+    this.persist();
+    this.emitTestingUpdate();
+    return this.state.rateLimits;
+  }
+
+  resetRateLimitCounters(): EmulatorState['rateLimitUsage'] {
+    this.rateLimiter.reset();
+    this.state.rateLimitUsage = this.rateLimiter.getSnapshot();
+    this.emitTestingUpdate();
+    return this.state.rateLimitUsage;
   }
 }

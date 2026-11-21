@@ -702,6 +702,178 @@ export function createApiRouter(
     res.json({ ok: true });
   });
 
+  // =========================================================================
+  // Phase 3: Seeded Client Numbers, Broadcasts, Failure Injection & Rate Limits
+  // =========================================================================
+
+  router.get('/api/clients', requireAuth, (req, res) => {
+    const segment = typeof req.query.segment === 'string' ? req.query.segment : undefined;
+    const optInStatus =
+      req.query.optInStatus === 'opted_in' ||
+      req.query.optInStatus === 'opted_out' ||
+      req.query.optInStatus === 'unknown'
+        ? req.query.optInStatus
+        : undefined;
+    const personality =
+      typeof req.query.personality === 'string'
+        ? (req.query.personality as import('../shared/types').ClientPersonality)
+        : undefined;
+    const country = typeof req.query.country === 'string' ? req.query.country : undefined;
+    const search = typeof req.query.search === 'string' ? req.query.search : undefined;
+    const clients = engine.listClients({ segment, optInStatus, personality, country, search });
+    res.json({ total: clients.length, clients });
+  });
+
+  router.post('/api/clients/seed', requireAuth, (req, res) => {
+    const body = req.body || {};
+    const result = engine.bulkSeedClients({
+      count: typeof body.count === 'number' ? body.count : undefined,
+      seed: typeof body.seed === 'number' ? body.seed : undefined,
+      clients: Array.isArray(body.clients) ? body.clients : undefined,
+      segments: Array.isArray(body.segments) ? body.segments : undefined,
+      countries: Array.isArray(body.countries) ? body.countries : undefined,
+      invalidPct: typeof body.invalidPct === 'number' ? body.invalidPct : undefined,
+      optOutPct: typeof body.optOutPct === 'number' ? body.optOutPct : undefined,
+      disabledPct: typeof body.disabledPct === 'number' ? body.disabledPct : undefined,
+      clearPreviousSeeded: Boolean(body.clearPreviousSeeded),
+    });
+    res.status(201).json(result);
+  });
+
+  router.post('/api/clients/simulate-response', requireAuth, (req, res) => {
+    const body = req.body || {};
+    const validActions = ['reply', 'button_click', 'opt_out', 'opt_in', 'catalog_view', 'silence'];
+    if (!validActions.includes(body.action)) {
+      res.status(400).json({ error: `action must be one of: ${validActions.join(', ')}` });
+      return;
+    }
+    if (
+      (!Array.isArray(body.phones) || body.phones.length === 0) &&
+      (!Array.isArray(body.contactIds) || body.contactIds.length === 0)
+    ) {
+      res.status(400).json({ error: 'Provide phones[] or contactIds[]' });
+      return;
+    }
+    const result = engine.simulateClientResponse({
+      phones: body.phones,
+      contactIds: body.contactIds,
+      action: body.action,
+      text: typeof body.text === 'string' ? body.text : undefined,
+      buttonId: typeof body.buttonId === 'string' ? body.buttonId : undefined,
+      buttonTitle: typeof body.buttonTitle === 'string' ? body.buttonTitle : undefined,
+      delayMs: typeof body.delayMs === 'number' ? body.delayMs : undefined,
+    });
+    res.status(200).json(result);
+  });
+
+  // Broadcasts (Immediate & Scheduled)
+  router.get('/api/broadcasts', requireAuth, (_req, res) => {
+    const broadcasts = engine.listBroadcasts();
+    res.json({ total: broadcasts.length, broadcasts });
+  });
+
+  router.get('/api/broadcasts/:id', requireAuth, (req, res) => {
+    const job = engine.getBroadcast(req.params.id);
+    if (!job) {
+      res.status(404).json({ error: 'Broadcast job not found' });
+      return;
+    }
+    const statusFilter = typeof req.query.status === 'string' ? req.query.status : '';
+    const recipients = statusFilter
+      ? job.recipients.filter((r) => r.status === statusFilter)
+      : job.recipients;
+    res.json({ broadcast: { ...job, recipients } });
+  });
+
+  const handleBroadcastCreate = (req: Request, res: Response, forceScheduled = false) => {
+    const body = req.body || {};
+    const selector = body.selector || {
+      mode: Array.isArray(body.segments) && body.segments.length > 0
+        ? 'segments'
+        : Array.isArray(body.phones) && body.phones.length > 0
+          ? 'phones'
+          : Array.isArray(body.contactIds) && body.contactIds.length > 0
+            ? 'contactIds'
+            : 'all',
+      segments: body.segments,
+      phones: body.phones,
+      contactIds: body.contactIds,
+    };
+
+    const delaySeconds =
+      typeof body.delaySeconds === 'number'
+        ? body.delaySeconds
+        : forceScheduled && !body.scheduledFor
+          ? 5
+          : undefined;
+
+    const result = engine.createBroadcast({
+      name: typeof body.name === 'string' ? body.name : undefined,
+      phoneNumberId: typeof body.phoneNumberId === 'string' ? body.phoneNumberId : undefined,
+      selector,
+      type: body.type,
+      templateId: body.templateId,
+      templateName: body.templateName,
+      templateVariables: Array.isArray(body.templateVariables) ? body.templateVariables : undefined,
+      perRecipientVariables:
+        body.perRecipientVariables && typeof body.perRecipientVariables === 'object'
+          ? body.perRecipientVariables
+          : undefined,
+      body: typeof body.body === 'string' ? body.body : undefined,
+      interactive: body.interactive,
+      throughputPerSec:
+        typeof body.throughputPerSec === 'number' ? body.throughputPerSec : undefined,
+      concurrency: typeof body.concurrency === 'number' ? body.concurrency : undefined,
+      scheduledFor: typeof body.scheduledFor === 'string' ? body.scheduledFor : undefined,
+      delaySeconds,
+    });
+
+    if (!result.ok) {
+      res.status(result.httpStatus || 400).json({ error: result.error });
+      return;
+    }
+    res.status(result.httpStatus || 201).json({ broadcast: result.broadcast });
+  };
+
+  router.post('/api/broadcasts', requireAuth, (req, res) => handleBroadcastCreate(req, res, false));
+  router.post('/api/broadcasts/schedule', requireAuth, (req, res) =>
+    handleBroadcastCreate(req, res, true)
+  );
+
+  router.post('/api/broadcasts/:id/dispatch', requireAuth, (req, res) => {
+    const result = engine.dispatchBroadcastNow(req.params.id);
+    if (!result.ok) {
+      res.status(404).json({ error: result.error });
+      return;
+    }
+    res.json({ broadcast: result.broadcast });
+  });
+
+  // Failure Injection & Rate-Limit Testing Controls
+  router.get('/api/testing/failure-injection', requireAuth, (_req, res) => {
+    res.json({ failureInjection: engine.getState().failureInjection });
+  });
+
+  router.patch('/api/testing/failure-injection', requireAuth, (req, res) => {
+    const updated = engine.updateFailureInjection(req.body || {});
+    res.json({ failureInjection: updated });
+  });
+
+  router.get('/api/testing/rate-limits', requireAuth, (_req, res) => {
+    const state = engine.getState();
+    res.json({ rateLimits: state.rateLimits, usage: state.rateLimitUsage });
+  });
+
+  router.patch('/api/testing/rate-limits', requireAuth, (req, res) => {
+    const rateLimits = engine.updateRateLimits(req.body || {});
+    res.json({ rateLimits, usage: engine.getState().rateLimitUsage });
+  });
+
+  router.post('/api/testing/rate-limits/reset', requireAuth, (_req, res) => {
+    const usage = engine.resetRateLimitCounters();
+    res.json({ ok: true, usage });
+  });
+
   return router;
 }
 

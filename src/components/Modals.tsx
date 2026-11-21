@@ -92,7 +92,7 @@ export function NewChatModal({
             <input
               type="text"
               required
-              placeholder="+14155550155"
+              placeholder="E.164 phone number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] dark:bg-[#111b21] text-[14px] font-mono"
@@ -105,7 +105,7 @@ export function NewChatModal({
               </label>
               <input
                 type="text"
-                placeholder="Samira QA"
+                placeholder="Contact name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] dark:bg-[#111b21] text-[14px]"
@@ -117,7 +117,7 @@ export function NewChatModal({
               </label>
               <input
                 type="text"
-                placeholder="Samira"
+                placeholder="Profile name"
                 value={profileName}
                 onChange={(e) => setProfileName(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] dark:bg-[#111b21] text-[14px]"
@@ -514,13 +514,13 @@ interface SendRichMessageModalProps {
 
 export function SendRichMessageModal({ chatName, onClose, onSendRich }: SendRichMessageModalProps) {
   const [kind, setKind] = useState<RichKind>('interactive_button');
-  const [bodyText, setBodyText] = useState('Would you like to confirm your delivery window?');
+  const [bodyText, setBodyText] = useState('');
   const [btn1, setBtn1] = useState('Confirm');
-  const [btn2, setBtn2] = useState('Reschedule');
-  const [ctaText, setCtaText] = useState('Track Shipment');
-  const [ctaUrl, setCtaUrl] = useState('https://acme-roasters.example/track/4821');
-  const [locName, setLocName] = useState('Acme Coffee Roastery');
-  const [locAddress, setLocAddress] = useState('742 Mission St, San Francisco, CA');
+  const [btn2, setBtn2] = useState('Cancel');
+  const [ctaText, setCtaText] = useState('Open Link');
+  const [ctaUrl, setCtaUrl] = useState('');
+  const [locName, setLocName] = useState('');
+  const [locAddress, setLocAddress] = useState('');
   const [errMsg, setErrMsg] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -533,11 +533,11 @@ export function SendRichMessageModal({ chatName, onClose, onSendRich }: SendRich
           interactive: {
             kind: 'button',
             headerText: 'Quick Action',
-            bodyText: bodyText.trim(),
+            bodyText: bodyText.trim() || 'Select an option',
             footerText: 'Tap a button to reply',
             buttons: [
               { id: 'btn_1', title: btn1.trim() || 'Confirm' },
-              { id: 'btn_2', title: btn2.trim() || 'Reschedule' },
+              { id: 'btn_2', title: btn2.trim() || 'Cancel' },
             ],
           },
         });
@@ -546,20 +546,16 @@ export function SendRichMessageModal({ chatName, onClose, onSendRich }: SendRich
           type: 'interactive',
           interactive: {
             kind: 'list',
-            headerText: 'Support Menu',
-            bodyText: bodyText.trim() || 'Select a topic from the list below:',
+            headerText: 'Menu',
+            bodyText: bodyText.trim() || 'Select an option from the list:',
             listButtonText: 'View options',
             sections: [
               {
-                title: 'Orders & Delivery',
+                title: 'Options',
                 rows: [
-                  { id: 'opt_track', title: 'Track package', description: 'Live courier status' },
-                  { id: 'opt_return', title: 'Start return', description: '30-day return window' },
+                  { id: 'opt_1', title: 'Option 1' },
+                  { id: 'opt_2', title: 'Option 2' },
                 ],
-              },
-              {
-                title: 'Account',
-                rows: [{ id: 'opt_agent', title: 'Talk to an agent', description: 'Live specialist' }],
               },
             ],
           },
@@ -569,8 +565,8 @@ export function SendRichMessageModal({ chatName, onClose, onSendRich }: SendRich
           type: 'interactive',
           interactive: {
             kind: 'cta_url',
-            headerText: 'Shipment Update',
-            bodyText: bodyText.trim() || 'Your order is out for delivery.',
+            headerText: 'Action Link',
+            bodyText: bodyText.trim() || 'Open the link below.',
             ctaDisplayText: ctaText.trim() || 'Open Link',
             ctaUrl: ctaUrl.trim() || 'https://example.com',
           },
@@ -579,8 +575,8 @@ export function SendRichMessageModal({ chatName, onClose, onSendRich }: SendRich
         await onSendRich({
           type: 'location',
           location: {
-            latitude: 37.7858,
-            longitude: -122.4008,
+            latitude: 0,
+            longitude: 0,
             name: locName.trim() || 'Shared Location',
             address: locAddress.trim() || undefined,
           },
@@ -590,10 +586,8 @@ export function SendRichMessageModal({ chatName, onClose, onSendRich }: SendRich
           type: 'contacts',
           contacts: [
             {
-              name: 'Acme Logistics Desk',
-              phone: '+14155550199',
-              org: 'Acme Coffee Roasters',
-              email: 'support@acme-roasters.example',
+              name: locName.trim() || 'Contact',
+              phone: locAddress.trim() || '',
             },
           ],
         });

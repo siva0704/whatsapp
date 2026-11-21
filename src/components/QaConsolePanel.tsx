@@ -7,6 +7,7 @@ import {
   Download,
   Play,
   Plus,
+  Radio,
   Send,
   Terminal,
   Trash2,
@@ -25,7 +26,7 @@ import type {
   PhoneNumberConfig,
   WebhookLogEntry,
 } from '../../shared/types';
-import { ApiRequestError } from '../services/api';
+import { ApiRequestError, emulatorApi } from '../services/api';
 import { formatTime } from '../utils/format';
 
 type QaTab = 'scenarios' | 'simulate' | 'bots' | 'webhooks' | 'api';
@@ -84,6 +85,7 @@ interface QaConsolePanelProps {
   onSaveRule: (rule: Partial<AutoReplyRule> & { name: string; pattern: string; reply: string }) => Promise<void>;
   onDeleteRule: (id: string) => Promise<void>;
   onClearWebhookLogs: () => Promise<void>;
+  onOpenTab?: (tab: 'clients' | 'broadcasts' | 'automations') => void;
 }
 
 export function QaConsolePanel({
@@ -103,6 +105,7 @@ export function QaConsolePanel({
   onSaveRule,
   onDeleteRule,
   onClearWebhookLogs,
+  onOpenTab,
 }: QaConsolePanelProps) {
   const [tab, setTab] = useState<QaTab>('scenarios');
 
@@ -111,10 +114,12 @@ export function QaConsolePanel({
   const [scenarioLogs, setScenarioLogs] = useState<ScenarioStepLog[]>([]);
 
   // Inbound Simulator state
-  const [targetMode, setTargetMode] = useState<'existing' | 'new'>('existing');
+  const [targetMode, setTargetMode] = useState<'existing' | 'new'>(
+    contacts.length > 0 ? 'existing' : 'new'
+  );
   const [selectedContactId, setSelectedContactId] = useState(contacts[0]?.id || '');
-  const [newPhone, setNewPhone] = useState('+14155550177');
-  const [newName, setNewName] = useState('External QA Peer');
+  const [newPhone, setNewPhone] = useState('');
+  const [newName, setNewName] = useState('');
   const [presetType, setPresetType] = useState<InboundPresetType>('text');
   const [inboundBody, setInboundBody] = useState('');
   const [interactiveId, setInteractiveId] = useState('btn_confirm');
@@ -147,9 +152,11 @@ export function QaConsolePanel({
     setScenarioLogs([]);
     try {
       await onSwitchVariant('business');
-      const targetChat = chats.find((c) => c.id === 'chat-alex') || activeChat;
+      const targetChat = activeChat || chats.find((c) => c.type === 'direct');
       const targetContact = contacts.find((c) => c.id === targetChat?.contactId) || contacts[0];
-      if (!targetChat || !targetContact) throw new Error('No direct chat found');
+      if (!targetChat || !targetContact) {
+        throw new Error('Add a contact or start a chat first before running this scenario');
+      }
       onSelectChat(targetChat.id);
 
       appendLog({ step: '1. Inbound STOP keyword', ok: true, detail: `${targetContact.name} sends "STOP"` });
@@ -218,13 +225,13 @@ export function QaConsolePanel({
     setScenarioLogs([]);
     try {
       await onSwitchVariant('business');
-      const elenaChat = chats.find((c) => c.id === 'chat-elena') || activeChat;
-      if (!elenaChat) throw new Error('No chat available');
-      onSelectChat(elenaChat.id);
+      const targetChat = activeChat || chats.find((c) => c.type === 'direct');
+      if (!targetChat) throw new Error('Add a contact or start a chat first before running this scenario');
+      onSelectChat(targetChat.id);
 
       try {
         await onSendMessage({
-          chatId: elenaChat.id,
+          chatId: targetChat.id,
           type: 'text',
           body: 'Checking in outside the 24h window',
         });
@@ -244,7 +251,7 @@ export function QaConsolePanel({
 
       if (approvedTemplate) {
         await onSendMessage({
-          chatId: elenaChat.id,
+          chatId: targetChat.id,
           type: 'template',
           templateId: approvedTemplate.id,
           templateVariables: approvedTemplate.sampleValues,
@@ -256,21 +263,21 @@ export function QaConsolePanel({
         });
       }
 
-      const contact = contacts.find((c) => c.id === elenaChat.contactId);
+      const contact = contacts.find((c) => c.id === targetChat.contactId);
       if (contact) {
         await onSimulateInbound({
           senderId: contact.id,
           fromPhone: contact.phone,
           fromName: contact.name,
-          body: 'Thanks! Please send me the updated invoice link.',
+          body: 'Thanks! Please send me the updated details.',
           type: 'text',
         });
         appendLog({ step: '3. Customer replied', ok: true, detail: '24h customer service window re-opened' });
 
         await onSendMessage({
-          chatId: elenaChat.id,
+          chatId: targetChat.id,
           type: 'text',
-          body: 'Window is open again! Here is your link: https://acme-roasters.example/invoice/4821',
+          body: 'Window is open again! Here is your reference link: https://example.com/status',
         });
         appendLog({ step: '4. Free-form reply with link preview', ok: true, detail: 'Accepted inside 24h window' });
       }
@@ -287,7 +294,7 @@ export function QaConsolePanel({
     setScenarioLogs([]);
     try {
       await onSwitchVariant('business');
-      const targetChat = chats.find((c) => c.id === 'chat-alex') || activeChat;
+      const targetChat = activeChat || chats.find((c) => c.type === 'direct');
       if (!targetChat) throw new Error('No chat selected');
       onSelectChat(targetChat.id);
 
@@ -307,8 +314,8 @@ export function QaConsolePanel({
         interactive: {
           kind: 'button',
           headerText: 'Delivery Slot Confirmation',
-          bodyText: 'Choose your preferred courier window for order #ORD-4821:',
-          footerText: 'Acme Coffee Roasters',
+          bodyText: 'Choose your preferred delivery window:',
+          footerText: 'WhatsApp Business',
           buttons: [
             { id: 'slot_am', title: 'Morning (9am–12pm)' },
             { id: 'slot_pm', title: 'Afternoon (2pm–5pm)' },
@@ -349,6 +356,299 @@ export function QaConsolePanel({
           detail: err instanceof Error ? err.message : String(err),
         },
       ]);
+    } finally {
+      setRunningScenario(null);
+    }
+  };
+
+  const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+  const waitForBroadcast = async (jobId: string, maxWaitMs = 4500) => {
+    const start = Date.now();
+    let latest = (await emulatorApi.getBroadcast(jobId)).broadcast;
+    while (latest.status === 'running' && Date.now() - start < maxWaitMs) {
+      await sleep(220);
+      latest = (await emulatorApi.getBroadcast(jobId)).broadcast;
+    }
+    return latest;
+  };
+
+  // Phase 3 Scenario A: Broadcast to 100 clients
+  const runBroadcast100Scenario = async () => {
+    setRunningScenario('p3-broadcast-100');
+    setScenarioLogs([]);
+    try {
+      await onSwitchVariant('business');
+      await emulatorApi.updateFailureInjection({ enabled: false });
+      await emulatorApi.updateRateLimits({
+        enabled: true,
+        messagesPerSecond: 180,
+        messagesPerMinute: 4000,
+        dailyTemplateLimit: 10000,
+      });
+      await emulatorApi.resetRateLimits();
+
+      const seeded = await emulatorApi.bulkSeedClients({
+        count: 100,
+        clearPreviousSeeded: true,
+        seed: 2026,
+        segments: ['segment-a', 'segment-b'],
+        invalidPct: 0,
+        optOutPct: 5,
+      });
+      appendLog({
+        step: '1. Seeded 100 client numbers',
+        ok: seeded.seededCount === 100,
+        detail: `${seeded.seededCount} simulated customer numbers created deterministically`,
+      });
+
+      const tpl = approvedTemplate;
+      if (!tpl) throw new Error('Create and approve a template in Business Tools first');
+
+      const { broadcast: job } = await emulatorApi.createBroadcast({
+        name: 'QA 100-Client Broadcast',
+        type: 'template',
+        templateId: tpl.id,
+        templateVariables: tpl.sampleValues,
+        selector: { mode: 'all' },
+        throughputPerSec: 160,
+        concurrency: 25,
+      });
+      appendLog({
+        step: '2. Broadcast queued',
+        ok: job.totalRecipients >= 100,
+        detail: `Job ${job.id} targeting ${job.totalRecipients} clients via "${tpl.name}"`,
+      });
+
+      const done = await waitForBroadcast(job.id, 4500);
+      appendLog({
+        step: '3. Async fan-out progress',
+        ok: done.counts.sent + done.counts.delivered + done.counts.read + done.counts.failed > 0,
+        detail: `Status: ${done.status} · Sent/Deliv/Read: ${done.counts.sent + done.counts.delivered + done.counts.read} · Failed: ${done.counts.failed} · Replies: ${done.counts.replied}`,
+      });
+    } catch (err) {
+      appendLog({ step: 'Error', ok: false, detail: err instanceof Error ? err.message : String(err) });
+    } finally {
+      setRunningScenario(null);
+    }
+  };
+
+  // Phase 3 Scenario B: 7% invalid-number failure batch
+  const runInvalidNumberBatchScenario = async () => {
+    setRunningScenario('p3-invalid-7pct');
+    setScenarioLogs([]);
+    try {
+      await onSwitchVariant('business');
+      await emulatorApi.resetRateLimits();
+      const nonBotCount = contacts.filter((c) => !c.isBot).length;
+      if (nonBotCount < 45) {
+        await emulatorApi.bulkSeedClients({
+          count: 50,
+          seed: 707,
+          invalidPct: 0,
+          optOutPct: 0,
+        });
+      }
+
+      await emulatorApi.updateFailureInjection({
+        enabled: true,
+        invalidNumberPct: 7,
+        optOutPct: 0,
+        outOfWindowPct: 0,
+        disabledPct: 0,
+        seed: 42,
+      });
+      appendLog({
+        step: '1. Enabled 7% invalid-number failure injection',
+        ok: true,
+        detail: 'Deterministic seed #42 targeting Meta #131030',
+      });
+
+      const tpl = approvedTemplate;
+      if (!tpl) throw new Error('No approved template available');
+      const { broadcast: job } = await emulatorApi.createBroadcast({
+        name: 'QA 7% Invalid-Number Failure Batch',
+        type: 'template',
+        templateId: tpl.id,
+        templateVariables: ['{{first_name}}', 'QA-CHECK'],
+        selector: { mode: 'all' },
+        throughputPerSec: 120,
+        concurrency: 20,
+      });
+
+      const done = await waitForBroadcast(job.id, 4000);
+      const invalidCount = done.recipients.filter((r) => r.errorCode === 131030).length;
+      const pct = done.totalRecipients > 0 ? Math.round((invalidCount / done.totalRecipients) * 1000) / 10 : 0;
+      appendLog({
+        step: '2. Verified Meta #131030 invalid-number failures',
+        ok: invalidCount > 0,
+        detail: `${invalidCount}/${done.totalRecipients} failed with #131030 (${pct}%)`,
+      });
+    } catch (err) {
+      appendLog({ step: 'Error', ok: false, detail: err instanceof Error ? err.message : String(err) });
+    } finally {
+      await emulatorApi.updateFailureInjection({ enabled: false, invalidNumberPct: 0 }).catch(() => {});
+      setRunningScenario(null);
+    }
+  };
+
+  // Phase 3 Scenario C: Opt-out mid-broadcast
+  const runOptOutMidBroadcastScenario = async () => {
+    setRunningScenario('p3-mid-optout');
+    setScenarioLogs([]);
+    try {
+      await onSwitchVariant('business');
+      await emulatorApi.updateFailureInjection({ enabled: false });
+      await emulatorApi.resetRateLimits();
+
+      const seeded = await emulatorApi.bulkSeedClients({
+        count: 16,
+        seed: 808,
+        segments: ['mid-optout-test'],
+        invalidPct: 0,
+        optOutPct: 0,
+      });
+      const victims = seeded.contacts.slice(-3);
+      const tpl = approvedTemplate;
+      if (!tpl) throw new Error('No approved template available');
+
+      const { broadcast: job } = await emulatorApi.createBroadcast({
+        name: 'QA Mid-Broadcast Opt-Out',
+        type: 'template',
+        templateId: tpl.id,
+        templateVariables: ['{{first_name}}', 'PROMO'],
+        selector: { mode: 'segments', segments: ['mid-optout-test'] },
+        throughputPerSec: 8,
+        concurrency: 1,
+      });
+      appendLog({
+        step: '1. Started throttled broadcast',
+        ok: true,
+        detail: `Job ${job.id} (${job.totalRecipients} recipients at 8 msg/s)`,
+      });
+
+      await emulatorApi.simulateClientResponse({
+        contactIds: victims.map((v) => v.id),
+        action: 'opt_out',
+      });
+      appendLog({
+        step: '2. Injected mid-flight STOP opt-outs',
+        ok: true,
+        detail: `${victims.map((v) => v.name).join(', ')} sent STOP while queue was draining`,
+      });
+
+      const done = await waitForBroadcast(job.id, 4500);
+      const optedOutFails = done.recipients.filter((r) => r.errorCode === 131049).length;
+      appendLog({
+        step: '3. Enforced Meta #131049 on remaining sends',
+        ok: optedOutFails > 0,
+        detail: `${optedOutFails} recipient(s) rejected with #131049 (Opted Out) mid-broadcast`,
+      });
+    } catch (err) {
+      appendLog({ step: 'Error', ok: false, detail: err instanceof Error ? err.message : String(err) });
+    } finally {
+      setRunningScenario(null);
+    }
+  };
+
+  // Phase 3 Scenario D: Rate-limit breach (#130429)
+  const runRateLimitBreachScenario = async () => {
+    setRunningScenario('p3-rate-limit');
+    setScenarioLogs([]);
+    try {
+      await onSwitchVariant('business');
+      await emulatorApi.updateFailureInjection({ enabled: false });
+      await emulatorApi.updateRateLimits({
+        enabled: true,
+        messagesPerSecond: 3,
+        messagesPerMinute: 100,
+        dailyTemplateLimit: 4,
+      });
+      await emulatorApi.resetRateLimits();
+      appendLog({
+        step: '1. Tightened rate limits',
+        ok: true,
+        detail: 'Set 3 msg/s & daily template cap = 4',
+      });
+
+      if (contacts.filter((c) => !c.isBot).length < 12) {
+        await emulatorApi.bulkSeedClients({ count: 12, seed: 909, invalidPct: 0, optOutPct: 0 });
+      }
+      const tpl = approvedTemplate;
+      if (!tpl) throw new Error('No approved template available');
+
+      const { broadcast: job } = await emulatorApi.createBroadcast({
+        name: 'QA Rate-Limit Breach Test',
+        type: 'template',
+        templateId: tpl.id,
+        templateVariables: ['{{first_name}}', 'LIMIT'],
+        selector: { mode: 'all' },
+        throughputPerSec: 120,
+        concurrency: 10,
+      });
+
+      const done = await waitForBroadcast(job.id, 3500);
+      const throttled = done.recipients.filter(
+        (r) => r.errorCode === 130429 || r.errorCode === 131056
+      ).length;
+      appendLog({
+        step: '2. Verified Meta #130429 rate-limit rejections',
+        ok: throttled > 0,
+        detail: `${throttled} of ${done.totalRecipients} throttled with HTTP 429 / #130429`,
+      });
+    } catch (err) {
+      appendLog({ step: 'Error', ok: false, detail: err instanceof Error ? err.message : String(err) });
+    } finally {
+      await emulatorApi
+        .updateRateLimits({
+          enabled: true,
+          messagesPerSecond: 80,
+          messagesPerMinute: 1200,
+          pairMessagesPerMinute: 15,
+          dailyTemplateLimit: 10000,
+        })
+        .catch(() => {});
+      await emulatorApi.resetRateLimits().catch(() => {});
+      setRunningScenario(null);
+    }
+  };
+
+  // Phase 3 Scenario E: Scheduled broadcast auto-dispatch
+  const runScheduledBroadcastScenario = async () => {
+    setRunningScenario('p3-scheduled');
+    setScenarioLogs([]);
+    try {
+      await onSwitchVariant('business');
+      await emulatorApi.updateFailureInjection({ enabled: false });
+      await emulatorApi.resetRateLimits();
+      const tpl = approvedTemplate;
+      if (!tpl) throw new Error('No approved template available');
+
+      const { broadcast: job } = await emulatorApi.scheduleBroadcast({
+        name: 'QA Scheduled Auto-Dispatch (2s)',
+        type: 'template',
+        templateId: tpl.id,
+        templateVariables: ['{{first_name}}', 'SCHED-2S'],
+        selector: { mode: 'all' },
+        throughputPerSec: 100,
+        concurrency: 15,
+        delaySeconds: 2,
+      });
+      appendLog({
+        step: '1. Scheduled broadcast created',
+        ok: job.status === 'scheduled',
+        detail: `Status: ${job.status} · Fires in 2s for ${job.totalRecipients} clients`,
+      });
+
+      await sleep(2500);
+      const dispatched = await waitForBroadcast(job.id, 3000);
+      appendLog({
+        step: '2. Verified automatic dispatch',
+        ok: dispatched.status === 'completed' || dispatched.status === 'running',
+        detail: `Transitioned to ${dispatched.status} · Sent/Deliv/Read: ${dispatched.counts.sent + dispatched.counts.delivered + dispatched.counts.read}`,
+      });
+    } catch (err) {
+      appendLog({ step: 'Error', ok: false, detail: err instanceof Error ? err.message : String(err) });
     } finally {
       setRunningScenario(null);
     }
@@ -477,15 +777,26 @@ export function QaConsolePanel({
 
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
 
-  const curlTemplate = `curl -X POST ${baseUrl}/v19.0/${settings.activePhoneNumberId}/messages \\
-  -H "Authorization: Bearer wa-sim-local-dev-token" \\
+  const phoneIdPlaceholder = settings.activePhoneNumberId || '<PHONE_NUMBER_ID>';
+  const curlTemplate = `curl -X POST ${baseUrl}/v19.0/${phoneIdPlaceholder}/messages \\
+  -H "Authorization: Bearer <YOUR_API_KEY>" \\
   -H "Content-Type: application/json" \\
-  -d '{"messaging_product":"whatsapp","to":"+14155550164","type":"template","template":{"name":"order_shipped_update","language":{"code":"en_US"},"components":[{"type":"body","parameters":[{"type":"text","text":"Elena"},{"type":"text","text":"ORD-9021"}]}]}}'`;
+  -d '{"messaging_product":"whatsapp","to":"<RECIPIENT_E164>","type":"template","template":{"name":"<TEMPLATE_NAME>","language":{"code":"en_US"}}}'`;
 
   const curlInbound = `curl -X POST ${baseUrl}/api/messages/receive \\
-  -H "Authorization: Bearer wa-sim-local-dev-token" \\
+  -H "Authorization: Bearer <YOUR_API_KEY>" \\
   -H "Content-Type: application/json" \\
-  -d '{"fromPhone":"+14155550142","type":"interactive","interactive":{"kind":"button_reply","selectedId":"slot_am","selectedTitle":"Morning (9am-12pm)"}}'`;
+  -d '{"fromPhone":"<RECIPIENT_E164>","type":"text","body":"Hello"}'`;
+
+  const curlSeedClients = `curl -X POST ${baseUrl}/api/clients/seed \\
+  -H "Authorization: Bearer <YOUR_API_KEY>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"count":50,"seed":42,"segments":["vip","leads"],"invalidPct":5,"optOutPct":5}'`;
+
+  const curlBroadcast = `curl -X POST ${baseUrl}/api/broadcasts \\
+  -H "Authorization: Bearer <YOUR_API_KEY>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"name":"Campaign","type":"template","templateName":"<TEMPLATE_NAME>","selector":{"mode":"all"},"throughputPerSec":60,"concurrency":15}'`;
 
   return (
     <aside
@@ -543,6 +854,29 @@ export function QaConsolePanel({
               Execute deterministic end-to-end compliance &amp; Meta Cloud API scenarios with one click.
             </p>
 
+            {/* Scenario Execution Log (pinned above cards for immediate feedback) */}
+            {scenarioLogs.length > 0 && (
+              <div
+                data-testid="scenario-results"
+                className="p-3 rounded-lg bg-[#111b21] text-[#e9edef] space-y-1.5 font-mono text-[11.5px]"
+              >
+                <div className="text-[11px] text-[#8696a0] uppercase tracking-wider">
+                  Scenario Output
+                </div>
+                {scenarioLogs.map((log, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <span className={log.ok ? 'text-[#25d366]' : 'text-[#f87171]'}>
+                      {log.ok ? 'PASS' : 'WARN'}
+                    </span>
+                    <div className="min-w-0">
+                      <div className="font-semibold">{log.step}</div>
+                      <div className="text-[#aebac1]">{log.detail}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
             <div className="space-y-2.5">
               <div className="p-3 rounded-lg border border-[#e9edef] dark:border-[#2a3942] bg-[#f7f8fa] dark:bg-[#182229] space-y-2">
                 <div className="text-[13.5px] font-semibold">1. Opt-In / Opt-Out Lifecycle</div>
@@ -563,7 +897,7 @@ export function QaConsolePanel({
               <div className="p-3 rounded-lg border border-[#e9edef] dark:border-[#2a3942] bg-[#f7f8fa] dark:bg-[#182229] space-y-2">
                 <div className="text-[13.5px] font-semibold">2. 24-Hour Window Enforcement</div>
                 <p className="text-[12px] text-[#667781] dark:text-[#8696a0]">
-                  Targets Elena (expired 24h) → verifies free-form rejected (#131047) → sends approved template → simulates reply → sends free-form with link preview.
+                  Targets active chat (expired 24h) → verifies free-form rejected (#131047) → sends approved template → simulates reply → sends free-form with link preview.
                 </p>
                 <button
                   type="button"
@@ -592,6 +926,83 @@ export function QaConsolePanel({
                 </button>
               </div>
 
+              <div className="p-3 rounded-lg border border-[#00a884]/35 bg-[#f7f8fa] dark:bg-[#182229] space-y-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-[13px] font-semibold flex items-center gap-1.5">
+                    <Radio className="w-4 h-4 text-[#00a884]" /> Scale &amp; Broadcast Runners
+                  </div>
+                  {onOpenTab && (
+                    <button
+                      type="button"
+                      onClick={() => onOpenTab('broadcasts')}
+                      className="text-[11.5px] font-semibold text-[#008069] dark:text-[#25d366] hover:underline"
+                    >
+                      Open Broadcasts →
+                    </button>
+                  )}
+                </div>
+                <p className="text-[11.5px] text-[#667781] dark:text-[#8696a0]">
+                  Stress-test single-sender fan-out, protocol errors, mid-flight opt-outs, throttling, and scheduled queues.
+                </p>
+                <div className="space-y-1.5">
+                  <button
+                    type="button"
+                    disabled={runningScenario !== null}
+                    onClick={() => void runBroadcast100Scenario()}
+                    className="w-full min-h-[38px] px-3 py-1.5 rounded-md bg-[#00a884] text-white text-[12px] font-semibold hover:bg-[#008f72] disabled:opacity-60 flex items-center justify-between"
+                  >
+                    <span>Broadcast to 100 clients</span>
+                    <span className="font-mono text-[10.5px] opacity-90">
+                      {runningScenario === 'p3-broadcast-100' ? 'Running...' : 'Run'}
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={runningScenario !== null}
+                    onClick={() => void runInvalidNumberBatchScenario()}
+                    className="w-full min-h-[36px] px-3 py-1.5 rounded-md border border-[#d1d7db] dark:border-[#374248] bg-white dark:bg-[#111b21] text-[12px] font-medium hover:bg-[#f0f2f5] dark:hover:bg-[#202c33] disabled:opacity-60 flex items-center justify-between"
+                  >
+                    <span>7% invalid-number failure batch</span>
+                    <span className="font-mono text-[10.5px] text-[#667781] dark:text-[#8696a0]">
+                      {runningScenario === 'p3-invalid-7pct' ? 'Running...' : '#131030'}
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={runningScenario !== null}
+                    onClick={() => void runOptOutMidBroadcastScenario()}
+                    className="w-full min-h-[36px] px-3 py-1.5 rounded-md border border-[#d1d7db] dark:border-[#374248] bg-white dark:bg-[#111b21] text-[12px] font-medium hover:bg-[#f0f2f5] dark:hover:bg-[#202c33] disabled:opacity-60 flex items-center justify-between"
+                  >
+                    <span>Opt-out mid-broadcast</span>
+                    <span className="font-mono text-[10.5px] text-[#667781] dark:text-[#8696a0]">
+                      {runningScenario === 'p3-mid-optout' ? 'Running...' : '#131049'}
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={runningScenario !== null}
+                    onClick={() => void runRateLimitBreachScenario()}
+                    className="w-full min-h-[36px] px-3 py-1.5 rounded-md border border-[#d1d7db] dark:border-[#374248] bg-white dark:bg-[#111b21] text-[12px] font-medium hover:bg-[#f0f2f5] dark:hover:bg-[#202c33] disabled:opacity-60 flex items-center justify-between"
+                  >
+                    <span>Rate-limit breach</span>
+                    <span className="font-mono text-[10.5px] text-[#667781] dark:text-[#8696a0]">
+                      {runningScenario === 'p3-rate-limit' ? 'Running...' : '#130429'}
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={runningScenario !== null}
+                    onClick={() => void runScheduledBroadcastScenario()}
+                    className="w-full min-h-[36px] px-3 py-1.5 rounded-md border border-[#d1d7db] dark:border-[#374248] bg-white dark:bg-[#111b21] text-[12px] font-medium hover:bg-[#f0f2f5] dark:hover:bg-[#202c33] disabled:opacity-60 flex items-center justify-between"
+                  >
+                    <span>Scheduled broadcast auto-dispatch</span>
+                    <span className="font-mono text-[10.5px] text-[#667781] dark:text-[#8696a0]">
+                      {runningScenario === 'p3-scheduled' ? 'Running...' : '2s delay'}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
               <div className="p-3 rounded-lg border border-[#e9edef] dark:border-[#2a3942] space-y-2">
                 <div className="text-[13px] font-semibold flex items-center gap-1.5">
                   <AlertTriangle className="w-4 h-4 text-[#ea0038]" /> Simulate Failed Meta Error Codes
@@ -615,29 +1026,6 @@ export function QaConsolePanel({
                 </div>
               </div>
             </div>
-
-            {/* Scenario Execution Log */}
-            {scenarioLogs.length > 0 && (
-              <div
-                data-testid="scenario-results"
-                className="p-3 rounded-lg bg-[#111b21] text-[#e9edef] space-y-1.5 font-mono text-[11.5px]"
-              >
-                <div className="text-[11px] text-[#8696a0] uppercase tracking-wider">
-                  Scenario Output
-                </div>
-                {scenarioLogs.map((log, i) => (
-                  <div key={i} className="flex items-start gap-2">
-                    <span className={log.ok ? 'text-[#25d366]' : 'text-[#f87171]'}>
-                      {log.ok ? 'PASS' : 'WARN'}
-                    </span>
-                    <div className="min-w-0">
-                      <div className="font-semibold">{log.step}</div>
-                      <div className="text-[#aebac1]">{log.detail}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         )}
 
@@ -788,7 +1176,7 @@ export function QaConsolePanel({
                   <textarea
                     rows={2}
                     required={presetType === 'text'}
-                    placeholder="e.g. STOP, START, or Where is my order #ORD-4821?"
+                    placeholder="e.g. STOP, START, or a test message"
                     value={inboundBody}
                     onChange={(e) => setInboundBody(e.target.value)}
                     className="w-full px-3 py-2 rounded-md bg-white dark:bg-[#111b21] border border-[#d1d7db] dark:border-[#374248] text-[13.5px] resize-none"
@@ -1105,20 +1493,71 @@ export function QaConsolePanel({
               </pre>
             </div>
 
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[12px] font-semibold">Bulk Seed 100 Client Numbers</span>
+                <button
+                  type="button"
+                  onClick={() => void copySnippet('seed', curlSeedClients)}
+                  className="inline-flex items-center gap-1 text-[11.5px] text-[#00a884] font-semibold"
+                >
+                  {copiedKey === 'seed' ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" /> Copied
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" /> Copy
+                    </>
+                  )}
+                </button>
+              </div>
+              <pre className="p-2.5 rounded-lg bg-[#111b21] text-[#d1d7db] text-[11px] font-mono overflow-x-auto leading-relaxed">
+                {curlSeedClients}
+              </pre>
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[12px] font-semibold">Launch Segment Broadcast</span>
+                <button
+                  type="button"
+                  onClick={() => void copySnippet('broadcast', curlBroadcast)}
+                  className="inline-flex items-center gap-1 text-[11.5px] text-[#00a884] font-semibold"
+                >
+                  {copiedKey === 'broadcast' ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" /> Copied
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" /> Copy
+                    </>
+                  )}
+                </button>
+              </div>
+              <pre className="p-2.5 rounded-lg bg-[#111b21] text-[#d1d7db] text-[11px] font-mono overflow-x-auto leading-relaxed">
+                {curlBroadcast}
+              </pre>
+            </div>
+
             <div className="p-3 rounded-lg border border-[#e9edef] dark:border-[#2a3942] space-y-1 text-[11.5px] font-mono">
               <div className="font-sans text-[12.5px] font-semibold mb-1 flex items-center gap-1.5">
                 <Download className="w-3.5 h-3.5 text-[#00a884]" /> Key Endpoints
               </div>
               <div>POST /v19.0/:phoneNumberId/messages</div>
-              <div>POST /v19.0/:phoneNumberId/media</div>
-              <div>GET &nbsp;/v19.0/:mediaId</div>
+              <div>POST /api/clients/seed</div>
+              <div>POST /api/clients/simulate-response</div>
+              <div>POST /api/broadcasts</div>
+              <div>POST /api/broadcasts/schedule</div>
+              <div>GET &nbsp;/api/broadcasts/:id</div>
+              <div>PATCH /api/testing/failure-injection</div>
+              <div>PATCH /api/testing/rate-limits</div>
               <div>POST /api/messages/receive</div>
               <div>POST /api/contacts/:id/opt-in</div>
-              <div>POST /api/contacts/:id/block</div>
               <div>GET &nbsp;/api/chats/:chatId/window</div>
               <div>POST /api/templates</div>
               <div>GET &nbsp;/api/conversations/pricing</div>
-              <div>GET &nbsp;/api/phone-numbers</div>
             </div>
           </div>
         )}

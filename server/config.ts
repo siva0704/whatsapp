@@ -56,6 +56,14 @@ export interface EmulatorEnvConfig {
   preloadedContacts: EnvContactSeed[];
   autoReplyRules: EnvAutoReplySeed[];
   phoneNumbers: EnvPhoneNumberSeed[];
+  clientSeedFile?: string;
+  clientSeedCount?: number;
+  broadcastThroughputPerSec?: number;
+  broadcastConcurrency?: number;
+  rateLimitPerSecond?: number;
+  rateLimitPerMinute?: number;
+  pairRateLimitPerMinute?: number;
+  dailyTemplateLimit?: number;
 }
 
 function parseJsonArray<T>(raw: string | undefined): T[] {
@@ -100,14 +108,15 @@ const DEFAULT_PRICING_RATES: Record<ConversationCategory, number> = {
 };
 
 export function loadEnvConfig(): EmulatorEnvConfig {
-  const rawVariant = (process.env.EMULATOR_VARIANT || 'personal').toLowerCase();
-  const variant: EmulatorVariant = rawVariant === 'business' ? 'business' : 'personal';
+  const rawVariant = (process.env.EMULATOR_VARIANT || 'business').toLowerCase();
+  const variant: EmulatorVariant = rawVariant === 'personal' ? 'personal' : 'business';
 
   const dataFile = path.resolve(
     process.cwd(),
     process.env.EMULATOR_DATA_FILE || './data/emulator-state.json'
   );
   const mediaDir = path.resolve(path.dirname(dataFile), 'media');
+  const seedFileRaw = (process.env.EMULATOR_CLIENT_SEED_FILE || '').trim();
 
   return {
     port: parseNumber(process.env.PORT, 3000),
@@ -117,8 +126,8 @@ export function loadEnvConfig(): EmulatorEnvConfig {
     webhookSecret: (process.env.EMULATOR_WEBHOOK_SECRET || 'wa-sim-webhook-secret').trim(),
     dataFile,
     mediaDir,
-    selfName: (process.env.EMULATOR_SELF_NAME || 'QA Sandbox Account').trim(),
-    selfPhone: (process.env.EMULATOR_SELF_PHONE || '+14155550100').trim(),
+    selfName: (process.env.EMULATOR_SELF_NAME || 'WhatsApp Business').trim(),
+    selfPhone: (process.env.EMULATOR_SELF_PHONE || '').trim(),
     lifecycleDeliveredMs: parseNumber(process.env.EMULATOR_LIFECYCLE_DELIVERED_MS, 450),
     lifecycleReadMs: parseNumber(process.env.EMULATOR_LIFECYCLE_READ_MS, 1400),
     enforce24hWindow: parseBool(process.env.EMULATOR_ENFORCE_24H_WINDOW, true),
@@ -127,6 +136,14 @@ export function loadEnvConfig(): EmulatorEnvConfig {
     preloadedContacts: parseJsonArray<EnvContactSeed>(process.env.EMULATOR_PRELOADED_CONTACTS),
     autoReplyRules: parseJsonArray<EnvAutoReplySeed>(process.env.EMULATOR_AUTO_REPLY_RULES),
     phoneNumbers: parseJsonArray<EnvPhoneNumberSeed>(process.env.EMULATOR_PHONE_NUMBERS),
+    clientSeedFile: seedFileRaw ? path.resolve(process.cwd(), seedFileRaw) : '',
+    clientSeedCount: parseNumber(process.env.EMULATOR_CLIENT_SEED_COUNT, 0),
+    broadcastThroughputPerSec: parseNumber(process.env.EMULATOR_BROADCAST_THROUGHPUT, 25),
+    broadcastConcurrency: parseNumber(process.env.EMULATOR_BROADCAST_CONCURRENCY, 8),
+    rateLimitPerSecond: parseNumber(process.env.EMULATOR_RATE_LIMIT_PER_SEC, 80),
+    rateLimitPerMinute: parseNumber(process.env.EMULATOR_RATE_LIMIT_PER_MIN, 1200),
+    pairRateLimitPerMinute: parseNumber(process.env.EMULATOR_PAIR_RATE_LIMIT_PER_MIN, 15),
+    dailyTemplateLimit: parseNumber(process.env.EMULATOR_DAILY_TEMPLATE_LIMIT, 1000),
   };
 }
 

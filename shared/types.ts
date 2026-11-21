@@ -217,6 +217,22 @@ export interface Message {
   metadata?: Record<string, unknown>;
 }
 
+export type ClientPersonality =
+  | 'engaged'
+  | 'silent'
+  | 'button_clicker'
+  | 'catalog_browser'
+  | 'quick_opt_out'
+  | 'custom_keyword';
+
+export interface ClientReceiptTiming {
+  deliveredMinMs: number;
+  deliveredMaxMs: number;
+  readMinMs: number;
+  readMaxMs: number;
+  readProbability: number; // 0..1
+}
+
 export interface Contact {
   id: string;
   name: string;
@@ -228,12 +244,160 @@ export interface Contact {
   isBot?: boolean;
   isBusiness?: boolean;
   blocked?: boolean;
+  disabled?: boolean;
+  invalidNumber?: boolean;
+  country?: string;
+  tags?: string[];
+  timezone?: string;
+  personality?: ClientPersonality;
+  customReplyText?: string;
+  receiptTiming?: ClientReceiptTiming;
+  seeded?: boolean;
   optInStatus: OptInStatus;
   optInUpdatedAt: string;
   optInSource: string;
   optInHistory: OptInHistoryEntry[];
   presence: PresenceState;
   lastSeen: string; // ISO-8601
+}
+
+export interface ClientSeedInput {
+  name: string;
+  profileName?: string;
+  phone: string;
+  country?: string;
+  tags?: string[];
+  timezone?: string;
+  optInStatus?: OptInStatus;
+  personality?: ClientPersonality;
+  customReplyText?: string;
+  disabled?: boolean;
+  invalidNumber?: boolean;
+  windowOpen?: boolean;
+  receiptTiming?: Partial<ClientReceiptTiming>;
+}
+
+export interface BulkSeedRequest {
+  count?: number;
+  seed?: number;
+  clients?: ClientSeedInput[];
+  segments?: string[];
+  countries?: string[];
+  invalidPct?: number;
+  optOutPct?: number;
+  disabledPct?: number;
+  clearPreviousSeeded?: boolean;
+}
+
+export type BroadcastJobStatus = 'scheduled' | 'running' | 'completed' | 'failed';
+export type BroadcastRecipientStatus = 'queued' | 'sent' | 'delivered' | 'read' | 'failed';
+
+export interface BroadcastRecipientRecord {
+  contactId: string;
+  chatId?: string;
+  name: string;
+  phone: string;
+  tags: string[];
+  status: BroadcastRecipientStatus;
+  messageId?: string;
+  errorCode?: number;
+  errorTitle?: string;
+  errorDetails?: string;
+  sentAt?: string;
+  deliveredAt?: string;
+  readAt?: string;
+  failedAt?: string;
+  repliedAt?: string;
+  replyPreview?: string;
+}
+
+export interface BroadcastSelector {
+  mode: 'all' | 'segments' | 'phones' | 'contactIds';
+  segments?: string[];
+  phones?: string[];
+  contactIds?: string[];
+}
+
+export interface BroadcastJob {
+  id: string;
+  name: string;
+  phoneNumberId: string;
+  status: BroadcastJobStatus;
+  createdAt: string;
+  scheduledFor?: string | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
+  selector: BroadcastSelector;
+  payloadType: 'template' | 'text' | 'interactive';
+  templateId?: string;
+  templateName?: string;
+  templateCategory?: TemplateCategory;
+  templateVariables?: string[];
+  bodyPreview: string;
+  throughputPerSec: number;
+  concurrency: number;
+  totalRecipients: number;
+  counts: {
+    queued: number;
+    sent: number;
+    delivered: number;
+    read: number;
+    failed: number;
+    replied: number;
+  };
+  recipients: BroadcastRecipientRecord[];
+}
+
+export interface BroadcastCreateRequest {
+  name?: string;
+  phoneNumberId?: string;
+  selector: BroadcastSelector;
+  type?: 'template' | 'text' | 'interactive';
+  templateId?: string;
+  templateName?: string;
+  templateVariables?: string[];
+  perRecipientVariables?: Record<string, string[]>; // keyed by phone or contactId
+  body?: string;
+  interactive?: InteractivePayload;
+  throughputPerSec?: number;
+  concurrency?: number;
+  scheduledFor?: string; // ISO-8601
+  delaySeconds?: number;
+}
+
+export interface FailureInjectionConfig {
+  enabled: boolean;
+  invalidNumberPct: number; // 0..100 -> 131030
+  optOutPct: number; // 0..100 -> 131049
+  outOfWindowPct: number; // 0..100 -> 131047
+  disabledPct: number; // 0..100 -> 131026
+  seed?: number;
+}
+
+export interface RateLimitConfig {
+  enabled: boolean;
+  messagesPerSecond: number; // per phone number
+  messagesPerMinute: number; // per phone number
+  pairMessagesPerMinute: number; // per (business phone -> recipient) -> 131056
+  dailyTemplateLimit: number; // aggregate daily template sends -> 130429
+}
+
+export interface RateLimitSnapshot {
+  windowSecondCounts: Record<string, number>;
+  windowMinuteCounts: Record<string, number>;
+  dailyTemplatesSent: number;
+  dailyResetAt: string;
+  totalThrottled: number;
+}
+
+export interface ClientResponseSimulationRequest {
+  phones?: string[];
+  contactIds?: string[];
+  action: 'reply' | 'button_click' | 'opt_out' | 'opt_in' | 'catalog_view' | 'silence';
+  text?: string;
+  buttonId?: string;
+  buttonTitle?: string;
+  delayMs?: number;
 }
 
 export interface Chat {
@@ -407,6 +571,10 @@ export interface EmulatorState {
   webhookLogs: WebhookLogEntry[];
   statusUpdates: StatusUpdateItem[];
   callLogs: CallLogItem[];
+  broadcasts: BroadcastJob[];
+  failureInjection: FailureInjectionConfig;
+  rateLimits: RateLimitConfig;
+  rateLimitUsage: RateLimitSnapshot;
 }
 
 // WebSocket events (Server -> Client)
@@ -429,6 +597,16 @@ export type ServerWsEvent =
         autoReplyRules: AutoReplyRule[];
         templates: MessageTemplate[];
         conversations: ConversationBillingRecord[];
+      };
+    }
+  | { type: 'broadcast:updated'; payload: BroadcastJob }
+  | { type: 'clients:seeded'; payload: { contacts: Contact[]; chats: Chat[] } }
+  | {
+      type: 'testing:updated';
+      payload: {
+        failureInjection: FailureInjectionConfig;
+        rateLimits: RateLimitConfig;
+        rateLimitUsage: RateLimitSnapshot;
       };
     }
   | { type: 'webhook:logged'; payload: WebhookLogEntry };
