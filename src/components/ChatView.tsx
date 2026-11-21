@@ -419,7 +419,7 @@ export function ChatView({
   return (
     <main className="flex-1 min-w-0 h-full flex flex-col bg-[#efeae2] dark:bg-[#0b141a]">
       {/* Chat Header */}
-      <header className="h-[58px] md:h-[60px] px-2.5 md:px-4 pt-safe bg-[#f0f2f5] dark:bg-[#202c33] border-b border-[#d1d7db] dark:border-[#2a3942] flex items-center justify-between gap-2 shrink-0">
+      <header className="h-[58px] md:h-[60px] px-2.5 md:px-4 pt-safe backdrop-blur-xl bg-[#f0f2f5]/90 dark:bg-[#202c33]/90 border-b border-black/5 dark:border-white/10 flex items-center justify-between gap-2 shrink-0">
         <div className="flex items-center gap-1.5 md:gap-3 min-w-0">
           <button
             type="button"

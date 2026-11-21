@@ -315,8 +315,8 @@
       "pinned": false,
       "muted": false,
       "labelIds": [],
-      "lastMessageId": "wamid.fc8abbe760834a9380",
-      "lastMessageAt": "2026-11-21T13:28:57.709Z",
+      "lastMessageId": "wamid.5bfbe97f394640b796",
+      "lastMessageAt": "2026-11-21T14:13:44.812Z",
       "lastInboundAt": null,
       "conversationCategory": "SERVICE"
     },
@@ -335,8 +335,8 @@
       "pinned": false,
       "muted": false,
       "labelIds": [],
-      "lastMessageId": "wamid.150dd3227a0e4df4b6",
-      "lastMessageAt": "2026-11-21T13:28:57.911Z",
+      "lastMessageId": "wamid.950234c05aa24c27a1",
+      "lastMessageAt": "2026-11-21T14:13:44.920Z",
       "lastInboundAt": null,
       "conversationCategory": "SERVICE"
     }
@@ -859,6 +859,81 @@
           "cloudApiVersion": "v20.0",
           "phoneNumberId": "phone-sit-2001"
         }
+      },
+      {
+        "id": "wamid.20e7aecd9b9a45fd96",
+        "chatId": "chat-7cc5e0bc",
+        "phoneNumberId": "phone-sit-2001",
+        "senderId": "me",
+        "senderName": "Wealth Transformers India Pvt Ltd",
+        "direction": "outbound",
+        "type": "template",
+        "body": "Dear Valued Client, on this auspicious festive season, Wealth Transformers brings you 0% brokerage on delivery trades and 50% discount on PMS wealth advisory! Reply START to activate your festive benefits.",
+        "timestamp": "2026-11-21T14:13:42.469Z",
+        "status": "read",
+        "template": {
+          "templateId": "tpl-bca9ea4a",
+          "templateName": "wealth_trade_diwali_2024",
+          "language": "en_US",
+          "category": "MARKETING",
+          "headerText": "Exclusive Festive Advisory Offer! 🚀",
+          "renderedBody": "Dear Valued Client, on this auspicious festive season, Wealth Transformers brings you 0% brokerage on delivery trades and 50% discount on PMS wealth advisory! Reply START to activate your festive benefits.",
+          "buttons": [
+            {
+              "type": "URL",
+              "text": "Claim Offer",
+              "url": "https://wealthtrade.in/offers"
+            }
+          ],
+          "variables": [
+            "Valued Client"
+          ]
+        },
+        "conversationCategory": "MARKETING",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      },
+      {
+        "id": "wamid.b974ed59fbf4479f89",
+        "chatId": "chat-7cc5e0bc",
+        "phoneNumberId": "phone-sit-2001",
+        "senderId": "me",
+        "senderName": "Wealth Transformers India Pvt Ltd",
+        "direction": "outbound",
+        "type": "text",
+        "body": "Latency test",
+        "timestamp": "2026-11-21T14:13:43.445Z",
+        "status": "read",
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
+      },
+      {
+        "id": "wamid.950234c05aa24c27a1",
+        "chatId": "chat-7cc5e0bc",
+        "phoneNumberId": "phone-sit-2001",
+        "senderId": "me",
+        "senderName": "Wealth Transformers India Pvt Ltd",
+        "direction": "outbound",
+        "type": "text",
+        "body": "Dear Client,\n\nThank you for reaching out to Wealth Transformers India Pvt Ltd.\n\nTo ensure you receive accurate, compliant, and personalized assistance regarding your specific query, our authorized relationship management and compliance team will assist you directly:\n\n🏢 Wealth Transformers India Pvt Ltd\n📞 Support Desk: +91 22 6987 5400\n📱 Authority Hotline (WhatsApp): +91 98200 12345\n📧 Compliance & Client Care: support@wealthtransformers.in\n🌐 Official Client Portal: https://wealthtransformers.in/support\n\nOperating Hours: Monday – Friday, 9:00 AM – 6:00 PM IST.\nA senior officer has been notified of your inquiry.",
+        "timestamp": "2026-11-21T14:13:44.920Z",
+        "status": "read",
+        "linkPreview": {
+          "url": "https://wealthtransformers.in/support",
+          "domain": "wealthtransformers.in",
+          "title": "Support — wealthtransformers.in",
+          "description": "Preview for wealthtransformers.in/support"
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2001"
+        }
       }
     ],
     "chat-e61d2995": [
@@ -983,6 +1058,23 @@
         "type": "text",
         "body": "Tenant 2 isolated message",
         "timestamp": "2026-11-21T13:28:57.709Z",
+        "status": "read",
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v20.0",
+          "phoneNumberId": "phone-sit-2002"
+        }
+      },
+      {
+        "id": "wamid.5bfbe97f394640b796",
+        "chatId": "chat-e61d2995",
+        "phoneNumberId": "phone-sit-2002",
+        "senderId": "me",
+        "senderName": "Wealth Transformers India Pvt Ltd",
+        "direction": "outbound",
+        "type": "text",
+        "body": "Tenant 2 isolated message",
+        "timestamp": "2026-11-21T14:13:44.812Z",
         "status": "read",
         "conversationCategory": "SERVICE",
         "metadata": {
@@ -2313,7 +2405,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T13:05:36.715Z",
-      "updatedAt": "2026-11-21T13:27:23.280Z"
+      "updatedAt": "2026-11-21T14:13:48.871Z"
     },
     {
       "id": "tpl-9deab1dc",
@@ -2329,7 +2421,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T11:52:39.523Z",
-      "updatedAt": "2026-11-21T13:27:23.171Z",
+      "updatedAt": "2026-11-21T14:13:48.761Z",
       "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
     },
     {
@@ -2349,7 +2441,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T10:15:19.237Z",
-      "updatedAt": "2026-11-21T13:27:23.105Z",
+      "updatedAt": "2026-11-21T14:13:48.702Z",
       "headerImageUrl": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1200&q=80",
       "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
     },
@@ -2370,7 +2462,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T10:15:19.202Z",
-      "updatedAt": "2026-11-21T13:27:23.043Z",
+      "updatedAt": "2026-11-21T14:13:48.651Z",
       "headerImageUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80",
       "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
     },
@@ -2391,7 +2483,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T10:15:19.159Z",
-      "updatedAt": "2026-11-21T13:27:22.981Z",
+      "updatedAt": "2026-11-21T14:13:48.586Z",
       "headerImageUrl": "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80",
       "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
     },
@@ -2412,7 +2504,7 @@
       ],
       "sampleValues": [],
       "createdAt": "2026-11-21T10:15:19.060Z",
-      "updatedAt": "2026-11-21T13:27:22.920Z",
+      "updatedAt": "2026-11-21T14:13:48.523Z",
       "headerImageUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80",
       "footerText": "Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765"
     },
@@ -3200,6 +3292,822 @@
     }
   ],
   "webhookLogs": [
+    {
+      "id": "wh_312cb3c1-488",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:46.321Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 9,
+      "signatureHeader": "sha256=2faa823f1c6c27a285624601621706e9641c1272429ac9c9db490ca01be99f05",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.950234c05aa24c27a1",
+                      "status": "read",
+                      "timestamp": "1795270426",
+                      "chat_id": "chat-7cc5e0bc",
+                      "conversation": {
+                        "id": "conv_chat-7cc5e0bc",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.950234c05aa24c27a1",
+          "status": "read",
+          "timestamp": "1795270426",
+          "chat_id": "chat-7cc5e0bc",
+          "conversation": {
+            "id": "conv_chat-7cc5e0bc",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_4a3049b7-90e",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2002",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:46.171Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 10,
+      "signatureHeader": "sha256=61b27056e86d1dd8fb2977661ee9651df7a564ff1b19db780f216b139179eea7",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2002"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.5bfbe97f394640b796",
+                      "status": "read",
+                      "timestamp": "1795270426",
+                      "chat_id": "chat-e61d2995",
+                      "conversation": {
+                        "id": "conv_chat-e61d2995",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.5bfbe97f394640b796",
+          "status": "read",
+          "timestamp": "1795270426",
+          "chat_id": "chat-e61d2995",
+          "conversation": {
+            "id": "conv_chat-e61d2995",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_72128290-1cc",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:45.513Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 12,
+      "signatureHeader": "sha256=1cc57fd39b20534964b646c1b1f6b23376e21bcc056b270d9f4b0cf7388f5d39",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.950234c05aa24c27a1",
+                      "status": "delivered",
+                      "timestamp": "1795270425",
+                      "chat_id": "chat-7cc5e0bc",
+                      "conversation": {
+                        "id": "conv_chat-7cc5e0bc",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.950234c05aa24c27a1",
+          "status": "delivered",
+          "timestamp": "1795270425",
+          "chat_id": "chat-7cc5e0bc",
+          "conversation": {
+            "id": "conv_chat-7cc5e0bc",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_70b984c3-c10",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2002",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:45.375Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 7,
+      "signatureHeader": "sha256=61c5655232fd6f41421951615df34755a954ac3eb54951b030649634dedc1297",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2002"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.5bfbe97f394640b796",
+                      "status": "delivered",
+                      "timestamp": "1795270425",
+                      "chat_id": "chat-e61d2995",
+                      "conversation": {
+                        "id": "conv_chat-e61d2995",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.5bfbe97f394640b796",
+          "status": "delivered",
+          "timestamp": "1795270425",
+          "chat_id": "chat-e61d2995",
+          "conversation": {
+            "id": "conv_chat-e61d2995",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_74122182-f63",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:45.038Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 129,
+      "signatureHeader": "sha256=490e23d9be3bc9d150848fc29fc0c6ca7bfb8c6abac9dbedc3a759ce1671acd9",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.950234c05aa24c27a1",
+                      "status": "sent",
+                      "timestamp": "1795270425",
+                      "chat_id": "chat-7cc5e0bc",
+                      "conversation": {
+                        "id": "conv_chat-7cc5e0bc",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.950234c05aa24c27a1",
+          "status": "sent",
+          "timestamp": "1795270425",
+          "chat_id": "chat-7cc5e0bc",
+          "conversation": {
+            "id": "conv_chat-7cc5e0bc",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_341488f1-081",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2002",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:44.917Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 202,
+      "signatureHeader": "sha256=6fea52a3665f82b6c40bea0234ee6597a81440a04214dc5043794c036e45b52d",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2002"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.5bfbe97f394640b796",
+                      "status": "sent",
+                      "timestamp": "1795270424",
+                      "chat_id": "chat-e61d2995",
+                      "conversation": {
+                        "id": "conv_chat-e61d2995",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.5bfbe97f394640b796",
+          "status": "sent",
+          "timestamp": "1795270424",
+          "chat_id": "chat-e61d2995",
+          "conversation": {
+            "id": "conv_chat-e61d2995",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_94aae1ee-691",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:44.811Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 229,
+      "signatureHeader": "sha256=e2fb18980037ad01f300979255288c7767577dbd14291c6f14150cf3e106a4b2",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b974ed59fbf4479f89",
+                      "status": "read",
+                      "timestamp": "1795270424",
+                      "chat_id": "chat-7cc5e0bc",
+                      "conversation": {
+                        "id": "conv_chat-7cc5e0bc",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b974ed59fbf4479f89",
+          "status": "read",
+          "timestamp": "1795270424",
+          "chat_id": "chat-7cc5e0bc",
+          "conversation": {
+            "id": "conv_chat-7cc5e0bc",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_3ef8ba3a-055",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:44.004Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 17,
+      "signatureHeader": "sha256=60ad16db021517994881b393e9df69b8b49117324fd0fda3e57571ecf8b8e964",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b974ed59fbf4479f89",
+                      "status": "delivered",
+                      "timestamp": "1795270424",
+                      "chat_id": "chat-7cc5e0bc",
+                      "conversation": {
+                        "id": "conv_chat-7cc5e0bc",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b974ed59fbf4479f89",
+          "status": "delivered",
+          "timestamp": "1795270424",
+          "chat_id": "chat-7cc5e0bc",
+          "conversation": {
+            "id": "conv_chat-7cc5e0bc",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_cdb6684b-96f",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:43.832Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 7,
+      "signatureHeader": "sha256=2efe0c15de5e17b413f6e085b700dc0b3207b6e56f8597c351570394f6ec91da",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.20e7aecd9b9a45fd96",
+                      "status": "read",
+                      "timestamp": "1795270423",
+                      "chat_id": "chat-7cc5e0bc",
+                      "conversation": {
+                        "id": "conv_chat-7cc5e0bc",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.20e7aecd9b9a45fd96",
+          "status": "read",
+          "timestamp": "1795270423",
+          "chat_id": "chat-7cc5e0bc",
+          "conversation": {
+            "id": "conv_chat-7cc5e0bc",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_71637d7f-339",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:43.547Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 10,
+      "signatureHeader": "sha256=0541e19f65a9b924e6c26cbd33eeb6c039fec039e5dffb03861ca61d0e6c65de",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b974ed59fbf4479f89",
+                      "status": "sent",
+                      "timestamp": "1795270423",
+                      "chat_id": "chat-7cc5e0bc",
+                      "conversation": {
+                        "id": "conv_chat-7cc5e0bc",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b974ed59fbf4479f89",
+          "status": "sent",
+          "timestamp": "1795270423",
+          "chat_id": "chat-7cc5e0bc",
+          "conversation": {
+            "id": "conv_chat-7cc5e0bc",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_5008209d-056",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:43.020Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 6,
+      "signatureHeader": "sha256=321d3dac92f8e90d3e7fd485acbbddddd5babd652c3218b4f28ac02119e350c7",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.20e7aecd9b9a45fd96",
+                      "status": "delivered",
+                      "timestamp": "1795270423",
+                      "chat_id": "chat-7cc5e0bc",
+                      "conversation": {
+                        "id": "conv_chat-7cc5e0bc",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.20e7aecd9b9a45fd96",
+          "status": "delivered",
+          "timestamp": "1795270423",
+          "chat_id": "chat-7cc5e0bc",
+          "conversation": {
+            "id": "conv_chat-7cc5e0bc",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_362fc5b5-1b0",
+      "event": "message.status",
+      "phoneNumberId": "phone-sit-2001",
+      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
+      "timestamp": "2026-11-21T14:13:42.569Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 19,
+      "signatureHeader": "sha256=450e6648f47a218cc11a8c2db8f03a0f70e958dd85251f3819bcd087400b83e7",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-primary",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+919820012345",
+                    "phone_number_id": "phone-sit-2001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.20e7aecd9b9a45fd96",
+                      "status": "sent",
+                      "timestamp": "1795270422",
+                      "chat_id": "chat-7cc5e0bc",
+                      "conversation": {
+                        "id": "conv_chat-7cc5e0bc",
+                        "origin": {
+                          "type": "marketing"
+                        }
+                      },
+                      "pricing": {
+                        "billable": true,
+                        "pricing_model": "CBP",
+                        "category": "marketing"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.20e7aecd9b9a45fd96",
+          "status": "sent",
+          "timestamp": "1795270422",
+          "chat_id": "chat-7cc5e0bc",
+          "conversation": {
+            "id": "conv_chat-7cc5e0bc",
+            "origin": {
+              "type": "marketing"
+            }
+          },
+          "pricing": {
+            "billable": true,
+            "pricing_model": "CBP",
+            "category": "marketing"
+          }
+        }
+      }
+    },
     {
       "id": "wh_69980017-b0d",
       "event": "message.status",
@@ -7691,822 +8599,6 @@
           "timestamp": "2026-11-21T12:13:25.175Z"
         }
       }
-    },
-    {
-      "id": "wh_3d1bece7-834",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:14.702Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 25,
-      "signatureHeader": "sha256=025a79ebaac5053473575061e03c1d2ee8b20f3b0fe0b143b2cb185b2e93bda2",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.6ad43dfb2c8a40efb8",
-                      "status": "read",
-                      "timestamp": "1795262594",
-                      "chat_id": "chat-7cc5e0bc",
-                      "conversation": {
-                        "id": "conv_chat-7cc5e0bc",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.6ad43dfb2c8a40efb8",
-          "status": "read",
-          "timestamp": "1795262594",
-          "chat_id": "chat-7cc5e0bc",
-          "conversation": {
-            "id": "conv_chat-7cc5e0bc",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_6cdde10c-072",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2002",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:14.592Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 11,
-      "signatureHeader": "sha256=71e8788b0adfe26e07ba859e5eef74c9fb7f71617002950fa9ca471fbb054ccd",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2002"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.195f69b085c5459796",
-                      "status": "read",
-                      "timestamp": "1795262594",
-                      "chat_id": "chat-e61d2995",
-                      "conversation": {
-                        "id": "conv_chat-e61d2995",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.195f69b085c5459796",
-          "status": "read",
-          "timestamp": "1795262594",
-          "chat_id": "chat-e61d2995",
-          "conversation": {
-            "id": "conv_chat-e61d2995",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_5aa556a4-3b7",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:13.894Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 26,
-      "signatureHeader": "sha256=7529c09e851b8ad19c45b2f607f5de014b5e64adb38e89b3f10fd1904886bc18",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.6ad43dfb2c8a40efb8",
-                      "status": "delivered",
-                      "timestamp": "1795262593",
-                      "chat_id": "chat-7cc5e0bc",
-                      "conversation": {
-                        "id": "conv_chat-7cc5e0bc",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.6ad43dfb2c8a40efb8",
-          "status": "delivered",
-          "timestamp": "1795262593",
-          "chat_id": "chat-7cc5e0bc",
-          "conversation": {
-            "id": "conv_chat-7cc5e0bc",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_ca483da4-6ad",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2002",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:13.792Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 8,
-      "signatureHeader": "sha256=9280d046200fb394d2579b87d1b55372988d3b188fa664b7cb19d3fa46e1c5a1",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2002"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.195f69b085c5459796",
-                      "status": "delivered",
-                      "timestamp": "1795262593",
-                      "chat_id": "chat-e61d2995",
-                      "conversation": {
-                        "id": "conv_chat-e61d2995",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.195f69b085c5459796",
-          "status": "delivered",
-          "timestamp": "1795262593",
-          "chat_id": "chat-e61d2995",
-          "conversation": {
-            "id": "conv_chat-e61d2995",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_9bc71bbd-2e1",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:13.472Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 41,
-      "signatureHeader": "sha256=09304fc3b3cade8ad62086a4c8273218d275f65e8e53d91385a67330c66c3798",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.6ad43dfb2c8a40efb8",
-                      "status": "sent",
-                      "timestamp": "1795262593",
-                      "chat_id": "chat-7cc5e0bc",
-                      "conversation": {
-                        "id": "conv_chat-7cc5e0bc",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.6ad43dfb2c8a40efb8",
-          "status": "sent",
-          "timestamp": "1795262593",
-          "chat_id": "chat-7cc5e0bc",
-          "conversation": {
-            "id": "conv_chat-7cc5e0bc",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_7eb9040a-711",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2002",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:13.381Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 50,
-      "signatureHeader": "sha256=073ae3f4f3354fa3bcbf1f93df1db97e66f13738f7efd40d4225d3345495b8da",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2002"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.195f69b085c5459796",
-                      "status": "sent",
-                      "timestamp": "1795262593",
-                      "chat_id": "chat-e61d2995",
-                      "conversation": {
-                        "id": "conv_chat-e61d2995",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.195f69b085c5459796",
-          "status": "sent",
-          "timestamp": "1795262593",
-          "chat_id": "chat-e61d2995",
-          "conversation": {
-            "id": "conv_chat-e61d2995",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_26fe0f33-c7f",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:13.253Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 9,
-      "signatureHeader": "sha256=a3a054e7873147944368b0e082a311f14385905126d7b9b3a7d89d4743682d9d",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.f8ffb1a664494d088d",
-                      "status": "read",
-                      "timestamp": "1795262593",
-                      "chat_id": "chat-7cc5e0bc",
-                      "conversation": {
-                        "id": "conv_chat-7cc5e0bc",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.f8ffb1a664494d088d",
-          "status": "read",
-          "timestamp": "1795262593",
-          "chat_id": "chat-7cc5e0bc",
-          "conversation": {
-            "id": "conv_chat-7cc5e0bc",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_8e1d01cc-e05",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:12.459Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 14,
-      "signatureHeader": "sha256=95a1ac15116dfecdf1f1e35f1e2cf17b5090e0d044928948b3887acba65d1d18",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.f8ffb1a664494d088d",
-                      "status": "delivered",
-                      "timestamp": "1795262592",
-                      "chat_id": "chat-7cc5e0bc",
-                      "conversation": {
-                        "id": "conv_chat-7cc5e0bc",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.f8ffb1a664494d088d",
-          "status": "delivered",
-          "timestamp": "1795262592",
-          "chat_id": "chat-7cc5e0bc",
-          "conversation": {
-            "id": "conv_chat-7cc5e0bc",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_ac765f9e-3a8",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:12.285Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 8,
-      "signatureHeader": "sha256=f3ddcf1f1d0f3bcaf52fb2cc975b550c7426fad0dc0c100d1bcf91e54b51365d",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.50df6bac9b04455ca6",
-                      "status": "read",
-                      "timestamp": "1795262592",
-                      "chat_id": "chat-7cc5e0bc",
-                      "conversation": {
-                        "id": "conv_chat-7cc5e0bc",
-                        "origin": {
-                          "type": "marketing"
-                        }
-                      },
-                      "pricing": {
-                        "billable": true,
-                        "pricing_model": "CBP",
-                        "category": "marketing"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.50df6bac9b04455ca6",
-          "status": "read",
-          "timestamp": "1795262592",
-          "chat_id": "chat-7cc5e0bc",
-          "conversation": {
-            "id": "conv_chat-7cc5e0bc",
-            "origin": {
-              "type": "marketing"
-            }
-          },
-          "pricing": {
-            "billable": true,
-            "pricing_model": "CBP",
-            "category": "marketing"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_326dabc3-c33",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:12.039Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 9,
-      "signatureHeader": "sha256=dcae461f18ef59aba5d9dc75f3b57fc9cfd285754b86251026326e23b6fe2597",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.f8ffb1a664494d088d",
-                      "status": "sent",
-                      "timestamp": "1795262592",
-                      "chat_id": "chat-7cc5e0bc",
-                      "conversation": {
-                        "id": "conv_chat-7cc5e0bc",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.f8ffb1a664494d088d",
-          "status": "sent",
-          "timestamp": "1795262592",
-          "chat_id": "chat-7cc5e0bc",
-          "conversation": {
-            "id": "conv_chat-7cc5e0bc",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_fe2d3d5d-354",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:11.476Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 8,
-      "signatureHeader": "sha256=2addc41ede83ee79c3277a95a9b2cbc8eb0a82929a3e31d357ca4303bfcfba46",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.50df6bac9b04455ca6",
-                      "status": "delivered",
-                      "timestamp": "1795262591",
-                      "chat_id": "chat-7cc5e0bc",
-                      "conversation": {
-                        "id": "conv_chat-7cc5e0bc",
-                        "origin": {
-                          "type": "marketing"
-                        }
-                      },
-                      "pricing": {
-                        "billable": true,
-                        "pricing_model": "CBP",
-                        "category": "marketing"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.50df6bac9b04455ca6",
-          "status": "delivered",
-          "timestamp": "1795262591",
-          "chat_id": "chat-7cc5e0bc",
-          "conversation": {
-            "id": "conv_chat-7cc5e0bc",
-            "origin": {
-              "type": "marketing"
-            }
-          },
-          "pricing": {
-            "billable": true,
-            "pricing_model": "CBP",
-            "category": "marketing"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_19ec83ed-498",
-      "event": "message.status",
-      "phoneNumberId": "phone-sit-2001",
-      "targetUrl": "http://localhost:3000/api/v1/webhooks/meta",
-      "timestamp": "2026-11-21T12:03:11.061Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 47,
-      "signatureHeader": "sha256=e45a46b74a9d1b977cbac9d21886b3d0e41a66f7a6064b7eb8700cd70b3a3ace",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-primary",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "9874563210",
-                    "phone_number_id": "phone-sit-2001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.50df6bac9b04455ca6",
-                      "status": "sent",
-                      "timestamp": "1795262591",
-                      "chat_id": "chat-7cc5e0bc",
-                      "conversation": {
-                        "id": "conv_chat-7cc5e0bc",
-                        "origin": {
-                          "type": "marketing"
-                        }
-                      },
-                      "pricing": {
-                        "billable": true,
-                        "pricing_model": "CBP",
-                        "category": "marketing"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.50df6bac9b04455ca6",
-          "status": "sent",
-          "timestamp": "1795262591",
-          "chat_id": "chat-7cc5e0bc",
-          "conversation": {
-            "id": "conv_chat-7cc5e0bc",
-            "origin": {
-              "type": "marketing"
-            }
-          },
-          "pricing": {
-            "billable": true,
-            "pricing_model": "CBP",
-            "category": "marketing"
-          }
-        }
-      }
     }
   ],
   "statusUpdates": [],
@@ -8535,7 +8627,7 @@
       "phone-sit-2001": 3,
       "phone-sit-2002": 1
     },
-    "dailyTemplatesSent": 10,
+    "dailyTemplatesSent": 11,
     "dailyResetAt": "2026-11-22T00:00:00.000Z",
     "totalThrottled": 0
   }
