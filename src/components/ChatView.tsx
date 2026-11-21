@@ -876,9 +876,9 @@ export function ChatView({
                             {msg.template.footerText}
                           </p>
                         )}
-                        {msg.template.buttons.length > 0 && (
+                        {Boolean(msg.template.buttons && msg.template.buttons.length > 0) && (
                           <div className="pt-1.5 mt-1.5 border-t border-black/10 dark:border-white/15 divide-y divide-black/10 dark:divide-white/15">
-                            {msg.template.buttons.map((btn, bi) => {
+                            {msg.template.buttons?.map((btn, bi) => {
                               const codeVal = msg.template?.otpCode || btn.exampleCode || '482910';
                               return (
                                 <button

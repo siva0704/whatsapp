@@ -17,6 +17,7 @@ import {
 } from './components/Modals';
 import { QaConsolePanel } from './components/QaConsolePanel';
 import { SettingsPanel } from './components/SettingsPanel';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { emulatorApi, useEmulatorState } from './services/api';
 
 export default function App() {
@@ -402,53 +403,55 @@ export default function App() {
           mobileShowChat ? 'flex' : 'hidden md:flex'
         } flex-1 min-w-0 min-h-0 md:h-full`}
       >
-        <ChatView
-          chat={selectedChat}
-          variant={state.settings.variant}
-          enforce24hWindow={state.settings.enforce24hWindow}
-          self={state.self}
-          contacts={state.contacts}
-          messages={selectedChat ? state.messages[selectedChat.id] || [] : []}
-          quickReplies={state.quickReplies}
-          catalog={state.catalog}
-          highlightedMessageId={highlightedMessageId}
-          onBackMobile={() => {
-            setMobileShowChat(false);
-            setRightDrawer(null);
-          }}
-          onOpenInfo={() => setRightDrawer(rightDrawer === 'info' ? null : 'info')}
-          onOpenSearch={() => setRightDrawer(rightDrawer === 'search' ? null : 'search')}
-          onOpenTemplateModal={() => setTemplateModalState({ open: true })}
-          onOpenRichModal={() => setShowRichModal(true)}
-          onSendMessage={async (payload) => {
-            await emulatorApi.sendMessage(payload);
-          }}
-          onSimulateInteractiveReply={async ({ chatId, selectedId, selectedTitle, kind }) => {
-            const targetChat = state.chats.find((c) => c.id === chatId);
-            const ct = targetChat?.contactId
-              ? state.contacts.find((c) => c.id === targetChat.contactId)
-              : undefined;
-            await emulatorApi.receiveMessage({
-              chatId,
-              senderId: ct?.id,
-              fromPhone: ct?.phone,
-              fromName: ct?.name,
-              type: 'interactive',
-              body: selectedTitle,
-              interactive: {
-                kind,
-                bodyText: selectedTitle,
-                selectedId,
-                selectedTitle,
-              },
-            });
-          }}
-          onUploadMedia={(payload) => emulatorApi.uploadMedia(payload)}
-          onUpdateReceipt={async (messageId, status, errorCode) => {
-            await emulatorApi.updateReceipt(messageId, status, errorCode);
-          }}
-          onPreviewImage={(url, caption) => setLightbox({ url, caption })}
-        />
+        <ErrorBoundary key={selectedChat?.id || 'none'}>
+          <ChatView
+            chat={selectedChat}
+            variant={state.settings.variant}
+            enforce24hWindow={state.settings.enforce24hWindow}
+            self={state.self}
+            contacts={state.contacts}
+            messages={selectedChat ? state.messages[selectedChat.id] || [] : []}
+            quickReplies={state.quickReplies}
+            catalog={state.catalog}
+            highlightedMessageId={highlightedMessageId}
+            onBackMobile={() => {
+              setMobileShowChat(false);
+              setRightDrawer(null);
+            }}
+            onOpenInfo={() => setRightDrawer(rightDrawer === 'info' ? null : 'info')}
+            onOpenSearch={() => setRightDrawer(rightDrawer === 'search' ? null : 'search')}
+            onOpenTemplateModal={() => setTemplateModalState({ open: true })}
+            onOpenRichModal={() => setShowRichModal(true)}
+            onSendMessage={async (payload) => {
+              await emulatorApi.sendMessage(payload);
+            }}
+            onSimulateInteractiveReply={async ({ chatId, selectedId, selectedTitle, kind }) => {
+              const targetChat = state.chats.find((c) => c.id === chatId);
+              const ct = targetChat?.contactId
+                ? state.contacts.find((c) => c.id === targetChat.contactId)
+                : undefined;
+              await emulatorApi.receiveMessage({
+                chatId,
+                senderId: ct?.id,
+                fromPhone: ct?.phone,
+                fromName: ct?.name,
+                type: 'interactive',
+                body: selectedTitle,
+                interactive: {
+                  kind,
+                  bodyText: selectedTitle,
+                  selectedId,
+                  selectedTitle,
+                },
+              });
+            }}
+            onUploadMedia={(payload) => emulatorApi.uploadMedia(payload)}
+            onUpdateReceipt={async (messageId, status, errorCode) => {
+              await emulatorApi.updateReceipt(messageId, status, errorCode);
+            }}
+            onPreviewImage={(url, caption) => setLightbox({ url, caption })}
+          />
+        </ErrorBoundary>
 
         {/* Right Info / Search Drawer */}
         {selectedChat && rightDrawer && (
