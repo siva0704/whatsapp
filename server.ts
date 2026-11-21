@@ -1,6 +1,7 @@
 import express from 'express';
 import http from 'http';
 import path from 'path';
+import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import { loadEnvConfig } from './server/config';
 import { EmulatorEngine } from './server/engine';
@@ -34,8 +35,16 @@ async function startServer() {
   const httpServer = http.createServer(app);
   attachWebSocketServer(httpServer, engine);
 
-  if (process.env.NODE_ENV === 'production') {
-    const distDir = path.resolve(process.cwd(), 'dist');
+  const candidates = [
+    path.resolve(process.cwd(), 'dist'),
+    path.resolve(__dirname, 'dist'),
+    path.resolve(__dirname, '../dist'),
+    path.resolve(process.cwd(), 'whatsapp', 'dist'),
+  ];
+
+  const distDir = candidates.find((dir) => fs.existsSync(path.join(dir, 'index.html')));
+
+  if (distDir) {
     app.use(express.static(distDir));
     app.get('*', (_req, res) => {
       res.sendFile(path.join(distDir, 'index.html'));

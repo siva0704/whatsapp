@@ -119,7 +119,7 @@ export function loadEnvConfig(): EmulatorEnvConfig {
   const seedFileRaw = (process.env.EMULATOR_CLIENT_SEED_FILE || '').trim();
 
   return {
-    port: parseNumber(process.env.PORT, 3000),
+    port: parseNumber(process.env.PORT, 4020),
     variant,
     apiKey: (process.env.EMULATOR_API_KEY || '').trim(),
     webhookUrl: (process.env.EMULATOR_WEBHOOK_URL || '').trim(),
