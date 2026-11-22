@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { getApp } from '../server/app';
+import { getApp } from './app';
 
 let appInstance: any = null;
 let initError: any = null;

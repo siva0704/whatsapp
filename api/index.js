@@ -4217,7 +4217,7 @@ function getApp() {
   return { app, engine };
 }
 
-// api/index.ts
+// server/api.ts
 var appInstance = null;
 var initError = null;
 try {
