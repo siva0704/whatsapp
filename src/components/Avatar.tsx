@@ -3,7 +3,7 @@ import { Bot, Users } from 'lucide-react';
 import { getInitials } from '../utils/format';
 
 interface AvatarProps {
-  name: string;
+  name?: string | null;
   avatarUrl?: string;
   color?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -12,16 +12,8 @@ interface AvatarProps {
   className?: string;
 }
 
-const SIZE_CLASSES: Record<NonNullable<AvatarProps['size']>, string> = {
-  xs: 'w-7 h-7 text-[11px]',
-  sm: 'w-9 h-9 text-xs',
-  md: 'w-11 h-11 text-sm',
-  lg: 'w-12 h-12 text-base',
-  xl: 'w-28 h-28 text-3xl',
-};
-
 export function Avatar({
-  name,
+  name = '',
   avatarUrl,
   color = '#00a884',
   size = 'md',
@@ -41,7 +33,7 @@ export function Avatar({
       {showImg ? (
         <img
           src={avatarUrl}
-          alt={name}
+          alt={name || 'Avatar'}
           referrerPolicy="no-referrer"
           onError={() => setImgFailed(true)}
           className="w-full h-full object-cover"
@@ -56,3 +48,11 @@ export function Avatar({
     </div>
   );
 }
+
+const SIZE_CLASSES: Record<NonNullable<AvatarProps['size']>, string> = {
+  xs: 'w-7 h-7 text-[11px]',
+  sm: 'w-9 h-9 text-xs',
+  md: 'w-11 h-11 text-sm',
+  lg: 'w-12 h-12 text-base',
+  xl: 'w-28 h-28 text-3xl',
+};
