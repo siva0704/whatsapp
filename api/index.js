@@ -1298,6 +1298,16 @@ var EmulatorEngine = class {
     if (loaded && loaded.phoneNumbers && loaded.templates) {
       this.state = loaded;
       this.state.settings.apiKeyConfigured = Boolean(env.apiKey);
+      const isServerless = Boolean(
+        process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NOW_REGION
+      );
+      const effectiveWebhook = env.webhookUrl || (isServerless ? "https://vehicledesk-mla.vercel.app/api/whatsapp/webhook" : "");
+      if (effectiveWebhook) {
+        this.state.settings.webhookUrl = effectiveWebhook;
+        for (const p of this.state.phoneNumbers) {
+          p.webhookUrl = effectiveWebhook;
+        }
+      }
       if (!Array.isArray(this.state.broadcasts)) this.state.broadcasts = [];
       if (!this.state.failureInjection) {
         this.state.failureInjection = { ...DEFAULT_FAILURE_INJECTION };
@@ -1411,7 +1421,13 @@ var EmulatorEngine = class {
   }
   recordWebhook(event, payload, phoneNumberId) {
     const phoneCfg = this.getPhoneConfig(phoneNumberId);
-    const targetUrl = phoneCfg.webhookUrl || this.state.settings.webhookUrl;
+    let targetUrl = phoneCfg.webhookUrl || this.state.settings.webhookUrl;
+    const isServerless = Boolean(
+      process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NOW_REGION
+    );
+    if (isServerless && (!targetUrl || targetUrl.includes("localhost"))) {
+      targetUrl = "https://vehicledesk-mla.vercel.app/api/whatsapp/webhook";
+    }
     const { webhookSecret } = this.state.settings;
     void dispatchWebhook({
       event,

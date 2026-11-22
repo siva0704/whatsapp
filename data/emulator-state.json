@@ -81,7 +81,7 @@
       "createdAt": "2026-11-22T12:32:44.560Z",
       "updatedAt": "2026-11-22T12:32:44.560Z",
       "presence": "online",
-      "lastSeen": "2026-11-22T14:11:55.307Z"
+      "lastSeen": "2026-11-22T16:10:05.206Z"
     },
     {
       "id": "cnt-919845022334",
@@ -129,14 +129,14 @@
       "participantIds": [
         "cnt-919845011223"
       ],
-      "unreadCount": 0,
+      "unreadCount": 6,
       "archived": false,
       "pinned": false,
       "muted": false,
       "labelIds": [],
-      "lastMessageId": "wamid.3d426354ea414fe2b9",
-      "lastMessageAt": "2026-11-22T14:13:53.623Z",
-      "lastInboundAt": "2026-11-22T14:11:55.307Z",
+      "lastMessageId": "wamid.62daba7997084f70bb",
+      "lastMessageAt": "2026-11-22T16:10:35.659Z",
+      "lastInboundAt": "2026-11-22T16:10:05.206Z",
       "conversationCategory": "SERVICE",
       "typingContactId": null,
       "typingMode": null
@@ -3118,6 +3118,511 @@
           "cloudApiVersion": "v19.0",
           "phoneNumberId": "wa-sim-phone-001"
         }
+      },
+      {
+        "id": "wamid.c558f3767311441aa6",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "cnt-919845011223",
+        "senderName": "Hon. Rajesh Kumar",
+        "direction": "inbound",
+        "type": "text",
+        "body": "hi",
+        "timestamp": "2026-11-22T16:09:53.059Z",
+        "status": "delivered",
+        "conversationCategory": "SERVICE"
+      },
+      {
+        "id": "wamid.7691924b84ea46cca0",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "Karnataka State Protocol Vehicle Desk",
+        "direction": "outbound",
+        "type": "interactive",
+        "body": "🏛 *Karnataka State Protocol Fleet Desk*\nWelcome, *Hon. Rajesh Kumar*\nDesignation: Special Secretary to Govt (DPAR)\n\nHow may the Vehicle Desk assist you today?",
+        "timestamp": "2026-11-22T16:09:53.115Z",
+        "status": "read",
+        "interactive": {
+          "kind": "button",
+          "bodyText": "🏛 *Karnataka State Protocol Fleet Desk*\nWelcome, *Hon. Rajesh Kumar*\nDesignation: Special Secretary to Govt (DPAR)\n\nHow may the Vehicle Desk assist you today?",
+          "buttons": [
+            {
+              "id": "btn_book",
+              "title": "Book a Car"
+            },
+            {
+              "id": "btn_status",
+              "title": "My Active Trip"
+            },
+            {
+              "id": "btn_cancel",
+              "title": "Cancel Trip"
+            }
+          ]
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v19.0",
+          "phoneNumberId": "wa-sim-phone-001"
+        }
+      },
+      {
+        "id": "wamid.db06526357ee46ed88",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "cnt-919845011223",
+        "senderName": "Hon. Rajesh Kumar",
+        "direction": "inbound",
+        "type": "interactive",
+        "body": "Book a Car",
+        "timestamp": "2026-11-22T16:09:55.304Z",
+        "status": "delivered",
+        "interactive": {
+          "kind": "button_reply",
+          "bodyText": "Book a Car",
+          "selectedId": "btn_book",
+          "selectedTitle": "Book a Car"
+        },
+        "conversationCategory": "SERVICE"
+      },
+      {
+        "id": "wamid.c89f03ef60f542ea89",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "Karnataka State Protocol Vehicle Desk",
+        "direction": "outbound",
+        "type": "interactive",
+        "body": "Hon. *Hon. Rajesh Kumar*, please select your pickup point from the predefined geofenced locations around Vidhana Soudha & Legislators' Home (LH), or type a custom pickup location:",
+        "timestamp": "2026-11-22T16:09:55.323Z",
+        "status": "read",
+        "interactive": {
+          "kind": "list",
+          "headerText": "📍 Pickup Location Selection",
+          "bodyText": "Hon. *Hon. Rajesh Kumar*, please select your pickup point from the predefined geofenced locations around Vidhana Soudha & Legislators' Home (LH), or type a custom pickup location:",
+          "footerText": "Karnataka State Protocol Fleet Desk",
+          "listButtonText": "Choose Pickup Point",
+          "sections": [
+            {
+              "title": "Vidhana Soudha Complex",
+              "rows": [
+                {
+                  "id": "loc_vs_gate1",
+                  "title": "Vidhana Soudha Gate 1",
+                  "description": "West Porch VIP Portico Entry"
+                },
+                {
+                  "id": "loc_vs_kengal",
+                  "title": "Kengal Gate (Gate 2)",
+                  "description": "Ambedkar Veedhi / High Court Junction"
+                },
+                {
+                  "id": "loc_vs_south",
+                  "title": "Vidhana Soudha South Gate",
+                  "description": "South Wing / Cubbon Park Exit"
+                }
+              ]
+            },
+            {
+              "title": "Legislators' Home (LH)",
+              "rows": [
+                {
+                  "id": "loc_lh_deepika",
+                  "title": "Deepika Location",
+                  "description": "LH Deepika Building Compound"
+                },
+                {
+                  "id": "loc_lh_reception",
+                  "title": "LH Main Reception",
+                  "description": "Main Portico & Dispatch Porch"
+                },
+                {
+                  "id": "loc_lh_block_a",
+                  "title": "LH Block A",
+                  "description": "Legislators' Residence Wing A"
+                },
+                {
+                  "id": "loc_lh_block_b",
+                  "title": "LH Block B",
+                  "description": "Legislators' Guest Suites Wing B"
+                }
+              ]
+            },
+            {
+              "title": "State Protocol Guest Houses",
+              "rows": [
+                {
+                  "id": "loc_kumara_krupa",
+                  "title": "Kumara Krupa Guest House",
+                  "description": "Main Porch, High Grounds"
+                },
+                {
+                  "id": "loc_balabrooie",
+                  "title": "Balabrooie Guest House",
+                  "description": "Palace Road Entrance Porch"
+                }
+              ]
+            }
+          ]
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v19.0",
+          "phoneNumberId": "wa-sim-phone-001"
+        }
+      },
+      {
+        "id": "wamid.118d717e017f4b8fb4",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "cnt-919845011223",
+        "senderName": "Hon. Rajesh Kumar",
+        "direction": "inbound",
+        "type": "interactive",
+        "body": "Vidhana Soudha Gate 1",
+        "timestamp": "2026-11-22T16:09:58.934Z",
+        "status": "delivered",
+        "interactive": {
+          "kind": "list_reply",
+          "bodyText": "Vidhana Soudha Gate 1",
+          "selectedId": "loc_vs_gate1",
+          "selectedTitle": "Vidhana Soudha Gate 1"
+        },
+        "conversationCategory": "SERVICE"
+      },
+      {
+        "id": "wamid.b605d290ee674ad79a",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "Karnataka State Protocol Vehicle Desk",
+        "direction": "outbound",
+        "type": "interactive",
+        "body": "✅ Pickup confirmed: *Vidhana Soudha Gate 1*\n\nPlease select your destination from frequent official drop points, or reply with a custom destination in text:",
+        "timestamp": "2026-11-22T16:09:58.959Z",
+        "status": "read",
+        "interactive": {
+          "kind": "list",
+          "headerText": "🏁 Destination Selection",
+          "bodyText": "✅ Pickup confirmed: *Vidhana Soudha Gate 1*\n\nPlease select your destination from frequent official drop points, or reply with a custom destination in text:",
+          "footerText": "Karnataka State Protocol Fleet Desk",
+          "listButtonText": "Choose Destination",
+          "sections": [
+            {
+              "title": "Frequent Official Destinations",
+              "rows": [
+                {
+                  "id": "drop_kia",
+                  "title": "Kempegowda Intl Airport (KIA)",
+                  "description": "Departure Porch, T1 / T2"
+                },
+                {
+                  "id": "drop_ksr",
+                  "title": "Bengaluru City Railway Station",
+                  "description": "KSR Main VIP Portico, Majestic"
+                },
+                {
+                  "id": "drop_raj_bhavan",
+                  "title": "Raj Bhavan",
+                  "description": "Governor's Residence, Raj Bhavan Rd"
+                },
+                {
+                  "id": "drop_high_court",
+                  "title": "High Court of Karnataka",
+                  "description": "Attara Kacheri Gate Porch"
+                },
+                {
+                  "id": "drop_vikas_soudha",
+                  "title": "Vikas Soudha",
+                  "description": "South Entrance Portico"
+                },
+                {
+                  "id": "drop_ms_building",
+                  "title": "MS Building (Sachivalaya)",
+                  "description": "State Secretariat Office Porch"
+                }
+              ]
+            },
+            {
+              "title": "Round Trip Option",
+              "rows": [
+                {
+                  "id": "drop_round_trip",
+                  "title": "Round Trip (Return to Vidhana Soudha Gate 1)",
+                  "description": "Chauffeur on standby with VIP for return journey"
+                }
+              ]
+            }
+          ]
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v19.0",
+          "phoneNumberId": "wa-sim-phone-001"
+        }
+      },
+      {
+        "id": "wamid.b8b680d89f4145d3ae",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "cnt-919845011223",
+        "senderName": "Hon. Rajesh Kumar",
+        "direction": "inbound",
+        "type": "interactive",
+        "body": "Round Trip (Return to Vidhana Soudha Gate 1)",
+        "timestamp": "2026-11-22T16:10:01.960Z",
+        "status": "delivered",
+        "interactive": {
+          "kind": "list_reply",
+          "bodyText": "Round Trip (Return to Vidhana Soudha Gate 1)",
+          "selectedId": "drop_round_trip",
+          "selectedTitle": "Round Trip (Return to Vidhana Soudha Gate 1)"
+        },
+        "conversationCategory": "SERVICE"
+      },
+      {
+        "id": "wamid.3e1dcae963444c908f",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "Karnataka State Protocol Vehicle Desk",
+        "direction": "outbound",
+        "type": "interactive",
+        "body": "✅ Pickup: *Vidhana Soudha Gate 1*\n🏁 Drop: *Round Trip (Return to Vidhana Soudha Gate 1)*\n\nPlease choose your dispatch timing:",
+        "timestamp": "2026-11-22T16:10:01.975Z",
+        "status": "read",
+        "interactive": {
+          "kind": "button",
+          "bodyText": "✅ Pickup: *Vidhana Soudha Gate 1*\n🏁 Drop: *Round Trip (Return to Vidhana Soudha Gate 1)*\n\nPlease choose your dispatch timing:",
+          "buttons": [
+            {
+              "id": "time_immediate",
+              "title": "⚡ Immediate Dispatch"
+            },
+            {
+              "id": "time_schedule",
+              "title": "📅 Schedule Ride"
+            },
+            {
+              "id": "btn_abort",
+              "title": "Cancel"
+            }
+          ]
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v19.0",
+          "phoneNumberId": "wa-sim-phone-001"
+        }
+      },
+      {
+        "id": "wamid.bb7155ae5f2d482fbc",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "cnt-919845011223",
+        "senderName": "Hon. Rajesh Kumar",
+        "direction": "inbound",
+        "type": "interactive",
+        "body": "⚡ Immediate Dispatch",
+        "timestamp": "2026-11-22T16:10:03.341Z",
+        "status": "delivered",
+        "interactive": {
+          "kind": "button_reply",
+          "bodyText": "⚡ Immediate Dispatch",
+          "selectedId": "time_immediate",
+          "selectedTitle": "⚡ Immediate Dispatch"
+        },
+        "conversationCategory": "SERVICE"
+      },
+      {
+        "id": "wamid.39f1a4193a4a403994",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "Karnataka State Protocol Vehicle Desk",
+        "direction": "outbound",
+        "type": "interactive",
+        "body": "📋 *Confirm Vehicle Dispatch Details*:\n\n🏛 *VIP*: Hon. Rajesh Kumar (Special Secretary to Govt (DPAR))\n📍 *Pickup*: Vidhana Soudha Gate 1\n🏁 *Drop*: Round Trip (Return to Vidhana Soudha Gate 1)\n🕒 *Timing*: ⚡ *Immediate Dispatch (On-Demand)*\n⭐ *Entitled Class*: CLASS_A\n\nDispatch highest-priority available vehicle immediately?",
+        "timestamp": "2026-11-22T16:10:03.357Z",
+        "status": "read",
+        "interactive": {
+          "kind": "button",
+          "bodyText": "📋 *Confirm Vehicle Dispatch Details*:\n\n🏛 *VIP*: Hon. Rajesh Kumar (Special Secretary to Govt (DPAR))\n📍 *Pickup*: Vidhana Soudha Gate 1\n🏁 *Drop*: Round Trip (Return to Vidhana Soudha Gate 1)\n🕒 *Timing*: ⚡ *Immediate Dispatch (On-Demand)*\n⭐ *Entitled Class*: CLASS_A\n\nDispatch highest-priority available vehicle immediately?",
+          "buttons": [
+            {
+              "id": "btn_confirm",
+              "title": "Confirm Allocation"
+            },
+            {
+              "id": "btn_abort",
+              "title": "Discard"
+            }
+          ]
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v19.0",
+          "phoneNumberId": "wa-sim-phone-001"
+        }
+      },
+      {
+        "id": "wamid.29904a0ed5fa4ad5b5",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "cnt-919845011223",
+        "senderName": "Hon. Rajesh Kumar",
+        "direction": "inbound",
+        "type": "interactive",
+        "body": "Confirm Allocation",
+        "timestamp": "2026-11-22T16:10:05.206Z",
+        "status": "delivered",
+        "interactive": {
+          "kind": "button_reply",
+          "bodyText": "Confirm Allocation",
+          "selectedId": "btn_confirm",
+          "selectedTitle": "Confirm Allocation"
+        },
+        "conversationCategory": "SERVICE"
+      },
+      {
+        "id": "wamid.b321462db876492bb3",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "Karnataka State Protocol Vehicle Desk",
+        "direction": "outbound",
+        "type": "interactive",
+        "body": "🚗 *VIP Vehicle Request Confirmed* [REQ-10619]\n\n🏛 *VIP*: Hon. Rajesh Kumar (Special Secretary to Govt (DPAR))\n🕒 *Timing*: ⚡ Immediate VIP Dispatch (On-Demand)\n📍 *Pickup*: Vidhana Soudha Gate 1\n🏁 *Drop*: Round Trip (Return to Vidhana Soudha Gate 1)\n⭐ *Assigned Priority*: Priority 1 Vehicle\n\n👤 *Assigned Chauffeur*: Suresh Gowda\n📞 *Chauffeur Contact*: +919448033445\n🚘 *Vehicle Model*: Toyota Camry Hybrid (Sedan)\n🔢 *Registration Plate*: [KA-01-GA-1001]\n\n_Driver has received this dispatch in their cockpit and is collecting vehicle keys._",
+        "timestamp": "2026-11-22T16:10:05.224Z",
+        "status": "read",
+        "interactive": {
+          "kind": "button",
+          "bodyText": "🚗 *VIP Vehicle Request Confirmed* [REQ-10619]\n\n🏛 *VIP*: Hon. Rajesh Kumar (Special Secretary to Govt (DPAR))\n🕒 *Timing*: ⚡ Immediate VIP Dispatch (On-Demand)\n📍 *Pickup*: Vidhana Soudha Gate 1\n🏁 *Drop*: Round Trip (Return to Vidhana Soudha Gate 1)\n⭐ *Assigned Priority*: Priority 1 Vehicle\n\n👤 *Assigned Chauffeur*: Suresh Gowda\n📞 *Chauffeur Contact*: +919448033445\n🚘 *Vehicle Model*: Toyota Camry Hybrid (Sedan)\n🔢 *Registration Plate*: [KA-01-GA-1001]\n\n_Driver has received this dispatch in their cockpit and is collecting vehicle keys._",
+          "buttons": [
+            {
+              "id": "btn_status",
+              "title": "Check Status"
+            },
+            {
+              "id": "btn_cancel",
+              "title": "Cancel Trip"
+            }
+          ]
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v19.0",
+          "phoneNumberId": "wa-sim-phone-001"
+        }
+      },
+      {
+        "id": "wamid.b00b0c0aec0841d69b",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "Karnataka State Protocol Vehicle Desk",
+        "direction": "outbound",
+        "type": "interactive",
+        "body": "📍 *Live Chauffeur GPS Shared* [REQ-10619]\n\nChauffeur *Suresh Gowda* is en route or at the pickup bay.\n\n🚘 Vehicle: KA-01-GA-1001\n🗺 *Live Location*: https://maps.google.com/?q=12.9796,77.5908\n\nClick link above to view real-time location.",
+        "timestamp": "2026-11-22T16:10:26.811Z",
+        "status": "read",
+        "interactive": {
+          "kind": "button",
+          "bodyText": "📍 *Live Chauffeur GPS Shared* [REQ-10619]\n\nChauffeur *Suresh Gowda* is en route or at the pickup bay.\n\n🚘 Vehicle: KA-01-GA-1001\n🗺 *Live Location*: https://maps.google.com/?q=12.9796,77.5908\n\nClick link above to view real-time location.",
+          "buttons": [
+            {
+              "id": "btn_status",
+              "title": "Check Status"
+            }
+          ]
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v19.0",
+          "phoneNumberId": "wa-sim-phone-001"
+        }
+      },
+      {
+        "id": "wamid.bbdfddc3897b4eecbf",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "Karnataka State Protocol Vehicle Desk",
+        "direction": "outbound",
+        "type": "interactive",
+        "body": "🔔 *Chauffeur Arrived at Pickup Location* [REQ-10619]\n\nNamaskara Hon. *Hon. Rajesh Kumar*,\n\nYour assigned chauffeur *Suresh Gowda* has arrived and is waiting at:\n📍 *Pickup Point*: *Vidhana Soudha Gate 1*\n\n🚘 *Vehicle*: *Toyota Camry Hybrid (Sedan)* [KA-01-GA-1001]\n📞 *Chauffeur Contact*: +919448033445\n\n_The vehicle is stationed at the porch/portico ready for boarding._",
+        "timestamp": "2026-11-22T16:10:28.390Z",
+        "status": "read",
+        "interactive": {
+          "kind": "button",
+          "bodyText": "🔔 *Chauffeur Arrived at Pickup Location* [REQ-10619]\n\nNamaskara Hon. *Hon. Rajesh Kumar*,\n\nYour assigned chauffeur *Suresh Gowda* has arrived and is waiting at:\n📍 *Pickup Point*: *Vidhana Soudha Gate 1*\n\n🚘 *Vehicle*: *Toyota Camry Hybrid (Sedan)* [KA-01-GA-1001]\n📞 *Chauffeur Contact*: +919448033445\n\n_The vehicle is stationed at the porch/portico ready for boarding._",
+          "buttons": [
+            {
+              "id": "btn_status",
+              "title": "Trip Status"
+            }
+          ]
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v19.0",
+          "phoneNumberId": "wa-sim-phone-001"
+        }
+      },
+      {
+        "id": "wamid.dd7c8b1140ea4a4a97",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "Karnataka State Protocol Vehicle Desk",
+        "direction": "outbound",
+        "type": "interactive",
+        "body": "🚀 *Trip In Progress* [REQ-10619]\n\nYour trip to *Round Trip (Return to Vidhana Soudha Gate 1)* has commenced with Chauffeur *Suresh Gowda*.\n\nHave a safe journey!",
+        "timestamp": "2026-11-22T16:10:29.945Z",
+        "status": "read",
+        "interactive": {
+          "kind": "button",
+          "bodyText": "🚀 *Trip In Progress* [REQ-10619]\n\nYour trip to *Round Trip (Return to Vidhana Soudha Gate 1)* has commenced with Chauffeur *Suresh Gowda*.\n\nHave a safe journey!",
+          "buttons": [
+            {
+              "id": "btn_status",
+              "title": "Check Status"
+            }
+          ]
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v19.0",
+          "phoneNumberId": "wa-sim-phone-001"
+        }
+      },
+      {
+        "id": "wamid.62daba7997084f70bb",
+        "chatId": "chat-45011223",
+        "phoneNumberId": "wa-sim-phone-001",
+        "senderId": "me",
+        "senderName": "Karnataka State Protocol Vehicle Desk",
+        "direction": "outbound",
+        "type": "interactive",
+        "body": "🏁 *Trip Completed* [REQ-10619]\n\nYour trip to *Round Trip (Return to Vidhana Soudha Gate 1)* has concluded.\n\nThank you for using the Karnataka State Protocol Fleet Desk.",
+        "timestamp": "2026-11-22T16:10:35.659Z",
+        "status": "read",
+        "interactive": {
+          "kind": "button",
+          "bodyText": "🏁 *Trip Completed* [REQ-10619]\n\nYour trip to *Round Trip (Return to Vidhana Soudha Gate 1)* has concluded.\n\nThank you for using the Karnataka State Protocol Fleet Desk.",
+          "buttons": [
+            {
+              "id": "btn_book",
+              "title": "Book Another Car"
+            }
+          ]
+        },
+        "conversationCategory": "SERVICE",
+        "metadata": {
+          "cloudApiVersion": "v19.0",
+          "phoneNumberId": "wa-sim-phone-001"
+        }
       }
     ],
     "chat-45022334": [
@@ -3234,6 +3739,2458 @@
     }
   ],
   "webhookLogs": [
+    {
+      "id": "wh_3c514c26-601",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:36.104Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 4,
+      "signatureHeader": "sha256=e2b207f74759faa164ba1e26983643e4439353ff4197ada4b49812420f603007",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.62daba7997084f70bb",
+                      "status": "read",
+                      "timestamp": "1795363836",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.62daba7997084f70bb",
+          "status": "read",
+          "timestamp": "1795363836",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_2c9fb4b8-db6",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:35.907Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 4,
+      "signatureHeader": "sha256=6688c63cc59ec9d3f4f6d1e741e56a0c0e6fdddceaebdb5b4b39fd255cad7414",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.62daba7997084f70bb",
+                      "status": "delivered",
+                      "timestamp": "1795363835",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.62daba7997084f70bb",
+          "status": "delivered",
+          "timestamp": "1795363835",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_e7c222d9-a2d",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:35.684Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 8,
+      "signatureHeader": "sha256=49ac10c9a5f48dac56b54219c78bfc3ba646bc68f3ece0f56ef04244509ab096",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.62daba7997084f70bb",
+                      "status": "sent",
+                      "timestamp": "1795363835",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.62daba7997084f70bb",
+          "status": "sent",
+          "timestamp": "1795363835",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_f936e7ff-c6b",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:30.391Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=184b09535d9285d5086fc7192eff4ec0999992c1745d60372afa85a816489e64",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.dd7c8b1140ea4a4a97",
+                      "status": "read",
+                      "timestamp": "1795363830",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.dd7c8b1140ea4a4a97",
+          "status": "read",
+          "timestamp": "1795363830",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_10bf6e02-d2c",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:30.188Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 4,
+      "signatureHeader": "sha256=d757a1023a36b386243ba7aecd434effcea9ff577fe02c5d7846800c4e2ac068",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.dd7c8b1140ea4a4a97",
+                      "status": "delivered",
+                      "timestamp": "1795363830",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.dd7c8b1140ea4a4a97",
+          "status": "delivered",
+          "timestamp": "1795363830",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_bd95db90-bd2",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:29.974Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 12,
+      "signatureHeader": "sha256=de9c6858a8ceb0ee13082e1ae079740b14f2d026f373fbd83ca98620424ab782",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.dd7c8b1140ea4a4a97",
+                      "status": "sent",
+                      "timestamp": "1795363829",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.dd7c8b1140ea4a4a97",
+          "status": "sent",
+          "timestamp": "1795363829",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_0560ed3e-07b",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:28.842Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=ac4e5776c08e8c45ab7ce8d45a1fe8aa82bbde0bdd3dd0e202fe23e1e02a022d",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.bbdfddc3897b4eecbf",
+                      "status": "read",
+                      "timestamp": "1795363828",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.bbdfddc3897b4eecbf",
+          "status": "read",
+          "timestamp": "1795363828",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_1f0f6c3b-173",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:28.644Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=608006b819dedecaf778daaf5978017621b781ec6b51994373e6febe1edd31af",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.bbdfddc3897b4eecbf",
+                      "status": "delivered",
+                      "timestamp": "1795363828",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.bbdfddc3897b4eecbf",
+          "status": "delivered",
+          "timestamp": "1795363828",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_d8d6ae40-6ce",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:28.419Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 5,
+      "signatureHeader": "sha256=4a3c686b3a95d616cd14a09a61b04514f335aafae1d961b2e505383e3771dc17",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.bbdfddc3897b4eecbf",
+                      "status": "sent",
+                      "timestamp": "1795363828",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.bbdfddc3897b4eecbf",
+          "status": "sent",
+          "timestamp": "1795363828",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_81b9826d-012",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:27.243Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=ed0baa6f69bfe953e496bc8f8a9a4e90327ac9ccac882a22dec15c9f0550c9dc",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b00b0c0aec0841d69b",
+                      "status": "read",
+                      "timestamp": "1795363827",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b00b0c0aec0841d69b",
+          "status": "read",
+          "timestamp": "1795363827",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_c3b28efb-5ec",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:27.058Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 4,
+      "signatureHeader": "sha256=f6cd2ed6a2d71ace3da8c3e93d85312835f95e1df6271ba73c3c80f8c4def117",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b00b0c0aec0841d69b",
+                      "status": "delivered",
+                      "timestamp": "1795363827",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b00b0c0aec0841d69b",
+          "status": "delivered",
+          "timestamp": "1795363827",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_1a02389e-776",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:26.832Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 7,
+      "signatureHeader": "sha256=55f1fa1ac19723a46e8342d8cc9d9507d2c8dbc9df5ac75c94ee81fd80d3bc1c",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b00b0c0aec0841d69b",
+                      "status": "sent",
+                      "timestamp": "1795363826",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b00b0c0aec0841d69b",
+          "status": "sent",
+          "timestamp": "1795363826",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_31b0f582-89c",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:05.690Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=4d05db14d503e9a7eaa0d8e6210eba67bf1a3fafbbe056774d5dea9f133e0a36",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b321462db876492bb3",
+                      "status": "read",
+                      "timestamp": "1795363805",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b321462db876492bb3",
+          "status": "read",
+          "timestamp": "1795363805",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_8d1f610e-aac",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:05.492Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=36dd3ef6cd5a9f98c78d757517686b94595a48c428b7c8c94670a73d9c7a12cb",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b321462db876492bb3",
+                      "status": "delivered",
+                      "timestamp": "1795363805",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b321462db876492bb3",
+          "status": "delivered",
+          "timestamp": "1795363805",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_214075c0-65e",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:05.265Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 24,
+      "signatureHeader": "sha256=27589c0a3ad2b34b1be430c2ed098722db136058cde1ede27f386801dd220535",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b321462db876492bb3",
+                      "status": "sent",
+                      "timestamp": "1795363805",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b321462db876492bb3",
+          "status": "sent",
+          "timestamp": "1795363805",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_d6bb2a70-384",
+      "event": "message.received",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:05.215Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 60,
+      "signatureHeader": "sha256=7d030bec0c0ae7d894b8176ef5cd50abcded7b093b885e8cc86f650072cf4322",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "contacts": [
+                    {
+                      "profile": {
+                        "name": "Rajesh Kumar MLA"
+                      },
+                      "wa_id": "919845011223"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "wamid.29904a0ed5fa4ad5b5",
+                      "from": "919845011223",
+                      "timestamp": "1795363805",
+                      "type": "interactive",
+                      "chat_id": "chat-45011223",
+                      "interactive": {
+                        "type": "button_reply",
+                        "button_reply": {
+                          "id": "btn_confirm",
+                          "title": "Confirm Allocation"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "messages",
+        "data": {
+          "id": "wamid.29904a0ed5fa4ad5b5",
+          "from": "919845011223",
+          "timestamp": "1795363805",
+          "type": "interactive",
+          "chat_id": "chat-45011223",
+          "interactive": {
+            "type": "button_reply",
+            "button_reply": {
+              "id": "btn_confirm",
+              "title": "Confirm Allocation"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_01c1cdea-909",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:03.798Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=79974921e9529bde4c1af921475a31ca4cd4398c845a6049e62da1cb351fb439",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.39f1a4193a4a403994",
+                      "status": "read",
+                      "timestamp": "1795363803",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.39f1a4193a4a403994",
+          "status": "read",
+          "timestamp": "1795363803",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_124ba94b-5e7",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:03.610Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=3ef4fdc7e35f94ac2b69054da0a91f4a8c62cc0faf6d8e58856cf7aa8fa57b92",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.39f1a4193a4a403994",
+                      "status": "delivered",
+                      "timestamp": "1795363803",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.39f1a4193a4a403994",
+          "status": "delivered",
+          "timestamp": "1795363803",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_c45472ba-f29",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:03.385Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 17,
+      "signatureHeader": "sha256=308ee3940282cc899c6cbeaf9ad7b9946810f1831551454a4b2c0921d56411dd",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.39f1a4193a4a403994",
+                      "status": "sent",
+                      "timestamp": "1795363803",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.39f1a4193a4a403994",
+          "status": "sent",
+          "timestamp": "1795363803",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_5521d09b-fc4",
+      "event": "message.received",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:03.348Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 42,
+      "signatureHeader": "sha256=6e9982aa9c8bcbd8da3717f845639e8780e54cfc29f0803520af510182e9095a",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "contacts": [
+                    {
+                      "profile": {
+                        "name": "Rajesh Kumar MLA"
+                      },
+                      "wa_id": "919845011223"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "wamid.bb7155ae5f2d482fbc",
+                      "from": "919845011223",
+                      "timestamp": "1795363803",
+                      "type": "interactive",
+                      "chat_id": "chat-45011223",
+                      "interactive": {
+                        "type": "button_reply",
+                        "button_reply": {
+                          "id": "time_immediate",
+                          "title": "⚡ Immediate Dispatch"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "messages",
+        "data": {
+          "id": "wamid.bb7155ae5f2d482fbc",
+          "from": "919845011223",
+          "timestamp": "1795363803",
+          "type": "interactive",
+          "chat_id": "chat-45011223",
+          "interactive": {
+            "type": "button_reply",
+            "button_reply": {
+              "id": "time_immediate",
+              "title": "⚡ Immediate Dispatch"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_791989eb-53e",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:02.413Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=cacec8c6c4763ef27a9d14c3368cd843530d8338e996f58dd0eb43fbc41c9601",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.3e1dcae963444c908f",
+                      "status": "read",
+                      "timestamp": "1795363802",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.3e1dcae963444c908f",
+          "status": "read",
+          "timestamp": "1795363802",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_8a7b9e2c-928",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:02.213Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=b1a53998572e9785e9c2323f87f95df8aea112b58d91a60321cd0a2e347e576c",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.3e1dcae963444c908f",
+                      "status": "delivered",
+                      "timestamp": "1795363802",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.3e1dcae963444c908f",
+          "status": "delivered",
+          "timestamp": "1795363802",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_9b465fc3-a6b",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:01.999Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 16,
+      "signatureHeader": "sha256=6edfb8451189eff37ab6b73d5e53ceb6006cefd6fbdee02d9a67db4b44f16950",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.3e1dcae963444c908f",
+                      "status": "sent",
+                      "timestamp": "1795363801",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.3e1dcae963444c908f",
+          "status": "sent",
+          "timestamp": "1795363801",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_973ddc4d-497",
+      "event": "message.received",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:10:01.968Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 35,
+      "signatureHeader": "sha256=fabd71daf9c70976cf648c4d01afc0b5ade766e0323bcc8ff9fca81e500ee590",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "contacts": [
+                    {
+                      "profile": {
+                        "name": "Rajesh Kumar MLA"
+                      },
+                      "wa_id": "919845011223"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "wamid.b8b680d89f4145d3ae",
+                      "from": "919845011223",
+                      "timestamp": "1795363801",
+                      "type": "interactive",
+                      "chat_id": "chat-45011223",
+                      "interactive": {
+                        "type": "list_reply",
+                        "list_reply": {
+                          "id": "drop_round_trip",
+                          "title": "Round Trip (Return to Vidhana Soudha Gate 1)"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "messages",
+        "data": {
+          "id": "wamid.b8b680d89f4145d3ae",
+          "from": "919845011223",
+          "timestamp": "1795363801",
+          "type": "interactive",
+          "chat_id": "chat-45011223",
+          "interactive": {
+            "type": "list_reply",
+            "list_reply": {
+              "id": "drop_round_trip",
+              "title": "Round Trip (Return to Vidhana Soudha Gate 1)"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_93228cdf-474",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:59.405Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 4,
+      "signatureHeader": "sha256=9c1136b38f6409913c7303130d91448040394f2e3628141d88490ee665d24681",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b605d290ee674ad79a",
+                      "status": "read",
+                      "timestamp": "1795363799",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b605d290ee674ad79a",
+          "status": "read",
+          "timestamp": "1795363799",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_d7042db6-5a0",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:59.203Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=d48aac35721ec92878a4a624af0439043c6268ae1801a3b235a2b24080f2adfb",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b605d290ee674ad79a",
+                      "status": "delivered",
+                      "timestamp": "1795363799",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b605d290ee674ad79a",
+          "status": "delivered",
+          "timestamp": "1795363799",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_8fa98922-505",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:58.989Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 24,
+      "signatureHeader": "sha256=36f85a4c51b7f3152857d087efac12ebd42b4c79cb7cf21e66b313bf46768465",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.b605d290ee674ad79a",
+                      "status": "sent",
+                      "timestamp": "1795363798",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.b605d290ee674ad79a",
+          "status": "sent",
+          "timestamp": "1795363798",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_b9c28d08-ac0",
+      "event": "message.received",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:58.945Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 53,
+      "signatureHeader": "sha256=af8d8d576eca2dc8858debaa1c7bfea2c0103d4c9fbd2c7c703cee0d479530b2",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "contacts": [
+                    {
+                      "profile": {
+                        "name": "Rajesh Kumar MLA"
+                      },
+                      "wa_id": "919845011223"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "wamid.118d717e017f4b8fb4",
+                      "from": "919845011223",
+                      "timestamp": "1795363798",
+                      "type": "interactive",
+                      "chat_id": "chat-45011223",
+                      "interactive": {
+                        "type": "list_reply",
+                        "list_reply": {
+                          "id": "loc_vs_gate1",
+                          "title": "Vidhana Soudha Gate 1"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "messages",
+        "data": {
+          "id": "wamid.118d717e017f4b8fb4",
+          "from": "919845011223",
+          "timestamp": "1795363798",
+          "type": "interactive",
+          "chat_id": "chat-45011223",
+          "interactive": {
+            "type": "list_reply",
+            "list_reply": {
+              "id": "loc_vs_gate1",
+              "title": "Vidhana Soudha Gate 1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_2f402655-02e",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:55.757Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 4,
+      "signatureHeader": "sha256=313b151b838278a62d5a7f6e51cd5dae39bda5125bf0baae8c4074baa2aec301",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.c89f03ef60f542ea89",
+                      "status": "read",
+                      "timestamp": "1795363795",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.c89f03ef60f542ea89",
+          "status": "read",
+          "timestamp": "1795363795",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_7a1ab569-92d",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:55.560Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=38ff2d93ef551da7aee93495af01749b10fea15254a2cf635c430854899679f0",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.c89f03ef60f542ea89",
+                      "status": "delivered",
+                      "timestamp": "1795363795",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.c89f03ef60f542ea89",
+          "status": "delivered",
+          "timestamp": "1795363795",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_5eb541f7-7d9",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:55.345Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 15,
+      "signatureHeader": "sha256=2cce8461be8800d2737a6c70248e02da047d24dcb7eeadb6e54b69ece1202985",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.c89f03ef60f542ea89",
+                      "status": "sent",
+                      "timestamp": "1795363795",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.c89f03ef60f542ea89",
+          "status": "sent",
+          "timestamp": "1795363795",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_990fb79d-9af",
+      "event": "message.received",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:55.314Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 35,
+      "signatureHeader": "sha256=8aa333761d09db470cf580d4f093186eae82b7867077703e67a6db1c39555477",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "contacts": [
+                    {
+                      "profile": {
+                        "name": "Rajesh Kumar MLA"
+                      },
+                      "wa_id": "919845011223"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "wamid.db06526357ee46ed88",
+                      "from": "919845011223",
+                      "timestamp": "1795363795",
+                      "type": "interactive",
+                      "chat_id": "chat-45011223",
+                      "interactive": {
+                        "type": "button_reply",
+                        "button_reply": {
+                          "id": "btn_book",
+                          "title": "Book a Car"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "messages",
+        "data": {
+          "id": "wamid.db06526357ee46ed88",
+          "from": "919845011223",
+          "timestamp": "1795363795",
+          "type": "interactive",
+          "chat_id": "chat-45011223",
+          "interactive": {
+            "type": "button_reply",
+            "button_reply": {
+              "id": "btn_book",
+              "title": "Book a Car"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_cf44000f-d09",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:53.547Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=971bc2e59c456d96408e7a630cc06d08f18fa1f1fc0f99fa6267cfa47b916e83",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.7691924b84ea46cca0",
+                      "status": "read",
+                      "timestamp": "1795363793",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.7691924b84ea46cca0",
+          "status": "read",
+          "timestamp": "1795363793",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_e0a56620-748",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:53.347Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 3,
+      "signatureHeader": "sha256=cad0c860ec1f8590caf27d255af8677b796f9632fc163dec9d381a381f28ef2f",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.7691924b84ea46cca0",
+                      "status": "delivered",
+                      "timestamp": "1795363793",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.7691924b84ea46cca0",
+          "status": "delivered",
+          "timestamp": "1795363793",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_cc4d90b9-0f5",
+      "event": "message.status",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:53.137Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 19,
+      "signatureHeader": "sha256=8c613b9ab568385225f22bcfb09ef95d012b60ba19fdf2891fa313a119ba4a73",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "statuses": [
+                    {
+                      "id": "wamid.7691924b84ea46cca0",
+                      "status": "sent",
+                      "timestamp": "1795363793",
+                      "chat_id": "chat-45011223",
+                      "conversation": {
+                        "id": "conv_chat-45011223",
+                        "origin": {
+                          "type": "service"
+                        }
+                      },
+                      "pricing": {
+                        "billable": false,
+                        "pricing_model": "CBP",
+                        "category": "service"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "statuses",
+        "data": {
+          "id": "wamid.7691924b84ea46cca0",
+          "status": "sent",
+          "timestamp": "1795363793",
+          "chat_id": "chat-45011223",
+          "conversation": {
+            "id": "conv_chat-45011223",
+            "origin": {
+              "type": "service"
+            }
+          },
+          "pricing": {
+            "billable": false,
+            "pricing_model": "CBP",
+            "category": "service"
+          }
+        }
+      }
+    },
+    {
+      "id": "wh_6366bb9b-902",
+      "event": "message.received",
+      "phoneNumberId": "wa-sim-phone-001",
+      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
+      "timestamp": "2026-11-22T16:09:53.071Z",
+      "statusCode": 200,
+      "ok": true,
+      "durationMs": 73,
+      "signatureHeader": "sha256=b422064643691d3982b860735a0a99b405128f51d6e6d5b9ab45c15e0deed55f",
+      "payload": {
+        "object": "whatsapp_business_account",
+        "entry": [
+          {
+            "id": "waba-karnataka-protocol",
+            "changes": [
+              {
+                "field": "messages",
+                "value": {
+                  "messaging_product": "whatsapp",
+                  "metadata": {
+                    "display_phone_number": "+918022033500",
+                    "phone_number_id": "wa-sim-phone-001"
+                  },
+                  "contacts": [
+                    {
+                      "profile": {
+                        "name": "Rajesh Kumar MLA"
+                      },
+                      "wa_id": "919845011223"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "wamid.c558f3767311441aa6",
+                      "from": "919845011223",
+                      "timestamp": "1795363793",
+                      "type": "text",
+                      "chat_id": "chat-45011223",
+                      "text": {
+                        "body": "hi"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "emulator_event": "messages",
+        "data": {
+          "id": "wamid.c558f3767311441aa6",
+          "from": "919845011223",
+          "timestamp": "1795363793",
+          "type": "text",
+          "chat_id": "chat-45011223",
+          "text": {
+            "body": "hi"
+          }
+        }
+      }
+    },
     {
       "id": "wh_2b22e285-0c7",
       "event": "message.status",
@@ -6191,2464 +9148,6 @@
           }
         }
       }
-    },
-    {
-      "id": "wh_7ed91f73-278",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:09:30.165Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=0033fb2273c8e96055123f1e5d7b42ff3a3b0a78d0e536c22077851b259620fb",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.e2a00b7218a04acbbc",
-                      "status": "delivered",
-                      "timestamp": "1795356570",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.e2a00b7218a04acbbc",
-          "status": "delivered",
-          "timestamp": "1795356570",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_654ee20a-a74",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:09:29.948Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 13,
-      "signatureHeader": "sha256=c55710504472b38e78183b9104cc5be82a24b930ee848407ff358fe2e280ac8a",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.e2a00b7218a04acbbc",
-                      "status": "sent",
-                      "timestamp": "1795356569",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.e2a00b7218a04acbbc",
-          "status": "sent",
-          "timestamp": "1795356569",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_80f1280a-0f4",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:56.834Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=032fa6d31776aced6536afbf26f24dae3cd643fa8cc40afd78635f8eb4b8be38",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.ecab7140c47b4b82b7",
-                      "status": "read",
-                      "timestamp": "1795356476",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.ecab7140c47b4b82b7",
-          "status": "read",
-          "timestamp": "1795356476",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_c084623f-415",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:56.634Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=6a4770820a506db7f916d439ee5267d88e7c0e96cf9d9b24691e74c8810503f8",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.ecab7140c47b4b82b7",
-                      "status": "delivered",
-                      "timestamp": "1795356476",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.ecab7140c47b4b82b7",
-          "status": "delivered",
-          "timestamp": "1795356476",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_5c70b9f5-3a9",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:56.424Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 19,
-      "signatureHeader": "sha256=d136993017f0dcf0c08129d1af4846418a4c9b5abc4f78a6b3a8a19affe530af",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.ecab7140c47b4b82b7",
-                      "status": "sent",
-                      "timestamp": "1795356476",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.ecab7140c47b4b82b7",
-          "status": "sent",
-          "timestamp": "1795356476",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_b789b995-82c",
-      "event": "message.received",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:56.396Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 34,
-      "signatureHeader": "sha256=b3d5392845779c87e3f9504576a7746dfddca33be06bb557628a8475bf51046a",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "contacts": [
-                    {
-                      "profile": {
-                        "name": "Rajesh Kumar MLA"
-                      },
-                      "wa_id": "919845011223"
-                    }
-                  ],
-                  "messages": [
-                    {
-                      "id": "wamid.a094ff29163f444c88",
-                      "from": "919845011223",
-                      "timestamp": "1795356476",
-                      "type": "interactive",
-                      "chat_id": "chat-45011223",
-                      "interactive": {
-                        "type": "button_reply",
-                        "button_reply": {
-                          "id": "btn_confirm",
-                          "title": "Confirm Allocation"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "messages",
-        "data": {
-          "id": "wamid.a094ff29163f444c88",
-          "from": "919845011223",
-          "timestamp": "1795356476",
-          "type": "interactive",
-          "chat_id": "chat-45011223",
-          "interactive": {
-            "type": "button_reply",
-            "button_reply": {
-              "id": "btn_confirm",
-              "title": "Confirm Allocation"
-            }
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_44ffb600-10b",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:55.530Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=87e5be47f1959401591a4478cdfaa5f09f0983396da7e7bc51b0350138be310d",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.769b3a385afb4b0881",
-                      "status": "read",
-                      "timestamp": "1795356475",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.769b3a385afb4b0881",
-          "status": "read",
-          "timestamp": "1795356475",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_c41e7a81-122",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:55.332Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=0ac4f6681e734291295cb46355b1d575e1604b470cade7c5d6791b56ec79c5f1",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.769b3a385afb4b0881",
-                      "status": "delivered",
-                      "timestamp": "1795356475",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.769b3a385afb4b0881",
-          "status": "delivered",
-          "timestamp": "1795356475",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_2bdbf6dc-6f3",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:55.115Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 12,
-      "signatureHeader": "sha256=61ec3da02d418bfbc1358ed60d5c32f33973153ea0f3e2646bb3b40ad3645f4a",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.769b3a385afb4b0881",
-                      "status": "sent",
-                      "timestamp": "1795356475",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.769b3a385afb4b0881",
-          "status": "sent",
-          "timestamp": "1795356475",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_80ad1fe4-a4f",
-      "event": "message.received",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:55.091Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 27,
-      "signatureHeader": "sha256=ec2ab788c5d017105d7b2536b472ad0f9c6a1449c974b1d8d817283e2a2fbb92",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "contacts": [
-                    {
-                      "profile": {
-                        "name": "Rajesh Kumar MLA"
-                      },
-                      "wa_id": "919845011223"
-                    }
-                  ],
-                  "messages": [
-                    {
-                      "id": "wamid.e8d2bfe935cc4da5b8",
-                      "from": "919845011223",
-                      "timestamp": "1795356475",
-                      "type": "interactive",
-                      "chat_id": "chat-45011223",
-                      "interactive": {
-                        "type": "button_reply",
-                        "button_reply": {
-                          "id": "time_immediate",
-                          "title": "⚡ Immediate Dispatch"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "messages",
-        "data": {
-          "id": "wamid.e8d2bfe935cc4da5b8",
-          "from": "919845011223",
-          "timestamp": "1795356475",
-          "type": "interactive",
-          "chat_id": "chat-45011223",
-          "interactive": {
-            "type": "button_reply",
-            "button_reply": {
-              "id": "time_immediate",
-              "title": "⚡ Immediate Dispatch"
-            }
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_25a36006-39f",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:54.476Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=c4b8b779a9e73b7a7073b763db5274549ca6a881b447ba5f864e804da3e1ae1d",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.06d57f432e124be7be",
-                      "status": "read",
-                      "timestamp": "1795356474",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.06d57f432e124be7be",
-          "status": "read",
-          "timestamp": "1795356474",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_01e8f655-ebb",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:54.273Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 4,
-      "signatureHeader": "sha256=806c1caca28cd21aa41e6deb1f63e5c88cdb6e788b5099f54fd8567b1f136330",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.06d57f432e124be7be",
-                      "status": "delivered",
-                      "timestamp": "1795356474",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.06d57f432e124be7be",
-          "status": "delivered",
-          "timestamp": "1795356474",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_28a4dc14-9d8",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:54.064Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 11,
-      "signatureHeader": "sha256=b3744dd4c36e315932cc66862637b99cf7bd95459253982f51a13749c9946106",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.06d57f432e124be7be",
-                      "status": "sent",
-                      "timestamp": "1795356474",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.06d57f432e124be7be",
-          "status": "sent",
-          "timestamp": "1795356474",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_ca2fd410-a70",
-      "event": "message.received",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:54.028Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 39,
-      "signatureHeader": "sha256=1c41768da529c9813146ba2ed87be4e4e6afe144b364e11e68674d35232b9ef4",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "contacts": [
-                    {
-                      "profile": {
-                        "name": "Rajesh Kumar MLA"
-                      },
-                      "wa_id": "919845011223"
-                    }
-                  ],
-                  "messages": [
-                    {
-                      "id": "wamid.000ed0a73c8c45bbb9",
-                      "from": "919845011223",
-                      "timestamp": "1795356474",
-                      "type": "interactive",
-                      "chat_id": "chat-45011223",
-                      "interactive": {
-                        "type": "list_reply",
-                        "list_reply": {
-                          "id": "drop_raj_bhavan",
-                          "title": "Raj Bhavan"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "messages",
-        "data": {
-          "id": "wamid.000ed0a73c8c45bbb9",
-          "from": "919845011223",
-          "timestamp": "1795356474",
-          "type": "interactive",
-          "chat_id": "chat-45011223",
-          "interactive": {
-            "type": "list_reply",
-            "list_reply": {
-              "id": "drop_raj_bhavan",
-              "title": "Raj Bhavan"
-            }
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_1f50b563-5f5",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:52.179Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=faa83dd4102cdcd43d81ec9cc61a5842ffc70e258e46abae7af70d1d05919773",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.4e676ded8134402d91",
-                      "status": "read",
-                      "timestamp": "1795356472",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.4e676ded8134402d91",
-          "status": "read",
-          "timestamp": "1795356472",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_bdcd461f-811",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:51.977Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 2,
-      "signatureHeader": "sha256=33e16a43b110c3ba83949eac81d82b59fa256da662d18457d95d3e9191663849",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.4e676ded8134402d91",
-                      "status": "delivered",
-                      "timestamp": "1795356471",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.4e676ded8134402d91",
-          "status": "delivered",
-          "timestamp": "1795356471",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_634eac2e-583",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:51.759Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 12,
-      "signatureHeader": "sha256=61fd7e39b3eddc8fc077c06c7c2aeb32e552466305a3c1b1b8344cb36c106b6d",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.4e676ded8134402d91",
-                      "status": "sent",
-                      "timestamp": "1795356471",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.4e676ded8134402d91",
-          "status": "sent",
-          "timestamp": "1795356471",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_392c6202-f58",
-      "event": "message.received",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:51.733Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 29,
-      "signatureHeader": "sha256=3614b3c1afdacff312d2a2874cfbaf9078c72ab77bdd7ec441a0ca94203ea437",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "contacts": [
-                    {
-                      "profile": {
-                        "name": "Rajesh Kumar MLA"
-                      },
-                      "wa_id": "919845011223"
-                    }
-                  ],
-                  "messages": [
-                    {
-                      "id": "wamid.3aa605a6922c42f8a5",
-                      "from": "919845011223",
-                      "timestamp": "1795356471",
-                      "type": "interactive",
-                      "chat_id": "chat-45011223",
-                      "interactive": {
-                        "type": "list_reply",
-                        "list_reply": {
-                          "id": "loc_vs_south",
-                          "title": "Vidhana Soudha South Gate"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "messages",
-        "data": {
-          "id": "wamid.3aa605a6922c42f8a5",
-          "from": "919845011223",
-          "timestamp": "1795356471",
-          "type": "interactive",
-          "chat_id": "chat-45011223",
-          "interactive": {
-            "type": "list_reply",
-            "list_reply": {
-              "id": "loc_vs_south",
-              "title": "Vidhana Soudha South Gate"
-            }
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_9b00e635-9dd",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:49.583Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 2,
-      "signatureHeader": "sha256=2eea6f4e586a59fb2f2d7d2b7b2fa7c8fbbeb2265076be2d3f92f300a91cb954",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.54200979c89b440d9e",
-                      "status": "read",
-                      "timestamp": "1795356469",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.54200979c89b440d9e",
-          "status": "read",
-          "timestamp": "1795356469",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_8004e8d5-e9c",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:49.382Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 4,
-      "signatureHeader": "sha256=cfb51f043375b89c842dade3edeb939e50e871721d0d6ac20fcc691db29c3a2f",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.54200979c89b440d9e",
-                      "status": "delivered",
-                      "timestamp": "1795356469",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.54200979c89b440d9e",
-          "status": "delivered",
-          "timestamp": "1795356469",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_2d648baa-ec9",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:49.160Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 18,
-      "signatureHeader": "sha256=be9e5afb736f0545377021987593a56cf4403aa7126075a04f940e722789937f",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.54200979c89b440d9e",
-                      "status": "sent",
-                      "timestamp": "1795356469",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.54200979c89b440d9e",
-          "status": "sent",
-          "timestamp": "1795356469",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_53cedad6-27f",
-      "event": "message.received",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:49.111Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 52,
-      "signatureHeader": "sha256=9bf738d3722fea060194c82dc921041e7b8cf92c3550a3307d4a4cd9d8d1c080",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "contacts": [
-                    {
-                      "profile": {
-                        "name": "Rajesh Kumar MLA"
-                      },
-                      "wa_id": "919845011223"
-                    }
-                  ],
-                  "messages": [
-                    {
-                      "id": "wamid.0e1f633496754e5db4",
-                      "from": "919845011223",
-                      "timestamp": "1795356469",
-                      "type": "interactive",
-                      "chat_id": "chat-45011223",
-                      "interactive": {
-                        "type": "button_reply",
-                        "button_reply": {
-                          "id": "btn_book",
-                          "title": "Book Another Car"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "messages",
-        "data": {
-          "id": "wamid.0e1f633496754e5db4",
-          "from": "919845011223",
-          "timestamp": "1795356469",
-          "type": "interactive",
-          "chat_id": "chat-45011223",
-          "interactive": {
-            "type": "button_reply",
-            "button_reply": {
-              "id": "btn_book",
-              "title": "Book Another Car"
-            }
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_556a39ae-e2d",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:22.781Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=63c661d00ed68e22f8c2a27167fb5692f02bc0f373861aa74682717790ef8de6",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.217305cd23b44502aa",
-                      "status": "read",
-                      "timestamp": "1795356442",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.217305cd23b44502aa",
-          "status": "read",
-          "timestamp": "1795356442",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_73d20818-bdf",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:22.583Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=16a293cd6e2b2982e0787f9b19a4baae0b8787a8a0888193ebab738c85f40d07",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.217305cd23b44502aa",
-                      "status": "delivered",
-                      "timestamp": "1795356442",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.217305cd23b44502aa",
-          "status": "delivered",
-          "timestamp": "1795356442",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_848d03bc-c17",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:22.372Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 8,
-      "signatureHeader": "sha256=e51c9c355fedee6ca70407589fc4671a824f9cedf5bf4a805a062cd3b0834252",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.217305cd23b44502aa",
-                      "status": "sent",
-                      "timestamp": "1795356442",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.217305cd23b44502aa",
-          "status": "sent",
-          "timestamp": "1795356442",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_5e52f851-0e0",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:14.900Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 2,
-      "signatureHeader": "sha256=6f1bd5da0c8e53f87c2b3d5646805817daea64270924a4c6ee2897a7ead07b9f",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.fdf3d72e0ef3448a85",
-                      "status": "read",
-                      "timestamp": "1795356434",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.fdf3d72e0ef3448a85",
-          "status": "read",
-          "timestamp": "1795356434",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_1710f2d6-dd8",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:14.717Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=c614000da7cc3c3e8cde2044c66ebf221dbea750541e117aa3119b2b0ac85856",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.fdf3d72e0ef3448a85",
-                      "status": "delivered",
-                      "timestamp": "1795356434",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.fdf3d72e0ef3448a85",
-          "status": "delivered",
-          "timestamp": "1795356434",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_07552f2b-203",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:14.492Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 8,
-      "signatureHeader": "sha256=e3c8e0190f7aecbfacd1636003a2f1f7629b1873ed123f7169c59bca480f7331",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.fdf3d72e0ef3448a85",
-                      "status": "sent",
-                      "timestamp": "1795356434",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.fdf3d72e0ef3448a85",
-          "status": "sent",
-          "timestamp": "1795356434",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_a12687c2-485",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:12.738Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=58a0845c4af4f0fea3e54fbe4173f2e357bb9fd203a6eb78c08761fa395e5679",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.aab6e2ee0c70413dad",
-                      "status": "read",
-                      "timestamp": "1795356432",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.aab6e2ee0c70413dad",
-          "status": "read",
-          "timestamp": "1795356432",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_7a37d972-cf9",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:12.553Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=542631fba7902a5efcfadb5dea0763c17021c5b0cb4f7fb89b7bb8dee9185662",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.aab6e2ee0c70413dad",
-                      "status": "delivered",
-                      "timestamp": "1795356432",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.aab6e2ee0c70413dad",
-          "status": "delivered",
-          "timestamp": "1795356432",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_dddd5b34-754",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:12.327Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 10,
-      "signatureHeader": "sha256=64e182be096d45eb8641a5c58d3945e5c094918abe6098dbbb5ea369b62e7b04",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.aab6e2ee0c70413dad",
-                      "status": "sent",
-                      "timestamp": "1795356432",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.aab6e2ee0c70413dad",
-          "status": "sent",
-          "timestamp": "1795356432",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_e2c65cb8-f42",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:10.181Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 5,
-      "signatureHeader": "sha256=567c68d438b337556917ba606572b8a7d9844d862358bbef9990cbb12a291417",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.71708963587b48d8bb",
-                      "status": "read",
-                      "timestamp": "1795356430",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.71708963587b48d8bb",
-          "status": "read",
-          "timestamp": "1795356430",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_9e1974df-883",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:09.977Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=a89c60325c6b23d66133fe4af61cbde27f5041a8f98f14127bf890b8b663a916",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.71708963587b48d8bb",
-                      "status": "delivered",
-                      "timestamp": "1795356429",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.71708963587b48d8bb",
-          "status": "delivered",
-          "timestamp": "1795356429",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_5c821d4d-d75",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:07:09.759Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 7,
-      "signatureHeader": "sha256=99e30415f8bc49c1454c12f0cdcde07a8a5b2a32e8e198756fd05eaf2f17c639",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.71708963587b48d8bb",
-                      "status": "sent",
-                      "timestamp": "1795356429",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.71708963587b48d8bb",
-          "status": "sent",
-          "timestamp": "1795356429",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_459845c8-73d",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:06:56.888Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 5,
-      "signatureHeader": "sha256=9d73a01df9a235cc050c28ce3e8394adee625c06b078be823e1dafb119044963",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.4c9fde86097544fba9",
-                      "status": "read",
-                      "timestamp": "1795356416",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.4c9fde86097544fba9",
-          "status": "read",
-          "timestamp": "1795356416",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
-    },
-    {
-      "id": "wh_ac1b16fa-712",
-      "event": "message.status",
-      "phoneNumberId": "wa-sim-phone-001",
-      "targetUrl": "http://localhost:4000/api/whatsapp/webhook",
-      "timestamp": "2026-11-22T14:06:56.688Z",
-      "statusCode": 200,
-      "ok": true,
-      "durationMs": 3,
-      "signatureHeader": "sha256=708a23b4a7f0d2ccf31d132b9e07bd0f9c4f727a2f2924e0ecc602ea8102a9f3",
-      "payload": {
-        "object": "whatsapp_business_account",
-        "entry": [
-          {
-            "id": "waba-karnataka-protocol",
-            "changes": [
-              {
-                "field": "messages",
-                "value": {
-                  "messaging_product": "whatsapp",
-                  "metadata": {
-                    "display_phone_number": "+918022033500",
-                    "phone_number_id": "wa-sim-phone-001"
-                  },
-                  "statuses": [
-                    {
-                      "id": "wamid.4c9fde86097544fba9",
-                      "status": "delivered",
-                      "timestamp": "1795356416",
-                      "chat_id": "chat-45011223",
-                      "conversation": {
-                        "id": "conv_chat-45011223",
-                        "origin": {
-                          "type": "service"
-                        }
-                      },
-                      "pricing": {
-                        "billable": false,
-                        "pricing_model": "CBP",
-                        "category": "service"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ],
-        "emulator_event": "statuses",
-        "data": {
-          "id": "wamid.4c9fde86097544fba9",
-          "status": "delivered",
-          "timestamp": "1795356416",
-          "chat_id": "chat-45011223",
-          "conversation": {
-            "id": "conv_chat-45011223",
-            "origin": {
-              "type": "service"
-            }
-          },
-          "pricing": {
-            "billable": false,
-            "pricing_model": "CBP",
-            "category": "service"
-          }
-        }
-      }
     }
   ],
   "statusUpdates": [],
@@ -8671,10 +9170,10 @@
   },
   "rateLimitUsage": {
     "windowSecondCounts": {
-      "wa-sim-phone-001": 0
+      "wa-sim-phone-001": 1
     },
     "windowMinuteCounts": {
-      "wa-sim-phone-001": 0
+      "wa-sim-phone-001": 10
     },
     "dailyTemplatesSent": 0,
     "dailyResetAt": "2026-11-23T00:00:00.000Z",
