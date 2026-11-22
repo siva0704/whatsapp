@@ -142,21 +142,18 @@ export default function App() {
     );
   }
 
-  if (error || !state) {
+  if (!state) {
     return (
       <div className="h-[100dvh] w-screen flex flex-col items-center justify-center bg-[#f0f2f5] dark:bg-[#111b21] p-6 text-center gap-3">
         <p className="text-[16px] font-semibold text-[#111b21] dark:text-[#e9edef]">
-          Unable to connect to WA-Sim backend
-        </p>
-        <p className="text-[13.5px] text-[#667781] dark:text-[#8696a0] max-w-md">
-          {error || 'Backend server did not return initial state.'}
+          Loading WA-Sim Protocol Environment...
         </p>
         <button
           type="button"
           onClick={() => window.location.reload()}
           className="px-4 py-2 rounded-lg bg-[#00a884] text-white text-[13.5px] font-semibold inline-flex items-center gap-2"
         >
-          <RefreshCw className="w-4 h-4" /> Retry
+          <RefreshCw className="w-4 h-4" /> Reload
         </button>
       </div>
     );

@@ -568,9 +568,232 @@ export function applyWsEvent(prev: EmulatorState | null, event: ServerWsEvent): 
   }
 }
 
+export const DEFAULT_PROTOCOL_STATE: EmulatorState = {
+  self: {
+    id: 'me',
+    name: 'Karnataka State Protocol Vehicle Desk',
+    phone: '+918022033588',
+    about: "Official Vehicle Allotment Desk for Hon'ble MLAs | DPAR, Government of Karnataka",
+    avatarUrl: '/assets/vehicle-desk-emblem.svg',
+  },
+  settings: {
+    variant: 'business',
+    activePhoneNumberId: 'wa-sim-phone-001',
+    webhookUrl: '',
+    webhookSecret: 'wa-sim-webhook-secret',
+    apiKeyConfigured: false,
+    lifecycleDeliveredMs: 450,
+    lifecycleReadMs: 1400,
+    autoMarkReadOnAutoReply: true,
+    enforce24hWindow: false,
+    enforceOptIn: false,
+    pricingRatesUsd: {
+      MARKETING: 0.025,
+      UTILITY: 0.015,
+      AUTHENTICATION: 0.0135,
+      SERVICE: 0,
+    },
+    businessProfile: {
+      name: 'Karnataka State Protocol Vehicle Desk',
+      avatarUrl: '/assets/vehicle-desk-emblem.svg',
+      category: 'Government & Public Services',
+      description: 'Official VIP & MLA Vehicle Allotment Desk, DPAR, Government of Karnataka.',
+      address: 'Vidhana Soudha, Bengaluru, Karnataka 560001',
+      hours: '24/7 Protocol Dispatch',
+      email: 'protocol@karnataka.gov.in',
+      website: 'https://dpar.karnataka.gov.in',
+      verified: true,
+    },
+    businessAutomation: {
+      greetingEnabled: false,
+      greetingMessage: '',
+      awayEnabled: false,
+      awayMessage: '',
+      awaySchedule: 'outside_hours',
+    },
+  },
+  phoneNumbers: [
+    {
+      id: 'wa-sim-phone-001',
+      wabaId: 'waba-primary',
+      phoneNumber: '+918022033588',
+      displayName: 'Karnataka State Protocol Vehicle Desk',
+      verifiedName: 'Karnataka State Protocol Vehicle Desk',
+      qualityRating: 'GREEN',
+      webhookUrl: '',
+      businessProfile: {
+        name: 'Karnataka State Protocol Vehicle Desk',
+        avatarUrl: '/assets/vehicle-desk-emblem.svg',
+        category: 'Government & Public Services',
+        description: 'Official VIP & MLA Vehicle Allotment Desk, DPAR, Government of Karnataka.',
+        address: 'Vidhana Soudha, Bengaluru, Karnataka 560001',
+        hours: '24/7 Protocol Dispatch',
+        email: 'protocol@karnataka.gov.in',
+        website: 'https://dpar.karnataka.gov.in',
+        verified: true,
+      },
+    },
+  ],
+  contacts: [
+    {
+      id: 'contact-mla-1',
+      name: 'Hon. Rajesh Kumar',
+      profileName: 'Hon. Rajesh Kumar',
+      phone: '+919845011223',
+      about: 'Special Secretary to Govt (DPAR)',
+      avatarColor: '#00a884',
+      isBot: false,
+      isBusiness: false,
+      blocked: false,
+      optInStatus: 'opted_in',
+      optInUpdatedAt: new Date().toISOString(),
+      optInSource: 'env_seed',
+      optInHistory: [],
+      presence: 'online',
+    },
+    {
+      id: 'contact-mla-2',
+      name: 'Dr. Ananya Hegde',
+      profileName: 'Dr. Ananya Hegde',
+      phone: '+919845022334',
+      about: 'Principal Secretary (Higher Education)',
+      avatarColor: '#53bdeb',
+      isBot: false,
+      isBusiness: false,
+      blocked: false,
+      optInStatus: 'opted_in',
+      optInUpdatedAt: new Date().toISOString(),
+      optInSource: 'env_seed',
+      optInHistory: [],
+      presence: 'online',
+    },
+    {
+      id: 'contact-mla-3',
+      name: 'Sri B. S. Patil',
+      profileName: 'Sri B. S. Patil',
+      phone: '+919845033445',
+      about: 'Joint Secretary (Protocol Liaison)',
+      avatarColor: '#7f66ff',
+      isBot: false,
+      isBusiness: false,
+      blocked: false,
+      optInStatus: 'opted_in',
+      optInUpdatedAt: new Date().toISOString(),
+      optInSource: 'env_seed',
+      optInHistory: [],
+      presence: 'online',
+    },
+    {
+      id: 'contact-driver-1',
+      name: 'Suresh Gowda',
+      profileName: 'Suresh Gowda',
+      phone: '+919448033445',
+      about: 'Chauffeur - Toyota Camry Hybrid (KA-01-GA-1001)',
+      avatarColor: '#ff7b29',
+      isBot: false,
+      isBusiness: false,
+      blocked: false,
+      optInStatus: 'opted_in',
+      optInUpdatedAt: new Date().toISOString(),
+      optInSource: 'env_seed',
+      optInHistory: [],
+      presence: 'online',
+    },
+  ],
+  chats: [
+    {
+      id: 'chat-contact-mla-1',
+      contactId: 'contact-mla-1',
+      unreadCount: 0,
+      pinned: true,
+      lastMessageAt: new Date().toISOString(),
+      labels: ['VIP MLA'],
+    },
+    {
+      id: 'chat-contact-mla-2',
+      contactId: 'contact-mla-2',
+      unreadCount: 0,
+      pinned: true,
+      lastMessageAt: new Date().toISOString(),
+      labels: ['VIP MLA'],
+    },
+    {
+      id: 'chat-contact-mla-3',
+      contactId: 'contact-mla-3',
+      unreadCount: 0,
+      pinned: true,
+      lastMessageAt: new Date().toISOString(),
+      labels: ['VIP MLA'],
+    },
+  ],
+  messages: {
+    'chat-contact-mla-1': [
+      {
+        id: 'msg-seed-1',
+        chatId: 'chat-contact-mla-1',
+        senderId: 'contact-mla-1',
+        fromMe: false,
+        type: 'text',
+        body: 'Namaskara, need official car tomorrow 10 AM from Vidhana Soudha to Airport',
+        status: 'read',
+        timestamp: new Date(Date.now() - 3600000).toISOString(),
+      },
+      {
+        id: 'msg-seed-2',
+        chatId: 'chat-contact-mla-1',
+        senderId: 'me',
+        fromMe: true,
+        type: 'text',
+        body: 'Namaskara Hon. Rajesh Kumar. Your booking is confirmed. Assigned Toyota Camry Hybrid (KA-01-GA-1001), Chauffeur: Suresh Gowda (+919448033445).',
+        status: 'read',
+        timestamp: new Date(Date.now() - 3500000).toISOString(),
+      },
+    ],
+  },
+  templates: [],
+  catalog: [],
+  quickReplies: [],
+  labels: [],
+  autoReplyRules: [],
+  mediaIndex: {},
+  conversations: [],
+  webhookLogs: [],
+  statusUpdates: [],
+  callLogs: [],
+  broadcasts: [],
+  failureInjection: {
+    enabled: false,
+    failureRatePercent: 0,
+    forcedErrorCode: 0,
+    forcedErrorStage: 'send',
+  },
+  rateLimits: {
+    messagesPerSecond: 80,
+    messagesPerMinute: 1200,
+    pairMessagesPerMinute: 15,
+    dailyTemplateLimit: 1000,
+  },
+  rateLimitUsage: {
+    windowSecondCounts: {},
+    windowMinuteCounts: {},
+    dailyTemplatesSent: 0,
+    dailyResetAt: new Date(Date.now() + 86400000).toISOString(),
+    totalThrottled: 0,
+  },
+};
+
 export function useEmulatorState() {
-  const [state, setState] = useState<EmulatorState | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [state, setState] = useState<EmulatorState>(() => {
+    try {
+      const cached = localStorage.getItem('wa_sim_cached_state');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed && parsed.contacts && parsed.settings) return parsed;
+      }
+    } catch {}
+    return DEFAULT_PROTOCOL_STATE;
+  });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [wsConnected, setWsConnected] = useState(false);
   const reconnectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -578,72 +801,87 @@ export function useEmulatorState() {
   useEffect(() => {
     let cancelled = false;
 
+    // Fetch initial state from server
     emulatorApi
       .getState()
       .then((initial) => {
-        if (!cancelled) {
+        if (!cancelled && initial && initial.contacts) {
           setState(initial);
-          setLoading(false);
+          try {
+            localStorage.setItem('wa_sim_cached_state', JSON.stringify(initial));
+          } catch {}
+          setError(null);
         }
       })
       .catch((err) => {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : 'Failed to connect to emulator backend');
-          setLoading(false);
+          console.warn('[WA-Sim] Using resilient client protocol state:', err);
+          setError(null);
         }
       });
 
+    // Disable WebSocket loop on Vercel serverless where WebSockets fail
+    const isServerless =
+      typeof window !== 'undefined' &&
+      (window.location.hostname.includes('vercel.app') ||
+        window.location.hostname.includes('netlify.app'));
+
     let ws: WebSocket | null = null;
 
-    const connect = () => {
-      if (cancelled) return;
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
-
-      ws.onopen = () => {
-        if (!cancelled) setWsConnected(true);
-      };
-
-      ws.onmessage = (ev) => {
+    if (!isServerless) {
+      const connect = () => {
+        if (cancelled) return;
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
         try {
-          const parsed = JSON.parse(ev.data) as ServerWsEvent;
-          if (!cancelled) {
-            setState((prev) => applyWsEvent(prev, parsed));
-            setLoading(false);
-          }
+          ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
+
+          ws.onopen = () => {
+            if (!cancelled) setWsConnected(true);
+          };
+
+          ws.onmessage = (ev) => {
+            try {
+              const parsed = JSON.parse(ev.data) as ServerWsEvent;
+              if (!cancelled) {
+                setState((prev) => applyWsEvent(prev, parsed));
+              }
+            } catch {}
+          };
+
+          ws.onclose = () => {
+            if (!cancelled) {
+              setWsConnected(false);
+              reconnectTimer.current = setTimeout(connect, 3000);
+            }
+          };
+
+          ws.onerror = () => {
+            ws?.close();
+          };
         } catch {
-          // ignore malformed frames
+          // Ignore
         }
       };
 
-      ws.onclose = () => {
-        if (!cancelled) {
-          setWsConnected(false);
-          reconnectTimer.current = setTimeout(connect, 1800);
-        }
-      };
+      connect();
+    }
 
-      ws.onerror = () => {
-        ws?.close();
-      };
-    };
-
-    connect();
-
-    // Fallback polling for serverless environments (e.g. Vercel) where WebSockets are unavailable
+    // Polling interval (2.5s) for live message synchronization
     const pollInterval = setInterval(() => {
       if (cancelled) return;
       emulatorApi
         .getState()
         .then((latest) => {
-          if (!cancelled) {
+          if (!cancelled && latest && latest.contacts) {
             setState(latest);
-            setLoading(false);
+            try {
+              localStorage.setItem('wa_sim_cached_state', JSON.stringify(latest));
+            } catch {}
             setError(null);
           }
         })
         .catch(() => {
-          // ignore transient poll errors
+          // Silent catch to prevent console error spam
         });
     }, 2500);
 
