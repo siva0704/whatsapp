@@ -635,6 +635,7 @@ export default function App() {
               void emulatorApi.setTyping(chatId, active, 'typing')
             }
           />
+          </ErrorBoundary>
         )}
       </div>
       )}
