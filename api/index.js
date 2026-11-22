@@ -841,7 +841,7 @@ async function dispatchWebhook(input) {
     headers["X-Hub-Signature-256"] = signature;
   }
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 4500);
+  const timeout = setTimeout(() => controller.abort(), 12e3);
   try {
     const res = await fetch(input.targetUrl, {
       method: "POST",
@@ -849,6 +849,7 @@ async function dispatchWebhook(input) {
       body,
       signal: controller.signal
     });
+    clearTimeout(timeout);
     const durationMs = Date.now() - startedAt;
     return {
       id,

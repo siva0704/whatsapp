@@ -60,7 +60,7 @@ export async function dispatchWebhook(input: WebhookDispatchInput): Promise<Webh
   }
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 4500);
+  const timeout = setTimeout(() => controller.abort(), 12000);
 
   try {
     const res = await fetch(input.targetUrl, {
@@ -69,6 +69,7 @@ export async function dispatchWebhook(input: WebhookDispatchInput): Promise<Webh
       body,
       signal: controller.signal,
     });
+    clearTimeout(timeout);
     const durationMs = Date.now() - startedAt;
     return {
       id,
