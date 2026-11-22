@@ -1176,7 +1176,7 @@ export function BusinessToolsPanel({
 
             <div className="divide-y divide-[#f0f2f5] dark:divide-[#202c33] border border-[#e9edef] dark:border-[#2a3942] rounded-lg">
               {labels.map((lbl) => {
-                const count = chats.filter((c) => c.labelIds.includes(lbl.id)).length;
+                const count = chats.filter((c) => (c.labelIds || []).includes(lbl.id)).length;
                 return (
                   <div key={lbl.id} className="px-3.5 py-3 flex items-center justify-between gap-2">
                     <div className="flex items-center gap-3 min-w-0">

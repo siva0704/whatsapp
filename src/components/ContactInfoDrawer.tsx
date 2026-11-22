@@ -87,24 +87,24 @@ export function ContactInfoDrawer({
 
   const participants = useMemo(
     () =>
-      chat.participantIds
+      (chat.participantIds || [])
         .map((id) => contacts.find((c) => c.id === id))
         .filter((c): c is Contact => Boolean(c)),
     [chat.participantIds, contacts]
   );
 
   const addableContacts = useMemo(
-    () => contacts.filter((c) => !chat.participantIds.includes(c.id)),
+    () => contacts.filter((c) => !(chat.participantIds || []).includes(c.id)),
     [contacts, chat.participantIds]
   );
 
   const windowStatus = chat.type === 'direct' ? getWindowStatus(chat.lastInboundAt) : null;
 
   const toggleLabel = (labelId: string) => {
-    const has = chat.labelIds.includes(labelId);
+    const has = (chat.labelIds || []).includes(labelId);
     const next = has
-      ? chat.labelIds.filter((id) => id !== labelId)
-      : [...chat.labelIds, labelId];
+      ? (chat.labelIds || []).filter((id) => id !== labelId)
+      : [...(chat.labelIds || []), labelId];
     onUpdateChat(chat.id, { labelIds: next });
   };
 
@@ -333,7 +333,7 @@ export function ContactInfoDrawer({
                 </button>
               </div>
 
-              {directContact.optInHistory.length > 0 && (
+              {Array.isArray(directContact?.optInHistory) && directContact.optInHistory.length > 0 && (
                 <div className="pt-2 border-t border-[#f0f2f5] dark:border-[#202c33] space-y-1.5 max-h-36 overflow-y-auto wa-scroll">
                   <div className="text-[11px] font-semibold text-[#667781] dark:text-[#8696a0]">
                     Consent History ({directContact.optInHistory.length})
@@ -373,7 +373,7 @@ export function ContactInfoDrawer({
               </div>
               <div className="space-y-1.5">
                 {labels.map((lbl) => {
-                  const assigned = chat.labelIds.includes(lbl.id);
+                  const assigned = (chat.labelIds || []).includes(lbl.id);
                   return (
                     <button
                       key={lbl.id}
@@ -472,7 +472,7 @@ export function ContactInfoDrawer({
                       type="button"
                       onClick={() => {
                         onUpdateChat(chat.id, {
-                          participantIds: [...chat.participantIds, ct.id],
+                          participantIds: [...(chat.participantIds || []), ct.id],
                         });
                         setAddingMember(false);
                       }}

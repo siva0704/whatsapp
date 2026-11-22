@@ -116,7 +116,7 @@ export function ChatListPanel({
       })
       .filter((c) => {
         if (variant === 'business' && selectedLabelId) {
-          return c.labelIds.includes(selectedLabelId);
+          return (c.labelIds || []).includes(selectedLabelId);
         }
         return true;
       })
@@ -477,7 +477,7 @@ export function ChatListPanel({
               : undefined;
             const chatLabels =
               variant === 'business'
-                ? labels.filter((l) => chat.labelIds.includes(l.id))
+                ? labels.filter((l) => (chat.labelIds || []).includes(l.id))
                 : [];
             const menuOpen = menuChatId === chat.id;
             const swiped = swipedChatId === chat.id;

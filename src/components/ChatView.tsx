@@ -253,7 +253,7 @@ export function ChatView({
       return chat.type === 'group' ? `${typingContact.name} is ${action}` : action;
     }
     if (chat.type === 'group') {
-      const names = chat.participantIds
+      const names = (chat.participantIds || [])
         .map((id) => contacts.find((c) => c.id === id)?.name)
         .filter(Boolean);
       return ['You', ...names].join(', ');

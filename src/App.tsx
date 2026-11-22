@@ -608,7 +608,8 @@ export default function App() {
 
         {/* Right Info / Search Drawer */}
         {selectedChat && rightDrawer && (
-          <ContactInfoDrawer
+          <ErrorBoundary key={`drawer-${selectedChat.id}`}>
+            <ContactInfoDrawer
             mode={rightDrawer}
             chat={selectedChat}
             variant={state.settings.variant}
