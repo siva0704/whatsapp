@@ -33,6 +33,11 @@ async function startServer() {
     next();
   });
 
+  // Health check endpoint for host orchestrators (Render, fly, docker)
+  app.get('/health', (_req, res) => {
+    res.json({ status: 'ok', service: 'wt-whatsapp-emulator', variant: env.variant });
+  });
+
   // Mount REST & Cloud-API compatible routes
   app.use(createApiRouter(engine, store, env));
 
@@ -59,6 +64,28 @@ async function startServer() {
       appType: 'spa',
     });
     app.use(vite.middlewares);
+    app.get('*', async (req, res, next) => {
+      try {
+        const url = req.originalUrl;
+        const indexHtmlPath = [
+          path.resolve(process.cwd(), 'index.html'),
+          path.resolve(__dirname, 'index.html'),
+          path.resolve(__dirname, '../index.html'),
+          path.resolve(process.cwd(), 'whatsapp', 'index.html'),
+        ].find((p) => fs.existsSync(p));
+
+        if (indexHtmlPath) {
+          let html = fs.readFileSync(indexHtmlPath, 'utf-8');
+          html = await vite.transformIndexHtml(url, html);
+          res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+        } else {
+          next();
+        }
+      } catch (err) {
+        vite.ssrFixStacktrace(err as Error);
+        next(err);
+      }
+    });
   }
 
   httpServer.listen(env.port, '0.0.0.0', () => {
