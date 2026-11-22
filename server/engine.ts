@@ -180,13 +180,13 @@ export function normalizeCloudApiSendPayload(
       media: mediaId
         ? undefined
         : {
-            id: `ext_${crypto.randomUUID().slice(0, 8)}`,
-            url: link,
-            mimeType: defaultMime[rawType],
-            filename,
-            caption: caption || undefined,
-            durationSec: rawType === 'audio' ? 8 : undefined,
-          },
+          id: `ext_${crypto.randomUUID().slice(0, 8)}`,
+          url: link,
+          mimeType: defaultMime[rawType],
+          filename,
+          caption: caption || undefined,
+          durationSec: rawType === 'audio' ? 8 : undefined,
+        },
     };
   }
 
@@ -243,10 +243,10 @@ export function normalizeCloudApiSendPayload(
         title: String(s.title || 'Options'),
         rows: Array.isArray(s.rows)
           ? (s.rows as Array<Record<string, unknown>>).map((r) => ({
-              id: String(r.id || crypto.randomUUID().slice(0, 6)),
-              title: String(r.title || 'Option'),
-              description: typeof r.description === 'string' ? r.description : undefined,
-            }))
+            id: String(r.id || crypto.randomUUID().slice(0, 6)),
+            title: String(r.title || 'Option'),
+            description: typeof r.description === 'string' ? r.description : undefined,
+          }))
           : [],
       }));
       return {
@@ -389,14 +389,14 @@ export function createSeedState(env: EmulatorEnvConfig): EmulatorState {
   const minsAgo = (m: number) => new Date(now - m * 60_000).toISOString();
 
   const defaultBusinessProfile: BusinessProfile = {
-    name: env.selfName || 'Wealth Transformers India Pvt Ltd',
-    avatarUrl: '/assets/logo.png',
-    category: 'Finance & Wealth Advisory',
-    description: 'Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765',
-    address: 'Bengaluru, India',
-    hours: 'Mon-Fri 09:00 - 18:00 IST',
-    email: 'compliance@wealthtransformers.in',
-    website: 'https://wealthtransformersindia.vercel.app',
+    name: env.selfName || 'Karnataka State Protocol Vehicle Desk',
+    avatarUrl: '/assets/vehicle-desk-emblem.svg',
+    category: 'Government & Public Services',
+    description: 'Official VIP & MLA Vehicle Allotment Desk, DPAR, Government of Karnataka.',
+    address: 'Vidhana Soudha, Bengaluru, Karnataka 560001',
+    hours: '24/7 Protocol Dispatch',
+    email: 'protocol@karnataka.gov.in',
+    website: 'https://dpar.karnataka.gov.in',
     verified: true,
   };
 
@@ -477,10 +477,10 @@ export function createSeedState(env: EmulatorEnvConfig): EmulatorState {
   return {
     self: {
       id: 'me',
-      name: env.selfName || 'Wealth Transformers India Pvt Ltd',
+      name: env.selfName || 'Karnataka State Protocol Vehicle Desk',
       phone: env.selfPhone ? normalizeE164(env.selfPhone) : '',
-      about: 'Wealth Transformers India Pvt Ltd | SEBI Reg: INZ000123456 | AMFI: ARN-98765',
-      avatarUrl: '/assets/logo.png',
+      about: 'Official Vehicle Allotment Desk for Hon\'ble MLAs | DPAR, Government of Karnataka',
+      avatarUrl: '/assets/vehicle-desk-emblem.svg',
     },
     settings: {
       variant: env.variant,
@@ -1323,26 +1323,26 @@ export class EmulatorEngine {
             params.body && !params.body.startsWith('[Template:')
               ? params.body
               : isBday
-              ? 'Dear {{1}}, Wealth Transformers India wishes you a very Happy Birthday! 🎂 May this year bring you compounding prosperity, success, and good health.'
-              : isFest
-              ? 'Dear {{1}}, on this auspicious festive season, Wealth Transformers brings you 0% brokerage on delivery trades and 50% discount on PMS wealth advisory! Reply START to activate your festive benefits.'
-              : 'Dear {{1}}, here is an important announcement and market update from Wealth Transformers India Pvt Ltd.',
+                ? 'Dear Hon. {{1}}, Karnataka State Protocol Vehicle Desk extends warm greetings on your birthday! 🎂 May this year bring you good health and prosperity.'
+                : isFest
+                  ? 'Dear Hon. {{1}}, festive greetings from Karnataka State Protocol Fleet Desk. 24/7 priority transport services remain active.'
+                  : 'Dear Hon. {{1}}, official dispatch announcement from Karnataka State Protocol Vehicle Desk (DPAR).',
           headerText: isBday
-            ? 'Happy Birthday from Wealth Transformers! 🎂'
+            ? 'Warm Birthday Greetings! 🎂'
             : isFest
-            ? 'Exclusive Festive Advisory Offer! 🚀'
-            : 'Exclusive Market Announcement 📢',
+              ? 'Festive Protocol Greetings ✨'
+              : 'Official Protocol Fleet Notice 📢',
           headerImageUrl: isBday
             ? 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80'
             : isFest
-            ? 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80'
-            : 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80',
+              ? 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80'
+              : 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80',
           footerText: undefined,
           buttons: [
             {
               type: 'URL',
-              text: isBday ? 'View Birthday Gift' : 'Claim Offer',
-              url: 'https://wealthtrade.in/offers',
+              text: 'View Protocol Portal',
+              url: 'https://dpar.karnataka.gov.in',
             },
           ],
           sampleValues: ['Valued Client'],
@@ -1444,8 +1444,8 @@ export class EmulatorEngine {
           : params.simulateErrorCode === 131049
             ? META_ERRORS.RECIPIENT_OPTED_OUT()
             : META_ERRORS.MESSAGE_UNDELIVERABLE(
-                `Simulated Meta error code ${params.simulateErrorCode}`
-              );
+              `Simulated Meta error code ${params.simulateErrorCode}`
+            );
       return this.recordFailedOutbound(chat, phoneCfg, body || `[Error ${params.simulateErrorCode}]`, msgType, simulatedErr, 200);
     }
 
@@ -1505,11 +1505,11 @@ export class EmulatorEngine {
       const timing = directContact?.receiptTiming;
       const deliveredMs = timing
         ? timing.deliveredMinMs +
-          Math.floor(Math.random() * Math.max(1, timing.deliveredMaxMs - timing.deliveredMinMs))
+        Math.floor(Math.random() * Math.max(1, timing.deliveredMaxMs - timing.deliveredMinMs))
         : this.state.settings.lifecycleDeliveredMs;
       const readMs = timing
         ? timing.readMinMs +
-          Math.floor(Math.random() * Math.max(1, timing.readMaxMs - timing.readMinMs))
+        Math.floor(Math.random() * Math.max(1, timing.readMaxMs - timing.readMinMs))
         : this.state.settings.lifecycleReadMs;
       const shouldRead = timing ? Math.random() <= timing.readProbability : true;
 
@@ -1900,8 +1900,8 @@ export class EmulatorEngine {
                     : errorCode === 130429
                       ? META_ERRORS.THROUGHPUT_RATE_LIMIT()
                       : META_ERRORS.MESSAGE_UNDELIVERABLE(
-                          `Failed receipt set with Meta error code ${errorCode || 131026}`
-                        );
+                        `Failed receipt set with Meta error code ${errorCode || 131026}`
+                      );
         } else {
           msg.error = undefined;
         }
@@ -1936,15 +1936,15 @@ export class EmulatorEngine {
             },
             ...(msg.error
               ? {
-                  errors: [
-                    {
-                      code: msg.error.code,
-                      title: msg.error.title,
-                      message: msg.error.message,
-                      error_data: msg.error.errorData,
-                    },
-                  ],
-                }
+                errors: [
+                  {
+                    code: msg.error.code,
+                    title: msg.error.title,
+                    message: msg.error.message,
+                    error_data: msg.error.errorData,
+                  },
+                ],
+              }
               : {}),
           }),
           phoneCfg.id
@@ -2838,11 +2838,11 @@ export class EmulatorEngine {
     const bodyPreview =
       payloadType === 'template' && tpl
         ? renderTemplateBody(
-            tpl.bodyText,
-            request.templateVariables && request.templateVariables.length > 0
-              ? request.templateVariables
-              : tpl.sampleValues
-          )
+          tpl.bodyText,
+          request.templateVariables && request.templateVariables.length > 0
+            ? request.templateVariables
+            : tpl.sampleValues
+        )
         : request.interactive?.bodyText || request.body || '[Broadcast message]';
 
     const recipientRecords: BroadcastRecipientRecord[] = recipients.map((c) => ({
@@ -2956,9 +2956,9 @@ export class EmulatorEngine {
         );
         const resolvedBody = request.body
           ? request.body
-              .replace(/\{\{name\}\}/gi, contact.name)
-              .replace(/\{\{1\}\}/gi, contact.name)
-              .replace(/\{\{first_name\}\}/gi, (contact.profileName || contact.name).split(/\s+/)[0] || contact.name)
+            .replace(/\{\{name\}\}/gi, contact.name)
+            .replace(/\{\{1\}\}/gi, contact.name)
+            .replace(/\{\{first_name\}\}/gi, (contact.profileName || contact.name).split(/\s+/)[0] || contact.name)
           : undefined;
 
         const sendRes = this.sendMessage({

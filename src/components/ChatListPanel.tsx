@@ -188,7 +188,7 @@ export function ChatListPanel({
         ? `${last.senderName.split(' ')[0]}: `
         : isClientView
           ? last.direction === 'outbound'
-            ? 'Wealth Transformers: '
+            ? 'Vehicle Desk: '
             : 'You: '
           : last.direction === 'outbound'
             ? 'You: '

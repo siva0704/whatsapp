@@ -186,7 +186,7 @@ export function SettingsPanel({
         {/* Profile & Integration Settings Form */}
         <form onSubmit={handleSave} className="space-y-4">
           <div className="flex items-center gap-3">
-            <Avatar name={self.name} avatarUrl={self.avatarUrl} size="lg" />
+            <Avatar name={self.name} avatarUrl={self.avatarUrl || '/assets/vehicle-desk-emblem.svg'} size="lg" />
             <div className="min-w-0">
               <div className="text-[14.5px] font-semibold truncate">{self.name}</div>
               <div className="text-[12px] font-mono text-[#667781] dark:text-[#8696a0]">

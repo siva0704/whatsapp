@@ -1,4 +1,4 @@
-// Pre-curated high-definition 16:9 vector banners for Wealth Transformers WhatsApp templates
+// Pre-curated high-definition 16:9 vector banners for Karnataka State Protocol Vehicle Desk WhatsApp templates
 // Modeled directly after the user reference card banner specifications.
 
 export interface TemplateBannerPreset {
@@ -15,7 +15,7 @@ export const TEMPLATE_BANNER_PRESETS: Record<
   SPECIAL_OFFERS: {
     id: 'preset_special_offers',
     category: 'SPECIAL_OFFERS',
-    title: 'Festive Wealth Advisory & Zero Brokerage',
+    title: 'Festive Protocol Dispatch Greetings',
     dataUrl: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
       <defs>
         <linearGradient id="bg_offer" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -54,7 +54,7 @@ export const TEMPLATE_BANNER_PRESETS: Record<
         <circle cx="110" cy="-10" r="22" fill="%23fef08a" stroke="%23fde047" stroke-width="3"/>
         <text x="110" y="-2" font-family="system-ui, sans-serif" font-size="18" font-weight="900" fill="%2378350f" text-anchor="middle">₹</text>
       </g>
-      <text x="760" y="420" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="%23fef08a" text-anchor="end" opacity="0.8">WEALTH TRANSFORMERS INDIA</text>
+      <text x="760" y="420" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="%23fef08a" text-anchor="end" opacity="0.8">KARNATAKA STATE PROTOCOL VEHICLE DESK</text>
     </svg>`,
   },
 
@@ -82,7 +82,7 @@ export const TEMPLATE_BANNER_PRESETS: Record<
         <text x="20" y="23" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="%23fbcfe8" letter-spacing="1">FESTIVE BLESSINGS</text>
         <text x="0" y="90" font-family="system-ui, sans-serif" font-size="36" font-weight="800" fill="%23ffffff">Shubh Deepawali</text>
         <text x="0" y="135" font-family="system-ui, sans-serif" font-size="34" font-weight="800" fill="%23fde047">&amp; Muhurat Trading</text>
-        <text x="0" y="175" font-family="system-ui, sans-serif" font-size="18" font-weight="500" fill="%23f5d0fe">May your wealth compound consistently</text>
+        <text x="0" y="175" font-family="system-ui, sans-serif" font-size="18" font-weight="500" fill="%23f5d0fe">Official Protocol &amp; Fleet Services</text>
         <g transform="translate(0, 210)">
           <rect width="200" height="46" rx="23" fill="%23a21caf"/>
           <text x="100" y="28" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="%23ffffff" text-anchor="middle">VIEW FESTIVE PICKS</text>
@@ -96,7 +96,7 @@ export const TEMPLATE_BANNER_PRESETS: Record<
         <ellipse cx="0" cy="15" rx="55" ry="16" fill="%2378350f"/>
         <circle cx="0" cy="12" r="10" fill="%23f59e0b"/>
       </g>
-      <text x="760" y="420" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="%23fbcfe8" text-anchor="end" opacity="0.8">WEALTH TRANSFORMERS INDIA</text>
+      <text x="760" y="420" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="%23fbcfe8" text-anchor="end" opacity="0.8">KARNATAKA STATE PROTOCOL VEHICLE DESK</text>
     </svg>`,
   },
 
@@ -138,7 +138,7 @@ export const TEMPLATE_BANNER_PRESETS: Record<
         <ellipse cx="60" cy="-25" rx="38" ry="48" fill="%233b82f6"/>
         <ellipse cx="120" cy="0" rx="30" ry="40" fill="%23fde047"/>
       </g>
-      <text x="760" y="420" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="%23a7f3d0" text-anchor="end" opacity="0.8">WEALTH TRANSFORMERS INDIA</text>
+      <text x="760" y="420" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="%23a7f3d0" text-anchor="end" opacity="0.8">KARNATAKA STATE PROTOCOL VEHICLE DESK</text>
     </svg>`,
   },
 
@@ -184,7 +184,7 @@ export const TEMPLATE_BANNER_PRESETS: Record<
         <polyline points="0,110 40,80 80,95 120,40 160,10" fill="none" stroke="%2338bdf8" stroke-width="5" stroke-linecap="round"/>
         <circle cx="160" cy="10" r="7" fill="%23ffffff" stroke="%2338bdf8" stroke-width="3"/>
       </g>
-      <text x="760" y="420" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="%2338bdf8" text-anchor="end" opacity="0.8">WEALTH TRANSFORMERS INDIA</text>
+      <text x="760" y="420" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="%2338bdf8" text-anchor="end" opacity="0.8">KARNATAKA STATE PROTOCOL VEHICLE DESK</text>
     </svg>`,
   },
 };

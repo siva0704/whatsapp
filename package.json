@@ -1,5 +1,5 @@
 {
-  "name": "@wt/whatsapp-emulator",
+  "name": "@vehicledesk/whatsapp-emulator",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -28,12 +28,12 @@
     "ws": "^8.23.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.21",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.4.0",
-    "@types/express": "^4.17.21"
+    "typescript": "^5.4.0"
   }
 }

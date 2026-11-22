@@ -237,10 +237,10 @@ export function ChatView({
 
   const isWindowLocked = Boolean(
     variant === 'business' &&
-      chat.type === 'direct' &&
-      enforce24hWindow &&
-      windowStatus &&
-      !windowStatus.open
+    chat.type === 'direct' &&
+    enforce24hWindow &&
+    windowStatus &&
+    !windowStatus.open
   );
 
   const isBlocked = Boolean(directContact?.blocked);
@@ -437,8 +437,12 @@ export function ChatView({
             className="flex items-center gap-2.5 md:gap-3 min-w-0 text-left rounded-lg py-1 pr-2 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
             {isClientView && chat.type !== 'group' ? (
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#008069] to-[#25d366] text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs ring-2 ring-[#00a884]/30">
-                WT
+              <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 shadow-xs ring-2 ring-amber-500/40 border border-amber-400/30 bg-slate-900 flex items-center justify-center">
+                <img
+                  src={self.avatarUrl || '/assets/vehicle-desk-emblem.svg'}
+                  alt="Karnataka State Protocol Vehicle Desk"
+                  className="w-full h-full object-cover"
+                />
               </div>
             ) : (
               <Avatar
@@ -452,7 +456,7 @@ export function ChatView({
             )}
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 text-[15px] md:text-[15.5px] font-semibold text-[#111b21] dark:text-[#e9edef] truncate leading-snug">
-                <span>{isClientView && chat.type !== 'group' ? 'Wealth Transformers India Pvt Ltd' : chat.name}</span>
+                <span>{isClientView && chat.type !== 'group' ? (self.name || 'Karnataka State Protocol Vehicle Desk') : chat.name}</span>
                 {isClientView && chat.type !== 'group' && (
                   <span title="Verified Business Account" className="inline-flex text-[#00a884] shrink-0">
                     <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -462,13 +466,12 @@ export function ChatView({
                 )}
               </div>
               <div
-                className={`text-[12px] md:text-[12.5px] truncate leading-snug ${
-                  typingContact
-                    ? 'text-[#00a884] font-medium'
-                    : directContact?.blocked
-                      ? 'text-[#ea0038] font-medium'
-                      : 'text-[#667781] dark:text-[#8696a0]'
-                }`}
+                className={`text-[12px] md:text-[12.5px] truncate leading-snug ${typingContact
+                  ? 'text-[#00a884] font-medium'
+                  : directContact?.blocked
+                    ? 'text-[#ea0038] font-medium'
+                    : 'text-[#667781] dark:text-[#8696a0]'
+                  }`}
               >
                 {isClientView && chat.type !== 'group' ? (
                   <span>
@@ -489,11 +492,10 @@ export function ChatView({
             <button
               type="button"
               onClick={onTogglePerspective}
-              className={`min-h-[32px] px-3 py-1 rounded-full text-[11.5px] font-semibold flex items-center gap-1.5 border transition-all ${
-                isClientView
-                  ? 'bg-[#00a884]/15 border-[#00a884] text-[#008069] dark:text-[#25d366] hover:bg-[#00a884]/25 shadow-xs'
-                  : 'bg-black/5 dark:bg-white/10 border-[#d1d7db] dark:border-[#374248] text-[#54656f] dark:text-[#aebac1] hover:border-[#00a884]'
-              }`}
+              className={`min-h-[32px] px-3 py-1 rounded-full text-[11.5px] font-semibold flex items-center gap-1.5 border transition-all ${isClientView
+                ? 'bg-[#00a884]/15 border-[#00a884] text-[#008069] dark:text-[#25d366] hover:bg-[#00a884]/25 shadow-xs'
+                : 'bg-black/5 dark:bg-white/10 border-[#d1d7db] dark:border-[#374248] text-[#54656f] dark:text-[#aebac1] hover:border-[#00a884]'
+                }`}
               title={isClientView ? 'Currently viewing from Client perspective (Received). Click to switch to Business view.' : 'Currently viewing from Business perspective (Sent). Click to switch to Client view.'}
             >
               {isClientView ? (
@@ -535,18 +537,17 @@ export function ChatView({
       {isClientView ? (
         <div className="px-3 sm:px-3.5 py-1 text-[11.5px] flex items-center justify-center gap-1.5 bg-[#f7f8fa] dark:bg-[#182229] border-b border-[#e9edef] dark:border-[#222d34] text-[#54656f] dark:text-[#8696a0] shrink-0">
           <Lock className="w-3 h-3 text-[#00a884] shrink-0" />
-          <span>Messages are end-to-end encrypted · Official Business Account of Wealth Transformers India Pvt Ltd</span>
+          <span>Messages are end-to-end encrypted · Official Business Account of {self.name || 'Karnataka State Protocol Vehicle Desk'}</span>
         </div>
       ) : variant === 'business' && chat.type === 'direct' ? (
         <div
           data-testid="window-status-bar"
-          className={`px-3 sm:px-3.5 py-1.5 text-[11.5px] sm:text-[12px] flex items-center justify-between gap-2 border-b shrink-0 ${
-            isBlocked
-              ? 'bg-[#ea0038]/10 border-[#ea0038]/25 text-[#b91c1c] dark:text-[#fca5a5]'
-              : isWindowLocked
-                ? 'bg-[#fef3c7] dark:bg-[#3b2f13] border-[#f59e0b]/30 text-[#92400e] dark:text-[#fcd34d]'
-                : 'bg-[#f7f8fa] dark:bg-[#182229] border-[#e9edef] dark:border-[#222d34] text-[#54656f] dark:text-[#aebac1]'
-          }`}
+          className={`px-3 sm:px-3.5 py-1.5 text-[11.5px] sm:text-[12px] flex items-center justify-between gap-2 border-b shrink-0 ${isBlocked
+            ? 'bg-[#ea0038]/10 border-[#ea0038]/25 text-[#b91c1c] dark:text-[#fca5a5]'
+            : isWindowLocked
+              ? 'bg-[#fef3c7] dark:bg-[#3b2f13] border-[#f59e0b]/30 text-[#92400e] dark:text-[#fcd34d]'
+              : 'bg-[#f7f8fa] dark:bg-[#182229] border-[#e9edef] dark:border-[#222d34] text-[#54656f] dark:text-[#aebac1]'
+            }`}
         >
           <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
             {isBlocked ? (
@@ -659,26 +660,23 @@ export function ChatView({
                 <div
                   onTouchStart={(e) => handleBubbleTouchStart(e, msg)}
                   onTouchEnd={(e) => handleBubbleTouchEnd(e, msg)}
-                  className={`flex ${isBubbleOutbound ? 'justify-end' : 'justify-start'} ${
-                    sameSenderAsPrev ? 'mt-0.5' : 'mt-2'
-                  }`}
+                  className={`flex ${isBubbleOutbound ? 'justify-end' : 'justify-start'} ${sameSenderAsPrev ? 'mt-0.5' : 'mt-2'
+                    }`}
                 >
                   <div
-                    className={`relative group ${
-                      isSticker
-                        ? 'max-w-[190px]'
-                        : msg.type === 'product_carousel'
-                          ? 'w-full max-w-[340px] sm:max-w-[440px]'
-                          : isTemplateWithImage
-                            ? 'w-[320px] sm:w-[380px] max-w-[92%]'
-                            : isFixedCardWidth
-                              ? 'w-[285px] sm:w-[324px] max-w-[88%]'
-                              : 'max-w-[85%] sm:max-w-[68%]'
-                    } rounded-lg px-2.5 pt-1.5 pb-1.5 shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] transition-all ${
-                      isBubbleOutbound
+                    className={`relative group ${isSticker
+                      ? 'max-w-[190px]'
+                      : msg.type === 'product_carousel'
+                        ? 'w-full max-w-[340px] sm:max-w-[440px]'
+                        : isTemplateWithImage
+                          ? 'w-[320px] sm:w-[380px] max-w-[92%]'
+                          : isFixedCardWidth
+                            ? 'w-[285px] sm:w-[324px] max-w-[88%]'
+                            : 'max-w-[85%] sm:max-w-[68%]'
+                      } rounded-lg px-2.5 pt-1.5 pb-1.5 shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] transition-all ${isBubbleOutbound
                         ? `bg-[#d9fdd3] dark:bg-[#005c4b] text-[#111b21] dark:text-[#e9edef] ${!sameSenderAsPrev ? 'rounded-tr-none' : ''}`
                         : `bg-white dark:bg-[#202c33] text-[#111b21] dark:text-[#e9edef] ${!sameSenderAsPrev ? 'rounded-tl-none' : ''}`
-                    } ${isHighlighted ? 'ring-2 ring-[#00a884]' : ''}`}
+                      } ${isHighlighted ? 'ring-2 ring-[#00a884]' : ''}`}
                     data-testid={`message-bubble-${msg.direction}`}
                   >
                     {/* Authentic WhatsApp Bubble Corner Tail */}
@@ -713,9 +711,8 @@ export function ChatView({
 
                     {/* Hover quick actions: Reply + Outbound Receipt Switcher */}
                     <div
-                      className={`hidden sm:flex absolute top-1 ${
-                        isBubbleOutbound ? '-left-16' : '-right-9'
-                      } items-center gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity`}
+                      className={`hidden sm:flex absolute top-1 ${isBubbleOutbound ? '-left-16' : '-right-9'
+                        } items-center gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity`}
                     >
                       <button
                         type="button"
@@ -755,9 +752,8 @@ export function ChatView({
                                       setReceiptMenuMsgId(null);
                                       void onUpdateReceipt(msg.id, st);
                                     }}
-                                    className={`w-full px-3 py-1.5 text-left capitalize hover:bg-[#f5f6f6] dark:hover:bg-[#182229] flex items-center justify-between ${
-                                      msg.status === st ? 'font-semibold text-[#00a884]' : ''
-                                    }`}
+                                    className={`w-full px-3 py-1.5 text-left capitalize hover:bg-[#f5f6f6] dark:hover:bg-[#182229] flex items-center justify-between ${msg.status === st ? 'font-semibold text-[#00a884]' : ''
+                                      }`}
                                   >
                                     <span>{st}</span>
                                     <MessageTicks status={st} />
@@ -789,10 +785,10 @@ export function ChatView({
                       )}
                     </div>
 
-                    {/* Group sender name OR In Client View: show "Wealth Transformers India Pvt Ltd" badge on received business messages */}
+                    {/* Group sender name OR In Client View: show official Vehicle Desk badge on received business messages */}
                     {isClientView && !isBubbleOutbound && !sameSenderAsPrev && (
                       <div className="flex items-center gap-1.5 text-[12px] font-semibold text-[#008069] dark:text-[#25d366] mb-1">
-                        <span>Wealth Transformers India Pvt Ltd</span>
+                        <span>{self.name || 'Karnataka State Protocol Vehicle Desk'}</span>
                         <span title="Verified Business Account" className="inline-flex text-[#00a884]">
                           <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
@@ -897,7 +893,7 @@ export function ChatView({
                     {(msg.type === 'voice' || msg.type === 'audio') && (
                       <VoiceNoteBubble
                         media={msg.media}
-                        senderName={isBubbleOutbound ? self.name : (isClientView ? 'Wealth Transformers' : msg.senderName)}
+                        senderName={isBubbleOutbound ? self.name : (isClientView ? (self.name || 'Vehicle Desk') : msg.senderName)}
                         senderAvatarUrl={isBubbleOutbound ? self.avatarUrl : senderContact?.avatarUrl}
                         senderColor={senderContact?.avatarColor || '#00a884'}
                         isOutbound={isBubbleOutbound}
@@ -992,10 +988,10 @@ export function ChatView({
                           {msg.template.footerText &&
                             !msg.template.footerText.includes('INZ000123456') &&
                             !msg.template.footerText.includes('ARN-98765') && (
-                            <p className="text-[11.5px] text-[#667781] dark:text-[#aebac1] border-t border-black/10 dark:border-white/10 pt-1">
-                              {msg.template.footerText}
-                            </p>
-                          )}
+                              <p className="text-[11.5px] text-[#667781] dark:text-[#aebac1] border-t border-black/10 dark:border-white/10 pt-1">
+                                {msg.template.footerText}
+                              </p>
+                            )}
                         </div>
 
                         {Boolean(msg.template.buttons && msg.template.buttons.length > 0) && (
@@ -1028,7 +1024,7 @@ export function ChatView({
                                   {btn.type === 'QUICK_REPLY' && <Reply className="w-3.5 h-3.5" />}
                                   <span>
                                     {(btn.type === 'OTP' || btn.type === 'COPY_CODE') &&
-                                    copiedOtp === codeVal
+                                      copiedOtp === codeVal
                                       ? `Copied ${codeVal}`
                                       : btn.text}
                                   </span>
@@ -1044,7 +1040,7 @@ export function ChatView({
                     {msg.type === 'interactive' && msg.interactive && (
                       <div className="mb-1 space-y-1.5">
                         {msg.interactive.kind === 'button_reply' ||
-                        msg.interactive.kind === 'list_reply' ? (
+                          msg.interactive.kind === 'list_reply' ? (
                           <div>
                             <div className="text-[11px] font-mono text-[#008069] dark:text-[#25d366] mb-0.5">
                               {msg.interactive.kind === 'button_reply'

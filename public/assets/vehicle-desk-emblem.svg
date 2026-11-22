@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#091428" />
+      <stop offset="50%" stop-color="#0f2347" />
+      <stop offset="100%" stop-color="#060c18" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd700" />
+      <stop offset="50%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Border & Glow -->
+  <circle cx="120" cy="120" r="114" fill="url(#bgGrad)" stroke="url(#gold)" stroke-width="6" />
+  <circle cx="120" cy="120" r="98" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="6,4" />
+
+  <!-- Lion Capital / Protocol Crown Symbol -->
+  <path d="M100 48 L120 36 L140 48 L136 62 L104 62 Z" fill="url(#gold)" />
+  <circle cx="120" cy="52" r="3" fill="#0f2347" />
+
+  <!-- Center Vehicle & Desk Icon -->
+  <path d="M85 110 L92 90 L148 90 L155 110 Z" fill="none" stroke="url(#gold)" stroke-width="4.5" stroke-linejoin="round" />
+  <rect x="75" y="110" width="90" height="22" rx="6" fill="url(#gold)" />
+  <!-- Wheels -->
+  <circle cx="95" cy="132" r="8" fill="#091428" stroke="url(#gold)" stroke-width="3" />
+  <circle cx="145" cy="132" r="8" fill="#091428" stroke="url(#gold)" stroke-width="3" />
+  <circle cx="95" cy="132" r="3" fill="url(#gold)" />
+  <circle cx="145" cy="132" r="3" fill="url(#gold)" />
+
+  <!-- Main Letters "VD" -->
+  <text x="120" y="85" text-anchor="middle" fill="url(#gold)" font-size="20" font-weight="900" font-family="system-ui, -apple-system, sans-serif" letter-spacing="3">PROTOCOL</text>
+
+  <!-- Subtitle -->
+  <text x="120" y="170" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" letter-spacing="2">VEHICLE DESK</text>
+  <text x="120" y="188" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" letter-spacing="1.5">GOVT OF KARNATAKA</text>
+
+  <!-- Stars -->
+  <circle cx="58" cy="120" r="3" fill="url(#gold)" />
+  <circle cx="182" cy="120" r="3" fill="url(#gold)" />
+</svg>

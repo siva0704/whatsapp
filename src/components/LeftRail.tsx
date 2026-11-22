@@ -71,13 +71,17 @@ export function LeftRail({
           type="button"
           onClick={() => onSelectTab('chats')}
           aria-label={variant === 'business' ? 'WhatsApp Business Home' : 'WhatsApp Home'}
-          title={variant === 'business' ? 'WhatsApp Business Emulator (Single Sender)' : 'WhatsApp Personal Emulator'}
-          className="w-10 h-10 rounded-full bg-[#00a884] text-white flex items-center justify-center mb-1 shadow-xs hover:bg-[#008f72] transition-colors"
+          title={variant === 'business' ? 'Karnataka State Protocol Vehicle Desk (Single Sender)' : 'WhatsApp Personal Emulator'}
+          className="w-10 h-10 rounded-full bg-slate-900 border border-amber-400/40 text-amber-400 flex items-center justify-center mb-1 shadow-xs hover:scale-105 transition-all overflow-hidden"
         >
           {variant === 'business' ? (
-            <span className="font-bold text-lg leading-none">B</span>
+            <img
+              src={self.avatarUrl || '/assets/vehicle-desk-emblem.svg'}
+              alt="Vehicle Desk"
+              className="w-full h-full object-cover"
+            />
           ) : (
-            <MessageSquareText className="w-5 h-5" />
+            <MessageSquareText className="w-5 h-5 text-white" />
           )}
         </button>
 
@@ -221,7 +225,7 @@ export function LeftRail({
           title={self.phone ? `${self.name} (${self.phone})` : self.name}
           className="rounded-full ring-2 ring-transparent hover:ring-[#00a884] transition-all"
         >
-          <Avatar name={self.name} avatarUrl={self.avatarUrl} size="sm" />
+          <Avatar name={self.name} avatarUrl={self.avatarUrl || '/assets/vehicle-desk-emblem.svg'} size="sm" />
         </button>
       </div>
     </nav>

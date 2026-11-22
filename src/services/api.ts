@@ -630,9 +630,27 @@ export function useEmulatorState() {
 
     connect();
 
+    // Fallback polling for serverless environments (e.g. Vercel) where WebSockets are unavailable
+    const pollInterval = setInterval(() => {
+      if (cancelled) return;
+      emulatorApi
+        .getState()
+        .then((latest) => {
+          if (!cancelled) {
+            setState(latest);
+            setLoading(false);
+            setError(null);
+          }
+        })
+        .catch(() => {
+          // ignore transient poll errors
+        });
+    }, 2500);
+
     return () => {
       cancelled = true;
       if (reconnectTimer.current) clearTimeout(reconnectTimer.current);
+      clearInterval(pollInterval);
       ws?.close();
     };
   }, []);

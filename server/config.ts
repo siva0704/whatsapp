@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import type {
   AutoReplyRule,
   Contact,
@@ -111,10 +112,25 @@ export function loadEnvConfig(): EmulatorEnvConfig {
   const rawVariant = (process.env.EMULATOR_VARIANT || 'business').toLowerCase();
   const variant: EmulatorVariant = rawVariant === 'personal' ? 'personal' : 'business';
 
-  const dataFile = path.resolve(
+  let dataFile = path.resolve(
     process.cwd(),
     process.env.EMULATOR_DATA_FILE || './data/emulator-state.json'
   );
+
+  if (process.env.VERCEL) {
+    const tmpDataFile = path.resolve('/tmp', 'emulator-state.json');
+    if (!fs.existsSync(tmpDataFile)) {
+      try {
+        if (fs.existsSync(dataFile)) {
+          fs.copyFileSync(dataFile, tmpDataFile);
+        }
+      } catch (err) {
+        console.warn('[Config] Failed to copy seed dataFile to /tmp:', err);
+      }
+    }
+    dataFile = tmpDataFile;
+  }
+
   const mediaDir = path.resolve(path.dirname(dataFile), 'media');
   const seedFileRaw = (process.env.EMULATOR_CLIENT_SEED_FILE || '').trim();
 
