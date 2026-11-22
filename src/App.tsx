@@ -239,7 +239,7 @@ export default function App() {
         <div className="flex-1 min-w-0 min-h-0 flex">
           {activeTab === 'clients' && (
             <ClientsPanel
-              contacts={state.contacts}
+              contacts={state?.contacts || []}
               onBulkSeed={(req) => emulatorApi.bulkSeedClients(req)}
               onOpenChat={handleSelectExistingContact}
               onUpdateContact={async (contactId, patch) => {
@@ -256,10 +256,10 @@ export default function App() {
 
           {activeTab === 'broadcasts' && (
             <BroadcastsPanel
-              broadcasts={state.broadcasts || []}
+              broadcasts={state?.broadcasts || []}
               contacts={state.contacts}
-              templates={state.templates}
-              phoneNumbers={state.phoneNumbers}
+              templates={state?.templates || []}
+              phoneNumbers={state?.phoneNumbers || []}
               activePhoneNumberId={state.settings.activePhoneNumberId}
               onCreateBroadcast={async (req) => {
                 const res =
@@ -278,7 +278,7 @@ export default function App() {
           {activeTab === 'automations' && (
             <AutomationsPanel
               automation={state.settings.businessAutomation}
-              autoReplyRules={state.autoReplyRules}
+              autoReplyRules={state?.autoReplyRules || []}
               contacts={state.contacts}
               failureInjection={state.failureInjection}
               rateLimits={state.rateLimits}
@@ -328,7 +328,7 @@ export default function App() {
               chats={state.chats}
               contacts={state.contacts}
               messagesByChat={state.messages}
-              labels={state.labels}
+              labels={state?.labels || []}
               selectedChatId={selectedChatId}
               onSelectChat={handleSelectChat}
               onOpenArchive={() => setActiveTab('archived')}
@@ -365,14 +365,14 @@ export default function App() {
           <BusinessToolsPanel
             profile={state.settings.businessProfile}
             automation={state.settings.businessAutomation}
-            catalog={state.catalog}
-            quickReplies={state.quickReplies}
+            catalog={state?.catalog || []}
+            quickReplies={state?.quickReplies || []}
             labels={state.labels}
             templates={state.templates}
             phoneNumbers={state.phoneNumbers}
             activePhoneNumberId={state.settings.activePhoneNumberId}
             contacts={state.contacts}
-            conversations={state.conversations}
+            conversations={state?.conversations || []}
             pricingRatesUsd={state.settings.pricingRatesUsd}
             chats={state.chats}
             selectedChatId={selectedChatId}
@@ -442,7 +442,7 @@ export default function App() {
             phoneNumbers={state.phoneNumbers}
             selectedChatId={selectedChatId}
             autoReplyRules={state.autoReplyRules}
-            webhookLogs={state.webhookLogs}
+            webhookLogs={state?.webhookLogs || []}
             settings={state.settings}
             onSelectChat={(chatId) => setSelectedChatId(chatId)}
             onSwitchVariant={async (variant) => {
@@ -548,7 +548,7 @@ export default function App() {
             enforce24hWindow={state.settings.enforce24hWindow}
             self={state.self}
             contacts={state.contacts}
-            messages={selectedChat ? state.messages[selectedChat.id] || [] : []}
+            messages={selectedChat ? (state?.messages && state.messages[selectedChat.id]) || [] : []}
             quickReplies={state.quickReplies}
             catalog={state.catalog}
             highlightedMessageId={highlightedMessageId}
@@ -613,7 +613,7 @@ export default function App() {
             chat={selectedChat}
             variant={state.settings.variant}
             contacts={state.contacts}
-            messages={state.messages[selectedChat.id] || []}
+            messages={(state?.messages && selectedChat && state.messages[selectedChat.id]) || []}
             labels={state.labels}
             onClose={() => setRightDrawer(null)}
             onUpdateChat={(chatId, patch) => void emulatorApi.updateChat(chatId, patch)}

@@ -89,7 +89,8 @@ const SENDER_COLORS = [
   '#ca8a04',
 ];
 
-export function getSenderColor(senderId: string): string {
+export function getSenderColor(senderId?: string | null): string {
+  if (!senderId || typeof senderId !== 'string') return SENDER_COLORS[0];
   let hash = 0;
   for (let i = 0; i < senderId.length; i += 1) {
     hash = (hash * 31 + senderId.charCodeAt(i)) | 0;

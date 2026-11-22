@@ -105,7 +105,7 @@ export function ClientsPanel({
     try {
       const segs = seedSegments
         .split(',')
-        .map((s) => s.trim().toLowerCase())
+        .map((s) => typeof s === 'string' ? s.trim().toLowerCase() : '').filter(Boolean)
         .filter(Boolean);
       const res = await onBulkSeed({
         count: seedCount,

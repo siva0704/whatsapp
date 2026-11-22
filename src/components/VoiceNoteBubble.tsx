@@ -22,7 +22,7 @@ export function VoiceNoteBubble({
   isOutbound,
 }: VoiceNoteBubbleProps) {
   const duration = media?.durationSec || 12;
-  const bars = media?.waveform && media.waveform.length > 0 ? media.waveform : DEFAULT_WAVEFORM;
+  const bars = Array.isArray(media?.waveform) && media.waveform.length > 0 ? media.waveform : DEFAULT_WAVEFORM;
 
   const [playing, setPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);

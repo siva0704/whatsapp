@@ -141,7 +141,7 @@ export function BroadcastsPanel({
         selector,
         type: 'template',
         templateId: selectedTemplate.id,
-        templateVariables: [var1, var2, var3].filter((v) => v.trim().length > 0),
+        templateVariables: [var1, var2, var3].filter((v) => typeof v === 'string' && v.trim().length > 0),
         throughputPerSec: throughput,
         concurrency,
         delaySeconds: scheduleMode === 'delay5' ? 5 : scheduleMode === 'delay15' ? 15 : undefined,
