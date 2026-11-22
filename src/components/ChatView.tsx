@@ -154,6 +154,7 @@ export function ChatView({
   const [showCatalogPicker, setShowCatalogPicker] = useState(false);
   const [receiptMenuMsgId, setReceiptMenuMsgId] = useState<string | null>(null);
   const [openListMsgId, setOpenListMsgId] = useState<string | null>(null);
+  const [submittingInteractiveId, setSubmittingInteractiveId] = useState<string | null>(null);
   const [composerError, setComposerError] = useState<string | null>(null);
   const [copiedOtp, setCopiedOtp] = useState<string | null>(null);
 
@@ -272,6 +273,29 @@ export function ChatView({
       } else {
         setComposerError(err instanceof Error ? err.message : 'Message send failed');
       }
+    }
+  };
+
+  const handleInteractiveClick = async (
+    selectedId: string,
+    selectedTitle: string,
+    kind: 'button_reply' | 'list_reply'
+  ) => {
+    if (submittingInteractiveId || !chat) return;
+    setSubmittingInteractiveId(selectedId);
+    try {
+      await onSimulateInteractiveReply({
+        chatId: chat.id,
+        selectedId,
+        selectedTitle,
+        kind,
+      });
+    } catch (err) {
+      console.error('Interactive click error:', err);
+    } finally {
+      setTimeout(() => {
+        setSubmittingInteractiveId(null);
+      }, 1200);
     }
   };
 
@@ -1075,18 +1099,21 @@ export function ChatView({
                                   <button
                                     key={b.id}
                                     type="button"
-                                    onClick={() =>
-                                      void onSimulateInteractiveReply({
-                                        chatId: chat.id,
-                                        selectedId: b.id,
-                                        selectedTitle: b.title,
-                                        kind: 'button_reply',
-                                      })
-                                    }
+                                    disabled={Boolean(submittingInteractiveId)}
+                                    onClick={() => void handleInteractiveClick(b.id, b.title, 'button_reply')}
                                     title="Click to simulate customer tapping this reply button"
-                                    className="w-full py-2 text-center text-[13px] font-semibold text-[#027eb5] dark:text-[#53bdeb] hover:bg-black/5 dark:hover:bg-white/5"
+                                    className={`w-full py-2 text-center text-[13px] font-semibold transition-opacity flex items-center justify-center gap-1.5 ${
+                                      submittingInteractiveId === b.id
+                                        ? 'opacity-60 cursor-not-allowed text-[#027eb5]'
+                                        : submittingInteractiveId
+                                        ? 'opacity-30 cursor-not-allowed text-[#027eb5]'
+                                        : 'text-[#027eb5] dark:text-[#53bdeb] hover:bg-black/5 dark:hover:bg-white/5'
+                                    }`}
                                   >
-                                    {b.title}
+                                    {submittingInteractiveId === b.id && (
+                                      <span className="w-3.5 h-3.5 border-2 border-[#027eb5] border-t-transparent rounded-full animate-spin" />
+                                    )}
+                                    <span>{b.title}</span>
                                   </button>
                                 ))}
                               </div>
@@ -1131,16 +1158,18 @@ export function ChatView({
                                           <button
                                             key={row.id}
                                             type="button"
+                                            disabled={Boolean(submittingInteractiveId)}
                                             onClick={() => {
                                               setOpenListMsgId(null);
-                                              void onSimulateInteractiveReply({
-                                                chatId: chat.id,
-                                                selectedId: row.id,
-                                                selectedTitle: row.title,
-                                                kind: 'list_reply',
-                                              });
+                                              void handleInteractiveClick(row.id, row.title, 'list_reply');
                                             }}
-                                            className="w-full px-2 py-1.5 rounded text-left hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]"
+                                            className={`w-full px-2 py-1.5 rounded text-left transition-opacity ${
+                                              submittingInteractiveId === row.id
+                                                ? 'opacity-60 cursor-not-allowed bg-black/5'
+                                                : submittingInteractiveId
+                                                ? 'opacity-30 cursor-not-allowed'
+                                                : 'hover:bg-[#f5f6f6] dark:hover:bg-[#202c33]'
+                                            }`}
                                           >
                                             <div className="text-[13px] font-medium text-[#111b21] dark:text-[#e9edef]">
                                               {row.title}

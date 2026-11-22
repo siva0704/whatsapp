@@ -705,11 +705,11 @@ export class EmulatorEngine {
     return this.state;
   }
 
-  private recordWebhook(
+  private async recordWebhook(
     event: string,
     payload: Record<string, unknown>,
     phoneNumberId?: string
-  ): void {
+  ): Promise<WebhookLogEntry> {
     const phoneCfg = this.getPhoneConfig(phoneNumberId);
     let targetUrl = phoneCfg.webhookUrl || this.state.settings.webhookUrl;
     const isServerless = Boolean(
@@ -722,17 +722,17 @@ export class EmulatorEngine {
     }
     const { webhookSecret } = this.state.settings;
 
-    void dispatchWebhook({
+    const entry = await dispatchWebhook({
       event,
       phoneNumberId: phoneCfg.id,
       targetUrl,
       secret: webhookSecret,
       payload,
-    }).then((entry: WebhookLogEntry) => {
-      this.state.webhookLogs = [entry, ...this.state.webhookLogs].slice(0, 80);
-      this.persist();
-      this.emit({ type: 'webhook:logged', payload: entry });
     });
+    this.state.webhookLogs = [entry, ...this.state.webhookLogs].slice(0, 80);
+    this.persist();
+    this.emit({ type: 'webhook:logged', payload: entry });
+    return entry;
   }
 
   private trackConversationBilling(
@@ -1623,7 +1623,7 @@ export class EmulatorEngine {
     return { ok: false, message: failedMsg, chat, error, httpStatus };
   }
 
-  receiveMessage(params: ReceiveMessageParams): {
+  receiveMessage(params: ReceiveMessageParams, skipWebhook = false): {
     ok: boolean;
     message?: Message;
     chat?: Chat;
@@ -1800,18 +1800,20 @@ export class EmulatorEngine {
       };
     }
 
-    this.recordWebhook(
-      'message.received',
-      buildCloudWebhookEnvelope(
-        'messages',
-        phoneCfg,
-        cloudMsgData,
-        sender
-          ? [{ profile: { name: sender.profileName || sender.name }, wa_id: waFrom }]
-          : undefined
-      ),
-      phoneCfg.id
-    );
+    if (!skipWebhook) {
+      void this.recordWebhook(
+        'message.received',
+        buildCloudWebhookEnvelope(
+          'messages',
+          phoneCfg,
+          cloudMsgData,
+          sender
+            ? [{ profile: { name: sender.profileName || sender.name }, wa_id: waFrom }]
+            : undefined
+        ),
+        phoneCfg.id
+      );
+    }
 
     // Trigger Business Greeting or Away auto-responses (skip if user just opted out!)
     if (!optInChanged || optInChanged.status !== 'opted_out') {
@@ -1819,6 +1821,92 @@ export class EmulatorEngine {
     }
 
     return { ok: true, message, chat, optInChanged };
+  }
+
+  async receiveMessageAsync(params: ReceiveMessageParams): Promise<{
+    ok: boolean;
+    message?: Message;
+    chat?: Chat;
+    optInChanged?: { status: OptInStatus; keyword: string };
+    error?: MessageError;
+  }> {
+    let chat: Chat | undefined;
+    let sender: Contact | undefined;
+
+    if (params.chatId) {
+      chat = this.state.chats.find((c) => c.id === params.chatId);
+    }
+    if (params.senderId) {
+      sender = this.state.contacts.find((c) => c.id === params.senderId);
+    } else if (params.fromPhone) {
+      const cleanPhone = normalizeE164(params.fromPhone);
+      sender = this.state.contacts.find((c) => c.phone === cleanPhone);
+    }
+
+    const res = this.receiveMessage(params, true);
+    if (!res.ok || !res.message || !res.chat) return res;
+
+    const phoneCfg = this.getPhoneConfig(params.phoneNumberId || res.chat.phoneNumberId);
+    const waFrom = (sender?.phone || params.fromPhone || 'unknown').replace(/[^\d]/g, '');
+    const cloudMsgData: Record<string, unknown> = {
+      id: res.message.id,
+      from: waFrom,
+      timestamp: String(Math.floor(Date.now() / 1000)),
+      type: res.message.type === 'voice' ? 'audio' : res.message.type,
+      chat_id: res.chat.id,
+    };
+
+    if (res.message.type === 'text') {
+      cloudMsgData.text = { body: res.message.body };
+    } else if (res.message.interactive) {
+      if (res.message.interactive.kind === 'button_reply') {
+        cloudMsgData.interactive = {
+          type: 'button_reply',
+          button_reply: {
+            id: res.message.interactive.selectedId || 'btn_1',
+            title: res.message.interactive.selectedTitle || res.message.body,
+          },
+        };
+      } else if (res.message.interactive.kind === 'list_reply') {
+        cloudMsgData.interactive = {
+          type: 'list_reply',
+          list_reply: {
+            id: res.message.interactive.selectedId || 'row_1',
+            title: res.message.interactive.selectedTitle || res.message.body,
+          },
+        };
+      } else {
+        cloudMsgData.interactive = res.message.interactive;
+      }
+    } else if (res.message.location) {
+      cloudMsgData.location = res.message.location;
+    } else if (res.message.order) {
+      cloudMsgData.order = res.message.order;
+    } else if (res.message.media) {
+      cloudMsgData[res.message.type === 'voice' ? 'audio' : res.message.type] = {
+        id: res.message.media.mediaId || res.message.media.id,
+        mime_type: res.message.media.mimeType,
+        caption: res.message.media.caption,
+        filename: res.message.media.filename,
+      };
+    }
+
+    try {
+      await this.recordWebhook(
+        'message.received',
+        buildCloudWebhookEnvelope(
+          'messages',
+          phoneCfg,
+          cloudMsgData,
+          sender ? [{ profile: { name: sender.profileName || sender.name }, wa_id: waFrom }] : undefined
+        ),
+        phoneCfg.id
+      );
+    } catch (err) {
+      console.warn('[Engine] Error awaiting webhook:', err);
+    }
+
+    return res;
   }
 
   private triggerAutoReplyIfMatched(chat: Chat, outboundMessage: Message): void {

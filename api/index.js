@@ -1420,7 +1420,7 @@ var EmulatorEngine = class {
     this.emit({ type: "state:sync", payload: this.state });
     return this.state;
   }
-  recordWebhook(event, payload, phoneNumberId) {
+  async recordWebhook(event, payload, phoneNumberId) {
     const phoneCfg = this.getPhoneConfig(phoneNumberId);
     let targetUrl = phoneCfg.webhookUrl || this.state.settings.webhookUrl;
     const isServerless = Boolean(
@@ -1430,17 +1430,17 @@ var EmulatorEngine = class {
       targetUrl = "https://vehicledesk-mla.vercel.app/api/whatsapp/webhook";
     }
     const { webhookSecret } = this.state.settings;
-    void dispatchWebhook({
+    const entry = await dispatchWebhook({
       event,
       phoneNumberId: phoneCfg.id,
       targetUrl,
       secret: webhookSecret,
       payload
-    }).then((entry) => {
-      this.state.webhookLogs = [entry, ...this.state.webhookLogs].slice(0, 80);
-      this.persist();
-      this.emit({ type: "webhook:logged", payload: entry });
     });
+    this.state.webhookLogs = [entry, ...this.state.webhookLogs].slice(0, 80);
+    this.persist();
+    this.emit({ type: "webhook:logged", payload: entry });
+    return entry;
   }
   trackConversationBilling(chat, category, messageId) {
     const now = Date.now();
@@ -2111,7 +2111,7 @@ var EmulatorEngine = class {
     );
     return { ok: false, message: failedMsg, chat, error, httpStatus };
   }
-  receiveMessage(params) {
+  receiveMessage(params, skipWebhook = false) {
     let chat;
     let sender;
     if (params.chatId) {
@@ -2257,20 +2257,95 @@ var EmulatorEngine = class {
         filename: message.media.filename
       };
     }
-    this.recordWebhook(
-      "message.received",
-      buildCloudWebhookEnvelope(
-        "messages",
-        phoneCfg,
-        cloudMsgData,
-        sender ? [{ profile: { name: sender.profileName || sender.name }, wa_id: waFrom }] : void 0
-      ),
-      phoneCfg.id
-    );
+    if (!skipWebhook) {
+      void this.recordWebhook(
+        "message.received",
+        buildCloudWebhookEnvelope(
+          "messages",
+          phoneCfg,
+          cloudMsgData,
+          sender ? [{ profile: { name: sender.profileName || sender.name }, wa_id: waFrom }] : void 0
+        ),
+        phoneCfg.id
+      );
+    }
     if (!optInChanged || optInChanged.status !== "opted_out") {
       this.triggerBusinessAutomation(chat, sender);
     }
     return { ok: true, message, chat, optInChanged };
+  }
+  async receiveMessageAsync(params) {
+    let chat;
+    let sender;
+    if (params.chatId) {
+      chat = this.state.chats.find((c) => c.id === params.chatId);
+    }
+    if (params.senderId) {
+      sender = this.state.contacts.find((c) => c.id === params.senderId);
+    } else if (params.fromPhone) {
+      const cleanPhone = normalizeE164(params.fromPhone);
+      sender = this.state.contacts.find((c) => c.phone === cleanPhone);
+    }
+    const res = this.receiveMessage(params, true);
+    if (!res.ok || !res.message || !res.chat) return res;
+    const phoneCfg = this.getPhoneConfig(params.phoneNumberId || res.chat.phoneNumberId);
+    const waFrom = (sender?.phone || params.fromPhone || "unknown").replace(/[^\d]/g, "");
+    const cloudMsgData = {
+      id: res.message.id,
+      from: waFrom,
+      timestamp: String(Math.floor(Date.now() / 1e3)),
+      type: res.message.type === "voice" ? "audio" : res.message.type,
+      chat_id: res.chat.id
+    };
+    if (res.message.type === "text") {
+      cloudMsgData.text = { body: res.message.body };
+    } else if (res.message.interactive) {
+      if (res.message.interactive.kind === "button_reply") {
+        cloudMsgData.interactive = {
+          type: "button_reply",
+          button_reply: {
+            id: res.message.interactive.selectedId || "btn_1",
+            title: res.message.interactive.selectedTitle || res.message.body
+          }
+        };
+      } else if (res.message.interactive.kind === "list_reply") {
+        cloudMsgData.interactive = {
+          type: "list_reply",
+          list_reply: {
+            id: res.message.interactive.selectedId || "row_1",
+            title: res.message.interactive.selectedTitle || res.message.body
+          }
+        };
+      } else {
+        cloudMsgData.interactive = res.message.interactive;
+      }
+    } else if (res.message.location) {
+      cloudMsgData.location = res.message.location;
+    } else if (res.message.order) {
+      cloudMsgData.order = res.message.order;
+    } else if (res.message.media) {
+      cloudMsgData[res.message.type === "voice" ? "audio" : res.message.type] = {
+        id: res.message.media.mediaId || res.message.media.id,
+        mime_type: res.message.media.mimeType,
+        caption: res.message.media.caption,
+        filename: res.message.media.filename
+      };
+    }
+    try {
+      await this.recordWebhook(
+        "message.received",
+        buildCloudWebhookEnvelope(
+          "messages",
+          phoneCfg,
+          cloudMsgData,
+          sender ? [{ profile: { name: sender.profileName || sender.name }, wa_id: waFrom }] : void 0
+        ),
+        phoneCfg.id
+      );
+    } catch (err) {
+      console.warn("[Engine] Error awaiting webhook:", err);
+    }
+    return res;
   }
   triggerAutoReplyIfMatched(chat, outboundMessage) {
     const targetContactId = chat.contactId || chat.participantIds[0];
@@ -3657,7 +3732,7 @@ function createApiRouter(engine, store, env) {
     }
     res.status(201).json({ message: result.message, chat: result.chat });
   });
-  router.post("/api/messages/receive", requireAuth, (req, res) => {
+  router.post("/api/messages/receive", requireAuth, async (req, res) => {
     const hubSig = typeof req.headers["x-hub-signature-256"] === "string" ? req.headers["x-hub-signature-256"] : void 0;
     if (hubSig && engine.getState().settings.webhookSecret) {
       const valid = verifyHubSignature256(
@@ -3676,7 +3751,7 @@ function createApiRouter(engine, store, env) {
       res.status(400).json({ error: "chatId, fromPhone, or senderId is required" });
       return;
     }
-    const result = engine.receiveMessage({
+    const result = await engine.receiveMessageAsync({
       chatId: b.chatId,
       phoneNumberId: b.phoneNumberId,
       fromPhone: resolvedFrom,

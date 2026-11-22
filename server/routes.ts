@@ -381,7 +381,7 @@ export function createApiRouter(
   });
 
   // Inject inbound message (supports text, media, location, order, interactive replies, button clicks)
-  router.post('/api/messages/receive', requireAuth, (req, res) => {
+  router.post('/api/messages/receive', requireAuth, async (req, res) => {
     // Optional X-Hub-Signature-256 verification when header is supplied by external webhook testers
     const hubSig =
       typeof req.headers['x-hub-signature-256'] === 'string'
@@ -406,7 +406,7 @@ export function createApiRouter(
       return;
     }
 
-    const result = engine.receiveMessage({
+    const result = await engine.receiveMessageAsync({
       chatId: b.chatId,
       phoneNumberId: b.phoneNumberId,
       fromPhone: resolvedFrom,
