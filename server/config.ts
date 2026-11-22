@@ -112,26 +112,31 @@ export function loadEnvConfig(): EmulatorEnvConfig {
   const rawVariant = (process.env.EMULATOR_VARIANT || 'business').toLowerCase();
   const variant: EmulatorVariant = rawVariant === 'personal' ? 'personal' : 'business';
 
-  let dataFile = path.resolve(
-    process.cwd(),
-    process.env.EMULATOR_DATA_FILE || './data/emulator-state.json'
+  const isServerless = Boolean(
+    process.env.VERCEL ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.NOW_REGION ||
+    process.env.LAMBDA_TASK_ROOT
   );
 
-  if (process.env.VERCEL) {
-    const tmpDataFile = path.resolve('/tmp', 'emulator-state.json');
-    if (!fs.existsSync(tmpDataFile)) {
-      try {
-        if (fs.existsSync(dataFile)) {
-          fs.copyFileSync(dataFile, tmpDataFile);
-        }
-      } catch (err) {
-        console.warn('[Config] Failed to copy seed dataFile to /tmp:', err);
+  let dataFile = isServerless
+    ? path.resolve('/tmp', 'emulator-state.json')
+    : path.resolve(process.cwd(), process.env.EMULATOR_DATA_FILE || './data/emulator-state.json');
+
+  if (isServerless && !fs.existsSync(dataFile)) {
+    try {
+      const seedFile = path.resolve(process.cwd(), 'data', 'emulator-state.json');
+      if (fs.existsSync(seedFile)) {
+        fs.copyFileSync(seedFile, dataFile);
       }
+    } catch (err) {
+      // Ignore copy failure
     }
-    dataFile = tmpDataFile;
   }
 
-  const mediaDir = path.resolve(path.dirname(dataFile), 'media');
+  const mediaDir = isServerless
+    ? path.resolve('/tmp', 'media')
+    : path.resolve(path.dirname(dataFile), 'media');
   const seedFileRaw = (process.env.EMULATOR_CLIENT_SEED_FILE || '').trim();
 
   return {

@@ -14,6 +14,8 @@ export interface StateStore {
 export class FileStateStore implements StateStore {
   private readonly dataFile: string;
   private readonly mediaDir: string;
+  private memoryFallback: EmulatorState | null = null;
+  private memoryMedia = new Map<string, Buffer>();
 
   constructor(dataFile: string, mediaDir: string) {
     this.dataFile = dataFile;
@@ -21,30 +23,39 @@ export class FileStateStore implements StateStore {
   }
 
   private ensureDirs(): void {
-    fs.mkdirSync(path.dirname(this.dataFile), { recursive: true });
-    fs.mkdirSync(this.mediaDir, { recursive: true });
+    try {
+      fs.mkdirSync(path.dirname(this.dataFile), { recursive: true });
+      fs.mkdirSync(this.mediaDir, { recursive: true });
+    } catch {
+      // Safe no-op on read-only serverless filesystems
+    }
   }
 
   load(): EmulatorState | null {
     try {
-      if (!fs.existsSync(this.dataFile)) return null;
+      if (!fs.existsSync(this.dataFile)) {
+        return this.memoryFallback ? structuredClone(this.memoryFallback) : null;
+      }
       const raw = fs.readFileSync(this.dataFile, 'utf-8');
-      return JSON.parse(raw) as EmulatorState;
+      const parsed = JSON.parse(raw) as EmulatorState;
+      this.memoryFallback = structuredClone(parsed);
+      return parsed;
     } catch {
-      return null;
+      return this.memoryFallback ? structuredClone(this.memoryFallback) : null;
     }
   }
 
   save(state: EmulatorState): void {
-    this.ensureDirs();
-    const tmpFile = `${this.dataFile}.tmp`;
-    const payload = JSON.stringify(state, null, 2);
+    this.memoryFallback = structuredClone(state);
     try {
+      this.ensureDirs();
+      const tmpFile = `${this.dataFile}.tmp`;
+      const payload = JSON.stringify(state, null, 2);
       fs.writeFileSync(tmpFile, payload, 'utf-8');
       try {
         fs.renameSync(tmpFile, this.dataFile);
       } catch (err: any) {
-        // Fallback for Windows file locks / EPERM race condition
+        // Fallback for file locks / EPERM race condition
         fs.copyFileSync(tmpFile, this.dataFile);
         try {
           fs.unlinkSync(tmpFile);
@@ -55,26 +66,48 @@ export class FileStateStore implements StateStore {
     } catch {
       // Last-ditch direct write
       try {
-        fs.writeFileSync(this.dataFile, payload, 'utf-8');
+        fs.writeFileSync(this.dataFile, JSON.stringify(state, null, 2), 'utf-8');
       } catch {
-        // Ignore file lock during heavy burst
+        // Safe catch: state is preserved in this.memoryFallback in RAM
       }
     }
   }
 
   saveMedia(buffer: Buffer, ext: string): { id: string; filePath: string } {
-    this.ensureDirs();
     const safeExt = ext.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() || 'bin';
     const id = `media_${crypto.randomUUID().replace(/-/g, '').slice(0, 14)}.${safeExt}`;
-    const filePath = path.join(this.mediaDir, id);
-    fs.writeFileSync(filePath, buffer);
-    return { id, filePath };
+    try {
+      this.ensureDirs();
+      const filePath = path.join(this.mediaDir, id);
+      fs.writeFileSync(filePath, buffer);
+      return { id, filePath };
+    } catch {
+      this.memoryMedia.set(id, buffer);
+      return { id, filePath: id };
+    }
   }
 
   getMediaPath(id: string): string | null {
     const safeId = path.basename(id);
     const full = path.join(this.mediaDir, safeId);
-    return fs.existsSync(full) ? full : null;
+    try {
+      return fs.existsSync(full) ? full : null;
+    } catch {
+      return null;
+    }
+  }
+
+  getMediaBuffer(id: string): Buffer | null {
+    if (this.memoryMedia.has(id)) {
+      return this.memoryMedia.get(id)!;
+    }
+    const safeId = path.basename(id);
+    const full = path.join(this.mediaDir, safeId);
+    try {
+      return fs.existsSync(full) ? fs.readFileSync(full) : null;
+    } catch {
+      return null;
+    }
   }
 }
 
