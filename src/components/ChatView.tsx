@@ -282,7 +282,6 @@ export function ChatView({
     selectedTitle: string,
     kind: 'button_reply' | 'list_reply'
   ) => {
-    if (submittingInteractiveId || !chat) return;
     if (submittingInteractiveRef.current || !chat) return;
     submittingInteractiveRef.current = true;
     setSubmittingInteractiveId(selectedId);
@@ -299,10 +298,9 @@ export function ChatView({
       setTimeout(() => {
         submittingInteractiveRef.current = false;
         setSubmittingInteractiveId(null);
-      }, 1200);
-    }, 1000);
-  }
-};
+      }, 1000);
+    }
+  };
 
 const isClientView = perspective === 'client';
 
