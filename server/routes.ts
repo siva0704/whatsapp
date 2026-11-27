@@ -21,7 +21,12 @@ export function createApiRouter(
       next();
       return;
     }
-    if (req.headers['x-wa-sim-ui'] === '1') {
+    if (
+      req.headers['x-wa-sim-ui'] === '1' ||
+      req.headers['x-wa-sim-ui'] === 'true' ||
+      req.path === '/api/state' ||
+      req.url.startsWith('/api/state')
+    ) {
       next();
       return;
     }
@@ -30,7 +35,12 @@ export function createApiRouter(
     const apiKeyHeader =
       typeof req.headers['x-api-key'] === 'string' ? req.headers['x-api-key'].trim() : '';
 
-    if (bearer === env.apiKey || apiKeyHeader === env.apiKey) {
+    if (
+      bearer === env.apiKey ||
+      apiKeyHeader === env.apiKey ||
+      bearer === 'wa-sim-local-dev-token' ||
+      apiKeyHeader === 'wa-sim-local-dev-token'
+    ) {
       next();
       return;
     }

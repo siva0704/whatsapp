@@ -80,9 +80,9 @@ export function ContactInfoDrawer({
   );
 
   const searchResults = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
+    const q = (searchQuery || '').trim().toLowerCase();
     if (!q) return [];
-    return messages.filter((m) => m.body.toLowerCase().includes(q)).reverse();
+    return messages.filter((m) => (m.body || '').toLowerCase().includes(q)).reverse();
   }, [messages, searchQuery]);
 
   const participants = useMemo(
@@ -150,7 +150,7 @@ export function ContactInfoDrawer({
           </div>
 
           <div className="flex-1 overflow-y-auto wa-scroll divide-y divide-[#f0f2f5] dark:divide-[#202c33]">
-            {!searchQuery.trim() ? (
+            {!(searchQuery || '').trim() ? (
               <p className="p-8 text-center text-[13.5px] text-[#667781] dark:text-[#8696a0]">
                 Search for messages with {chat.name}.
               </p>
@@ -372,7 +372,7 @@ export function ContactInfoDrawer({
                 <span>Business Labels</span>
               </div>
               <div className="space-y-1.5">
-                {labels.map((lbl) => {
+                {(labels || []).map((lbl) => {
                   const assigned = (chat.labelIds || []).includes(lbl.id);
                   return (
                     <button

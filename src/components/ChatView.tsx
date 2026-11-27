@@ -900,7 +900,7 @@ return (
                           {msg.media.filename || msg.body}
                         </div>
                         <div className="text-[11px] font-mono tabular-nums text-[#667781] dark:text-[#8696a0]">
-                          {formatFileSize(msg.media.sizeBytes)} · {msg.media.mimeType.split('/')[1]?.toUpperCase() || 'FILE'}
+                          {formatFileSize(msg.media.sizeBytes)} · {(msg.media.mimeType || '').split('/')[1]?.toUpperCase() || 'FILE'}
                         </div>
                       </div>
                       {msg.media.url && msg.media.url !== '#' && (
